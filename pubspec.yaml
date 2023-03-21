@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.8.0
   animated_text_kit: ^4.2.2
+  rive: ^0.10.3
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,22 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+     - family: Roboto
+       fonts:
+         - asset: assets/fonts/Roboto/Roboto-Black.ttf
+         - asset: assets/fonts/Roboto/Roboto-BlackItalic.ttf
+         - asset: assets/fonts/Roboto/Roboto-Bold.ttf
+         - asset: assets/fonts/Roboto/Roboto-BoldItalic.ttf
+         - asset: assets/fonts/Roboto/Roboto-Italic.ttf
+         - asset: assets/fonts/Roboto/Roboto-Light.ttf
+         - asset: assets/fonts/Roboto/Roboto-LightItalic.ttf
+         - asset: assets/fonts/Roboto/Roboto-Medium.ttf
+         - asset: assets/fonts/Roboto/Roboto-MediumItalic.ttf
+         - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+         - asset: assets/fonts/Roboto/Roboto-Thin.ttf
+         - asset: assets/fonts/Roboto/Roboto-ThinItalic.ttf
+
   # fonts:
   #   - family: Schyler
   #     fonts:

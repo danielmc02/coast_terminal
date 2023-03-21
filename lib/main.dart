@@ -16,7 +16,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Coast Terminal',
-      theme: ThemeData(),
+      theme: ThemeData(
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(
+              fontFamily: "Roboto",
+                    color: Colors.white,
+                    fontSize: 42.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+              labelLarge:
+                  TextStyle(fontFamily: "Roboto", color: Colors.white))),
       home: const OnboardScreen(),
     );
   }
@@ -32,12 +41,6 @@ class _OnboardScreenState extends State<OnboardScreen> {
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return FutureBuilder(
       future: _fbApp,
       builder: (context, snapshot) {
@@ -45,7 +48,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
           return Scaffold(
             body: Center(child: Text("Loading")),
           );
-        } else if (snapshot.connectionState == ConnectionState.done) {
+        } else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
           return Scaffold(
             body: Container(
               width: MediaQuery.of(context).size.width,
