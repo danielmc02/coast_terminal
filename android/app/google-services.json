@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265150846702",
+    "project_id": "coast-terminal-b873c",
+    "storage_bucket": "coast-terminal-b873c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265150846702:android:6a17eb55833441cb5f45ff",
+        "android_client_info": {
+          "package_name": "com.example.coast_terminal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265150846702-kdvsckjdedla3u7praor7911d53cmfsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMhE8EdWgDOyz0syGxar2uLGsEMEavp84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265150846702-kdvsckjdedla3u7praor7911d53cmfsq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

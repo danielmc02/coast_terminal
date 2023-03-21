@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>265150846702-5o37i5dshnciis8aft5sjodijurvss3t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.265150846702-5o37i5dshnciis8aft5sjodijurvss3t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD9Z16iVobTuoG-XvixU6fICPH67dzNgY4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>265150846702</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.coastTerminal</string>
+	<key>PROJECT_ID</key>
+	<string>coast-terminal-b873c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>coast-terminal-b873c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:265150846702:ios:54cca9ec9471e0a35f45ff</string>
+</dict>
+</plist>
