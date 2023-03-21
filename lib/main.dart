@@ -1,5 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:coast_terminal/home/home.dart';
+import 'package:coast_terminal/loading_screen/loading_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -102,7 +102,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                                         TextButton(
                                           onPressed: () {
                                             Navigator.push(context, MaterialPageRoute(builder: (context){
-                                              return Home();
+                                              return LoadingScreen();
                                             }));
                                           },
                                           child: Text(
