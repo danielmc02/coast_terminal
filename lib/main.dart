@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coast_terminal/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -99,7 +100,11 @@ class _OnboardScreenState extends State<OnboardScreen> {
                                           MainAxisAlignment.center,
                                       children: [
                                         TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                                              return Home();
+                                            }));
+                                          },
                                           child: Text(
                                               "Understood, take me to terminal"),
                                           style: ButtonStyle(
