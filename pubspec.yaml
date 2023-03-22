@@ -40,6 +40,7 @@ dependencies:
   rive: ^0.10.3
   firebase_auth: ^4.3.0
   provider: ^6.0.5
+  firebase_database: ^10.0.16
 
 dev_dependencies:
   flutter_test:

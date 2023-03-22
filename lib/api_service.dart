@@ -1,18 +1,39 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class ApiService {
   static ApiService? _instance;
    static FirebaseAuth? _auth;
   static User? _user;
+  static FirebaseDatabase? _database;
+  static DatabaseReference? _messagesDatabase;
 
   ApiService._internal() {
     print("Created");
       _auth = FirebaseAuth.instance;
       _user = _auth!.currentUser;
+     _database = FirebaseDatabase.instance;
+      _messagesDatabase = _database!.ref('messages');
+    testDb();
 
-   // final _user = _auth.currentUser;
+  }
+  Future testDb()async
+  {
+          try
+      {
+      await _messagesDatabase!.set({
+  "name": "Daniel",
+  "age": 20,
+
+}).then((value) {print("value.toString()");});
+
+      }
+      catch(e)
+      {
+        print(e);
+      }
   }
 
   static ApiService? get instance {
@@ -52,6 +73,11 @@ class ApiService {
   Future signOut() async {
     await _auth!.signOut();
    // await FirebaseAuth.instance.signOut();
+  }
+
+  Future fetchMessage() async
+  {
+
   }
 
   
