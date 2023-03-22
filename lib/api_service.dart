@@ -4,12 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class ApiService {
   static ApiService? _instance;
-   FirebaseAuth? _auth;
-  User? _user;
+   static FirebaseAuth? _auth;
+  static User? _user;
 
   ApiService._internal() {
     print("Created");
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+      _auth = FirebaseAuth.instance;
+      _user = _auth!.currentUser;
+
    // final _user = _auth.currentUser;
   }
 
@@ -43,12 +45,13 @@ class ApiService {
   Future deleteUser() async
   {
      
-
-      await FirebaseAuth.instance.currentUser!.delete();
+    await _user!.delete();
+     // await FirebaseAuth.instance.currentUser!.delete();
   }
 
   Future signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await _auth!.signOut();
+   // await FirebaseAuth.instance.signOut();
   }
 
   
