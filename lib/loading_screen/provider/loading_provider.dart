@@ -4,6 +4,7 @@ import 'package:coast_terminal/api_service.dart';
 import 'package:flutter/material.dart';
 
 class LoadingProvider extends ChangeNotifier {
+  bool finished = false;
   LoadingProvider() {
     _init();
   }
@@ -21,7 +22,8 @@ class LoadingProvider extends ChangeNotifier {
       await ApiService.instance!.signInAnon();
       await ApiService.instance!.fetchMessage();
       print("Finished, spitting out to home");
-
+    finished = true;
+    notifyListeners();
     },);
   }
 }

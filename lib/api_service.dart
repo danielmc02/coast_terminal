@@ -5,35 +5,30 @@ import 'package:firebase_database/firebase_database.dart';
 
 class ApiService {
   static ApiService? _instance;
-   static FirebaseAuth? _auth;
+  static FirebaseAuth? _auth;
   static User? _user;
   static FirebaseDatabase? _database;
   static DatabaseReference? _messagesDatabase;
 
   ApiService._internal() {
     print("Created");
-      _auth = FirebaseAuth.instance;
-      _user = _auth!.currentUser;
-     _database = FirebaseDatabase.instance;
-      _messagesDatabase = _database!.ref('messages');
+    _auth = FirebaseAuth.instance;
+    _user = _auth!.currentUser;
+    _database = FirebaseDatabase.instance;
+    _messagesDatabase = _database!.ref('messages');
+
     testDb();
-
   }
-  Future testDb()async
-  {
-          try
-      {
+  Future testDb() async {
+    try {
       await _messagesDatabase!.set({
-  "name": "Daniel",
-  "age": 20,
-
-}).then((value) {print("value.toString()");});
-
-      }
-      catch(e)
-      {
-        print(e);
-      }
+        "${_user!.uid.toString()}": {"name": "0", "age": 0}
+      });
+      print("SDFDFDSFSF");
+    } catch (e) {
+      print("error: $e");
+      print('objeasfasdfsadfct');
+    }
   }
 
   static ApiService? get instance {
@@ -41,10 +36,10 @@ class ApiService {
     return _instance;
   }
 
-  FirebaseAuth?  get auth
-  {
+  FirebaseAuth? get auth {
     return _auth;
   }
+
   //Sign in anoynomously (guest)
   Future signInAnon() async {
     try {
@@ -63,22 +58,19 @@ class ApiService {
     }
   }
 
-  Future deleteUser() async
-  {
-     
+  Future deleteUser() async {
     await _user!.delete();
-     // await FirebaseAuth.instance.currentUser!.delete();
+    // await FirebaseAuth.instance.currentUser!.delete();
   }
 
   Future signOut() async {
     await _auth!.signOut();
-   // await FirebaseAuth.instance.signOut();
+    // await FirebaseAuth.instance.signOut();
   }
 
-  Future fetchMessage() async
-  {
-
-  }
-
+  Future fetchMessage() async {}
   
+    Stream<User?> getuser() async* {
+    yield* _auth!.userChanges();
+  }
 }
