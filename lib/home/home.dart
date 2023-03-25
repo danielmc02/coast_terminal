@@ -24,27 +24,51 @@ class Home extends StatelessWidget {
                   foregroundColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
                 ),
-                body: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    FutureBuilder(
-                        future: algo.calculate(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData == false) {
-                            return Text("No data");
-                          } else if (snapshot.hasData == true) {
-                            print(snapshot.data);
-                            return Text("has data");
-                          }
-                          return Text("error");
-                        }),
-                    TextButton(
-                        onPressed: () {
-                          ApiService.instance!.signOut();
-                        },
-                        child: const Text("sign out"))
-                  ],
+                body: Container(width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FutureBuilder(
+                          future: algo.calculate(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData == false) {
+                              return Text("No data");
+                            } else if (snapshot.hasData == true) {
+                              print(snapshot.data);
+                              return Text("has data");
+                            }
+                            return Text("error");
+                          }),
+                      SizedBox(
+                        width: 150,
+                        height: 50,
+                        child: TextButton(
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 254, 44, 117)),
+                                        borderRadius: BorderRadius.circular(10))),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 254, 44, 117)),
+                                overlayColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 255, 34, 111))),
+                            onPressed: () {},
+                            child: Text(
+                              "Post",
+                              style: Theme.of(context).textTheme.labelLarge,
+                            )),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            ApiService.instance!.signOut();
+                          },
+                          child: const Text("sign out"))
+                    ],
+                  ),
                 ),
               ),
             ));
