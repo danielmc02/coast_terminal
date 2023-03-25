@@ -16,19 +16,29 @@ class Home extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => HomeProvider(),
         builder: (context, child) => Consumer<HomeProvider>(
-              builder: (context, algo, child) => Scaffold(backgroundColor: Color.fromARGB(255, 39, 47, 62),
+              builder: (context, algo, child) => Scaffold(
+                backgroundColor: Color.fromARGB(255, 39, 47, 62),
                 appBar: AppBar(
                   backgroundColor: Color.fromARGB(255, 56, 62, 78),
                   shadowColor: Colors.transparent,
-                  foregroundColor: Colors.transparent
-                  ,surfaceTintColor: Colors.transparent,
+                  foregroundColor: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
                 ),
                 body: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(width: 200,height: 200,child: Container(color: Colors.red,),)
-                    ,const Text("intro"),
+                    FutureBuilder(
+                        future: algo.calculate(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData == false) {
+                            return Text("No data");
+                          } else if (snapshot.hasData == true) {
+                            print(snapshot.data);
+                            return Text("has data");
+                          }
+                          return Text("error");
+                        }),
                     TextButton(
                         onPressed: () {
                           ApiService.instance!.signOut();
