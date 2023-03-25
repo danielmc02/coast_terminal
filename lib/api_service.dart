@@ -11,7 +11,6 @@ class ApiService {
   static DatabaseReference? _messagesDatabase;
 
   ApiService._internal() {
-    print("Created");
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
     _database = FirebaseDatabase.instance;
@@ -22,9 +21,8 @@ class ApiService {
   Future testDb() async {
     try {
       await _messagesDatabase!.set({
-        "${_user!.uid.toString()}": {"name": "0", "age": 0}
+        _user!.uid: {"name": "0", "age": 0}
       });
-      print("SDFDFDSFSF");
     } catch (e) {
       print("error: $e");
       print('objeasfasdfsadfct');
