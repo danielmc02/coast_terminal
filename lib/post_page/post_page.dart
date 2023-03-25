@@ -37,25 +37,18 @@ class PostPage extends StatelessWidget {
               Spacer(),
               SizedBox(
                 height: 100,
+                width: 700,
                 child: Container(
                   color: Colors.red,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                      badgeTemplate(),
-                    ],
+                    itemCount: algo.badges.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return badgeTemplate(
+                          algo.badges.keys.elementAt(index),
+                          algo.badges[algo.badges.keys.elementAt(index)]![
+                              'icon']);
+                    },
                   ),
                 ),
               ),
@@ -132,7 +125,7 @@ class PostPage extends StatelessWidget {
   }
 }
 
-Widget badgeTemplate() {
+Widget badgeTemplate(String title, dynamic icon) {
   return Material(
     child: Padding(
       padding: EdgeInsets.all(2),
@@ -142,11 +135,11 @@ Widget badgeTemplate() {
           IconButton(
             onPressed: () {},
             icon: CircleAvatar(
-              minRadius: 50,
-              foregroundImage: AssetImage('assets/face_icons/happy.png'),
+              minRadius: 80,
+              child: icon,
             ),
           ),
-          Text("Happy")
+          Text(title)
         ],
       ),
     ),

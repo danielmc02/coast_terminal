@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class PostProvider extends ChangeNotifier {
-  Map<String, Map> badges = {
+  Map<String, Map> badges = <String,Map>{
     'Angel': {'icon': Image.asset('assets/face_icons/angel.png')},
     'Angry': {'icon': Image.asset('assets/face_icons/angry.png')},
     'Anonymous': {'icon': Image.asset('assets/face_icons/anonymous.png')},
