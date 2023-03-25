@@ -9,12 +9,14 @@ class ApiService {
   static User? _user;
   static FirebaseDatabase? _database;
   static DatabaseReference? _messagesDatabase;
+  static DatabaseReference? _messageCount;
 
   ApiService._internal() {
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
     _database = FirebaseDatabase.instance;
     _messagesDatabase = _database!.ref('messages');
+    _messageCount = _database!.ref('count');
 
     testDb();
   }
@@ -70,5 +72,11 @@ class ApiService {
   
     Stream<User?> getuser() async* {
     yield* _auth!.userChanges();
+  }
+
+  Future getMessageCount() async
+  {
+    final snapshot = await _messageCount!.child('count').get();
+    return snapshot;
   }
 }
