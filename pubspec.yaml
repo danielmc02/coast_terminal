@@ -68,6 +68,7 @@ flutter:
   assets:
    - assets/rive_assets/movingplane.riv
    - assets/rive_assets/cat.riv
+   - assets/face_icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
