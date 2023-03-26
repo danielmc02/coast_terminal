@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 42.0,
                 fontWeight: FontWeight.bold,
-              ),
+              ),bodyLarge: TextStyle(fontFamily: "Roboto", color: Colors.black,fontSize: 25),
               labelLarge:
                   TextStyle(fontFamily: "Roboto", color: Colors.white))),
       home: const OnboardScreen(),
