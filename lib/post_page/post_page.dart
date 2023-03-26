@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/post_page/post_page_provider/post_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _PostPageState extends State<PostPage> {
 
   @override
   void dispose() {
+    print("being disposed");
     titleController.dispose();
     messageController.dispose();
     super.dispose();
@@ -257,6 +259,8 @@ class _PostPageState extends State<PostPage> {
                                       Navigator.pop(context);
                                     } else if (details.primaryVelocity! < 0) {
                                       print('User swiped up');
+                                      Navigator.pop(context);
+                                      ApiService.instance!.pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.linear);
                                     }
                                   },
                                 ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 
 class ApiService {
   static ApiService? _instance;
@@ -79,4 +80,7 @@ class ApiService {
     final snapshot = await _messageCount!.child('count').get();
     return snapshot;
   }
+  bool ref = true;
+  PageController pageController = PageController();
+  
 }
