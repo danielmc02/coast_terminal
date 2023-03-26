@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -23,58 +22,74 @@ class _LoadingScreenState extends State<LoadingScreen> {
     print("Loading screen initialized");
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return  MultiProvider(
-      providers:[
-        ChangeNotifierProvider<LoadingProvider>(create: (_) => LoadingProvider()),
-      ] ,
-      child: Consumer<LoadingProvider>(
-        builder: (context, algo, child){
-if(algo.finished == false){
-              return Scaffold(
-              body: Container(width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children:  [
-                   const Spacer(flex: 10,),
-                    //const SizedBox(width:300,height:300,child: RiveAnimation.asset(animations:,"./assets/rive_assets/movingplane.riv",fit: BoxFit.contain,)),
-                    const Spacer(flex: 50,),
-                    AnimatedTextKit(animatedTexts: [FadeAnimatedText("Loading anonymous token")]),
-                    const Spacer(flex: 20,),
-                    const LinearProgressIndicator(value: 40,),
-                   const Spacer(flex: 10,),
-                   TextButton(onPressed: (){ApiService.instance!.deleteUser();}, child: Text("Delete account")),
-                             const Spacer(flex: 10,),
-                                          TextButton(onPressed: (){ApiService.instance!.signOut();}, child: Text("sign out account")),
-                             const Spacer(flex: 10,)
-
-                  ],
-              
-                ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LoadingProvider>(
+            create: (_) => LoadingProvider()),
+      ],
+      child: Consumer<LoadingProvider>(builder: (context, algo, child) {
+        if (algo.finished == false) {
+          return Scaffold(
+            body: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const Spacer(
+                    flex: 10,
+                  ),
+                  //const SizedBox(width:300,height:300,child: RiveAnimation.asset(animations:,"./assets/rive_assets/movingplane.riv",fit: BoxFit.contain,)),
+                  const Spacer(
+                    flex: 50,
+                  ),
+                  AnimatedTextKit(animatedTexts: [
+                    FadeAnimatedText("Loading anonymous token")
+                  ]),
+                  const Spacer(
+                    flex: 20,
+                  ),
+                  const LinearProgressIndicator(
+                    value: 40,
+                  ),
+                  const Spacer(
+                    flex: 10,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        ApiService.instance!.deleteUser();
+                      },
+                      child: Text("Delete account")),
+                  const Spacer(
+                    flex: 10,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        ApiService.instance!.signOut();
+                      },
+                      child: Text("sign out account")),
+                  const Spacer(
+                    flex: 10,
+                  )
+                ],
               ),
-            );
-            }
-            else if(algo.finished == true)
-            {
-              Timer(Duration(seconds:1), () async{ 
-                Navigator.pop(context);
-            
-              });
-             
-              
-            }
-            
-              return Container(color: Colors.white,child: Center(child: CircularProgressIndicator()),);
+            ),
+          );
+        } else if (algo.finished == true) {
+          Timer(Duration(seconds: 1), () async {
+            Navigator.pop(context);
+          });
         }
-         
-            
-            
-          
-        ),
-      );
-  
+
+        return Container(
+          color: Colors.white,
+          child: Center(child: CircularProgressIndicator()),
+        );
+      }),
+    );
   }
 }

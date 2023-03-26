@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:coast_terminal/post_page/post_page_provider/post_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,18 +73,18 @@ class _PostPageState extends State<PostPage> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ChoiceChip(
-                        elevation: algo.badges[
-                                  algo.badges.keys.elementAt(index)]!['selected'] ? 10 : 0,
+                          elevation: algo.badges[algo.badges.keys
+                                  .elementAt(index)]!['selected']
+                              ? 10
+                              : 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           selectedColor: Colors.white,
                           onSelected: (value) {
-                            
-                              algo.updateBadges(index);
+                            algo.updateBadges(index);
 
-                            print("${ algo.badges.keys.elementAt(index)} was pressed $index ${algo.badges[
-                                  algo.badges.keys.elementAt(index)]!['selected']} ");
-
+                            print(
+                                "${algo.badges.keys.elementAt(index)} was pressed $index ${algo.badges[algo.badges.keys.elementAt(index)]!['selected']} ");
                           },
                           label: CircleAvatar(
                             child: ClipOval(
@@ -92,7 +93,7 @@ class _PostPageState extends State<PostPage> {
                             ),
                           ),
                           selected: algo.badges[
-                                  algo.badges.keys.elementAt(index)]!['selected']),
+                              algo.badges.keys.elementAt(index)]!['selected']),
                     );
                   },
                 ),
@@ -194,41 +195,81 @@ class _PostPageState extends State<PostPage> {
                             Color.fromARGB(255, 255, 34, 111))),
                     onPressed: () {
                       showDialog(
+                        barrierColor: Color.fromARGB(222, 0, 0, 0),
                         context: context,
                         builder: (context) {
-                          return Container(
-                            color: Color.fromARGB(
-                              124,
-                              0,
-                              0,
-                              0,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Spacer(),
-                                Text(
-                                  "Preview",
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),Spacer(),
-                                Material(
-                                  child: ListTile(
-                                    //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200)),
-                                    leading:SizedBox(
-                                      width: 50,height: 50,
-                                      child: CircleAvatar(
-                                                  minRadius: 80,
-                                                  child: algo.chosen,
-                                                ),
+                          return Stack(
+                            children: [
+                              Column(
+                                // mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Spacer(),
+                                  AnimatedTextKit(
+                                      repeatForever: true,
+                                      animatedTexts: [
+                                        FadeAnimatedText(
+                                          "Swype down to complete editing",
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        )
+                                      ]),
+                                  Spacer(),
+                                  Material(
+                                    child: ListTile(
+                                      //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200)),
+                                      leading: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: CircleAvatar(
+                                          minRadius: 80,
+                                          child: algo.chosen,
+                                        ),
+                                      ),
+                                      title: Text(title),
+                                      subtitle: Text(message),
                                     ),
-                                    title: Text(title),
-                                    subtitle: Text(message),
                                   ),
-                                ),Spacer()
-                              ],
-                            ),
+                                  Spacer(),
+                                  AnimatedTextKit(
+                                      repeatForever: true,
+                                      animatedTexts: [
+                                        FadeAnimatedText(
+                                          "Swype up to post",
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        )
+                                      ]),
+                                  Spacer()
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: FractionallySizedBox(
+                                        heightFactor: 1,
+                                        child: Container(
+                                          color: Color.fromARGB(37, 244, 67, 54),
+                        
+                                        )),
+                                  ),
+                                  Flexible(
+                                    child: FractionallySizedBox(
+                                        heightFactor: 1,
+                                        child: Container(
+                                          color: Color.fromARGB(86, 76, 175, 79),
+                                        )),
+                                  )
+                                ],
+                              )
+                            ],
                           );
                         },
                       );
@@ -238,7 +279,7 @@ class _PostPageState extends State<PostPage> {
                       style: Theme.of(context).textTheme.labelLarge,
                     )),
               ),
-              Spacer()
+              Spacer(flex: 10)
             ],
           ),
         ),
