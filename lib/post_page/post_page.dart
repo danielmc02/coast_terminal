@@ -17,19 +17,19 @@ class _PostPageState extends State<PostPage> {
   String title = "";
   String message = "";
   @override
-  void initState()
-  {
+  void initState() {
     titleController = TextEditingController();
     messageController = TextEditingController();
     super.initState();
   }
+
   @override
-  void dispose()
-  {
+  void dispose() {
     titleController.dispose();
     messageController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -45,7 +45,10 @@ class _PostPageState extends State<PostPage> {
               Spacer(),
               Row(
                 children: [
-                  Text("Icon",style: Theme.of(context).textTheme.bodyLarge,),
+                  Text(
+                    "Icon",
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   IconButton(
                       onPressed: () {
                         showDialog(
@@ -68,7 +71,9 @@ class _PostPageState extends State<PostPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ChoiceChip(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      child: ChoiceChip(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           selectedColor: Colors.white,
                           onSelected: (value) {},
                           label: CircleAvatar(
@@ -102,8 +107,8 @@ class _PostPageState extends State<PostPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  onChanged: (value) => title = value,
-                  controller: titleController,
+                    onChanged: (value) => title = value,
+                    controller: titleController,
                     maxLength: 50,
                     inputFormatters: [
                       //FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z_]'))
@@ -178,24 +183,37 @@ class _PostPageState extends State<PostPage> {
                         overlayColor: MaterialStateProperty.all(
                             Color.fromARGB(255, 255, 34, 111))),
                     onPressed: () {
-                      showDialog(context: context, builder: (context) {
-                        return Container(color: Color.fromARGB(124, 0, 0, 0,),child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Preview",style: Theme.of(context).textTheme.labelLarge,),
-                            Material(
-                              child: ListTile(
-                                leading: Icon(Icons.abc),
-                                title: Text(title),
-                                subtitle: Text(message),
-                                
-                              ),
-                            )
-                          ],
-                        ),);
-                      },);
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            color: Color.fromARGB(
+                              124,
+                              0,
+                              0,
+                              0,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Preview",
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                                Material(
+                                  child: ListTile(
+                                    leading: Icon(Icons.abc),
+                                    title: Text(title),
+                                    subtitle: Text(message),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     },
                     child: Text(
                       "Post",
