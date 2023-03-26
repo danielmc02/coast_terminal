@@ -39,11 +39,11 @@ class _PostPageState extends State<PostPage> {
         builder: (context, algo, child) => Scaffold(
           // backgroundColor: Color.fromARGB(255, 241, 241, 241),
           appBar: AppBar(
-            title: Text("Post"),
+            title: const Text("Post"),
           ),
           body: Column(
             children: [
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
                   Text(
@@ -54,15 +54,15 @@ class _PostPageState extends State<PostPage> {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
+                          builder: (context) => const AlertDialog(
                               content: Text(
                                   "This icon is shown when someone recieves your message. Use it to express how you are feeling in order to show context")),
                         );
                       },
-                      icon: Icon(Icons.question_mark))
+                      icon: const Icon(Icons.question_mark))
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               SizedBox(
                 height: 100,
                 width: 700,
@@ -98,23 +98,23 @@ class _PostPageState extends State<PostPage> {
                   },
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
-                  Text("Title"),
+                  const Text("Title"),
                   IconButton(
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
+                          builder: (context) => const AlertDialog(
                               content: Text(
                                   "This is shown as a heading above your message")),
                         );
                       },
-                      icon: Icon(Icons.question_mark)),
+                      icon: const Icon(Icons.question_mark)),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -133,28 +133,28 @@ class _PostPageState extends State<PostPage> {
                           borderRadius: BorderRadius.circular(10)),
                     )),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 children: [
-                  Text("Message"),
+                  const Text("Message"),
                   IconButton(
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
+                          builder: (context) => const AlertDialog(
                               content: Text(
                                   "Enter your message for a random person to see")),
                         );
                       },
-                      icon: Icon(Icons.question_mark)),
+                      icon: const Icon(Icons.question_mark)),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   elevation: 6,
-                  color: Color.fromARGB(255, 234, 235, 240),
+                  color: const Color.fromARGB(255, 234, 235, 240),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
@@ -165,7 +165,7 @@ class _PostPageState extends State<PostPage> {
                       decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black)),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black)),
                           fillColor: Colors.white,
                           filled: true,
@@ -177,7 +177,7 @@ class _PostPageState extends State<PostPage> {
                   ),
                 ),
               ),
-              Spacer(
+              const Spacer(
                 flex: 20,
               ),
               SizedBox(
@@ -190,12 +190,13 @@ class _PostPageState extends State<PostPage> {
                                 color: Color.fromARGB(255, 254, 44, 117)),
                             borderRadius: BorderRadius.circular(10))),
                         backgroundColor: MaterialStateProperty.all(
-                            Color.fromARGB(255, 254, 44, 117)),
+                            const Color.fromARGB(255, 254, 44, 117)),
                         overlayColor: MaterialStateProperty.all(
-                            Color.fromARGB(255, 255, 34, 111))),
+                            const Color.fromARGB(255, 255, 34, 111))),
                     onPressed: () {
                       showDialog(
-                        barrierColor: Color.fromARGB(222, 0, 0, 0),
+                        barrierDismissible: false,
+                        barrierColor: const Color.fromARGB(222, 0, 0, 0),
                         context: context,
                         builder: (context) {
                           return Stack(
@@ -206,18 +207,18 @@ class _PostPageState extends State<PostPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Spacer(),
+                                  const Spacer(),
                                   AnimatedTextKit(
                                       repeatForever: true,
                                       animatedTexts: [
                                         FadeAnimatedText(
-                                          "Swype down to complete editing",
+                                          "Swype down to cancel",
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .labelLarge,
                                         )
                                       ]),
-                                  Spacer(),
+                                  const Spacer(),
                                   Material(
                                     child: ListTile(
                                       //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200)),
@@ -233,7 +234,7 @@ class _PostPageState extends State<PostPage> {
                                       subtitle: Text(message),
                                     ),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   AnimatedTextKit(
                                       repeatForever: true,
                                       animatedTexts: [
@@ -244,30 +245,21 @@ class _PostPageState extends State<PostPage> {
                                               .labelLarge,
                                         )
                                       ]),
-                                  Spacer()
+                                  const Spacer()
                                 ],
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    child: FractionallySizedBox(
-                                        heightFactor: 1,
-                                        child: Container(
-                                          color: Color.fromARGB(37, 244, 67, 54),
-                        
-                                        )),
-                                  ),
-                                  Flexible(
-                                    child: FractionallySizedBox(
-                                        heightFactor: 1,
-                                        child: Container(
-                                          color: Color.fromARGB(86, 76, 175, 79),
-                                        )),
-                                  )
-                                ],
+                              Container(
+                                // color: Color.fromARGB(118, 255, 193, 7),
+                                child: GestureDetector(
+                                  onVerticalDragEnd: (details) {
+                                    if (details.primaryVelocity! > 0) {
+                                      print('User swiped down');
+                                      Navigator.pop(context);
+                                    } else if (details.primaryVelocity! < 0) {
+                                      print('User swiped up');
+                                    }
+                                  },
+                                ),
                               )
                             ],
                           );
@@ -279,7 +271,7 @@ class _PostPageState extends State<PostPage> {
                       style: Theme.of(context).textTheme.labelLarge,
                     )),
               ),
-              Spacer(flex: 10)
+              const Spacer(flex: 10)
             ],
           ),
         ),
@@ -296,7 +288,7 @@ Widget messageBox() {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TextField(
+        const TextField(
           decoration: InputDecoration(),
         )
       ],
@@ -307,7 +299,7 @@ Widget messageBox() {
 Widget badgeTemplate(String title, dynamic icon) {
   return Material(
     child: Padding(
-      padding: EdgeInsets.all(2),
+      padding: const EdgeInsets.all(2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
