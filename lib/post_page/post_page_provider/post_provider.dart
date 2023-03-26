@@ -2,27 +2,53 @@ import 'package:flutter/cupertino.dart';
 
 class PostProvider extends ChangeNotifier {
   Map<String, Map> badges = <String,Map>{
-        'Anonymous': {'icon': Image.asset('assets/face_icons/anonymous.png')},
-            'Occ': {'icon': Image.asset('assets/face_icons/occ.jpeg')},
-
-    'Angel': {'icon': Image.asset('assets/face_icons/angel.png')},
-    'Angry': {'icon': Image.asset('assets/face_icons/angry.png')},
-
-    'Cool': {'icon': Image.asset('assets/face_icons/cool.png')},
-    'Cry': {'icon': Image.asset('assets/face_icons/cry.png')},
-    'Dead': {'icon': Image.asset('assets/face_icons/dead.png')},
-    'Demon': {'icon': Image.asset('assets/face_icons/demon.png')},
-    'Disappointed': {'icon': Image.asset('assets/face_icons/disappointed.png')},
-    'Exhale': {'icon': Image.asset('assets/face_icons/exhale.png')},
-    'Frustrated': {'icon': Image.asset('assets/face_icons/frustrated.png')},
-    'Happy': {'icon': Image.asset('assets/face_icons/happy.png')},
-    'Hide': {'icon': Image.asset('assets/face_icons/hide.png')},
-    'Love': {'icon': Image.asset('assets/face_icons/love.png')},
-    'Mask': {'icon': Image.asset('assets/face_icons/mask.png')},
-    'Neutral': {'icon': Image.asset('assets/face_icons/neutral.png')},
-    'Scared': {'icon': Image.asset('assets/face_icons/scared.png')},
-    'Shock': {'icon': Image.asset('assets/face_icons/shock.png')},
-    'Sus': {'icon': Image.asset('assets/face_icons/sus.png')},
+    'Anonymous': {'icon': Image.asset('assets/face_icons/anonymous.png'),'selected': true},
+    'Occ': {'icon': Image.asset('assets/face_icons/occ.jpeg'),'selected': false},
+    'Angel': {'icon': Image.asset('assets/face_icons/angel.png'),'selected': false},
+    'Angry': {'icon': Image.asset('assets/face_icons/angry.png'),'selected': false},
+    'Cool': {'icon': Image.asset('assets/face_icons/cool.png'),'selected': false},
+    'Cry': {'icon': Image.asset('assets/face_icons/cry.png'),'selected': false},
+    'Dead': {'icon': Image.asset('assets/face_icons/dead.png'),'selected': false},
+    'Demon': {'icon': Image.asset('assets/face_icons/demon.png'),'selected': false},
+    'Disappointed': {'icon': Image.asset('assets/face_icons/disappointed.png'),'selected': false},
+    'Exhale': {'icon': Image.asset('assets/face_icons/exhale.png'),'selected': false},
+    'Frustrated': {'icon': Image.asset('assets/face_icons/frustrated.png'),'selected': false},
+    'Happy': {'icon': Image.asset('assets/face_icons/happy.png'),'selected': false},
+    'Hide': {'icon': Image.asset('assets/face_icons/hide.png'),'selected': false},
+    'Love': {'icon': Image.asset('assets/face_icons/love.png'),'selected': false},
+    'Mask': {'icon': Image.asset('assets/face_icons/mask.png'),'selected': false},
+    'Neutral': {'icon': Image.asset('assets/face_icons/neutral.png'),'selected': false},
+    'Scared': {'icon': Image.asset('assets/face_icons/scared.png'),'selected': false},
+    'Shock': {'icon': Image.asset('assets/face_icons/shock.png'),'selected': false},
+    'Sus': {'icon': Image.asset('assets/face_icons/sus.png'),'selected': false},
     //'Unmasked': {'icon': Image.asset('assets/face_icons/unmasked.png')},
   };
+
+  Image chosen =  Image.asset('assets/face_icons/anonymous.png');
+
+
+  void updateBadges(int index)
+  { int num = 0;
+
+    for(var e in badges.entries)
+    {
+      if(num == index)
+      {
+        print('party');
+                e.value['selected'] = true;
+chosen =  e.value['icon'];
+        notifyListeners();
+      }
+      else
+      {
+        e.value['selected'] = false;
+notifyListeners();
+      }
+      print("$num vs $index");
+      num++;
+    }
+  }
+    
+
+
 }

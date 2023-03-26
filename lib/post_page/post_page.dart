@@ -72,17 +72,27 @@ class _PostPageState extends State<PostPage> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ChoiceChip(
+                        elevation: algo.badges[
+                                  algo.badges.keys.elementAt(index)]!['selected'] ? 10 : 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           selectedColor: Colors.white,
-                          onSelected: (value) {},
+                          onSelected: (value) {
+                            
+                              algo.updateBadges(index);
+
+                            print("${ algo.badges.keys.elementAt(index)} was pressed $index ${algo.badges[
+                                  algo.badges.keys.elementAt(index)]!['selected']} ");
+
+                          },
                           label: CircleAvatar(
                             child: ClipOval(
                               child: algo.badges[
                                   algo.badges.keys.elementAt(index)]!['icon'],
                             ),
                           ),
-                          selected: true),
+                          selected: algo.badges[
+                                  algo.badges.keys.elementAt(index)]!['selected']),
                     );
                   },
                 ),
@@ -198,17 +208,25 @@ class _PostPageState extends State<PostPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Spacer(),
                                 Text(
                                   "Preview",
                                   style: Theme.of(context).textTheme.labelLarge,
-                                ),
+                                ),Spacer(),
                                 Material(
                                   child: ListTile(
-                                    leading: Icon(Icons.abc),
+                                    //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200)),
+                                    leading:SizedBox(
+                                      width: 50,height: 50,
+                                      child: CircleAvatar(
+                                                  minRadius: 80,
+                                                  child: algo.chosen,
+                                                ),
+                                    ),
                                     title: Text(title),
                                     subtitle: Text(message),
                                   ),
-                                )
+                                ),Spacer()
                               ],
                             ),
                           );
