@@ -67,7 +67,7 @@ if(algo.finished == false){
               
             }
             
-              return Text("error");
+              return Container(color: Colors.white,child: Center(child: CircularProgressIndicator()),);
         }
          
             
