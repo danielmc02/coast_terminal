@@ -41,6 +41,11 @@ class _PostPageState extends State<PostPage> {
         builder: (context, algo, child) => Scaffold(
           // backgroundColor: Color.fromARGB(255, 241, 241, 241),
           appBar: AppBar(
+            leading: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () {  ApiService.instance!.pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.linear);},
+      ),
+            
             title: const Text("Post"),
           ),
           body: Column(
