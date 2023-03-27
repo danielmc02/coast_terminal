@@ -19,18 +19,16 @@ class ApiService {
     _messagesDatabase = _database!.ref('messages');
     _messageCount = _database!.ref('count');
 
-    testDb();
   }
-  Future testDb() async {
-    try {
-      await _messagesDatabase!.set({
-        _user!.uid: {"name": "0", "age": 0}
-      });
-    } catch (e) {
-      print("error: $e");
-      print('objeasfasdfsadfct');
-    }
+  DatabaseReference? get messagesDatabase
+  {
+    return _messagesDatabase;
   }
+    DatabaseReference? get messageCount
+  {
+    return _messageCount;
+  }
+  
 
   static ApiService? get instance {
     _instance ??= ApiService._internal();
@@ -77,8 +75,8 @@ class ApiService {
 
   Future getMessageCount() async
   {
-    final snapshot = await _messageCount!.child('count').get();
-    return snapshot;
+    final snapshot = await _messageCount!.get();
+    return snapshot.value;
   }
   bool ref = true;
   PageController pageController = PageController();

@@ -18,6 +18,7 @@ class _PostPageState extends State<PostPage> {
   late TextEditingController messageController;
   String title = "";
   String message = "";
+  double sliderValue = 1;
   @override
   void initState() {
     titleController = TextEditingController();
@@ -42,10 +43,13 @@ class _PostPageState extends State<PostPage> {
           // backgroundColor: Color.fromARGB(255, 241, 241, 241),
           appBar: AppBar(
             leading: IconButton(
-        icon: const Icon(Icons.close),
-        onPressed: () {  ApiService.instance!.pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.linear);},
-      ),
-            
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                ApiService.instance!.pageController.animateToPage(0,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.linear);
+              },
+            ),
             title: const Text("Post"),
           ),
           body: Column(
@@ -106,6 +110,32 @@ class _PostPageState extends State<PostPage> {
                 ),
               ),
               const Spacer(),
+              
+              Slider.adaptive(
+                min: 1,
+                max: 20,
+                label: sliderValue.toString(),
+                divisions: 19,
+                value: sliderValue,
+                onChanged: (value) {
+                  setState(() {
+                    sliderValue = value;
+                  });
+                },
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+              
+                  children: [
+                    Text("${sliderValue.toInt()}/20"),Icon(Icons.remove_red_eye)],
+                ),
+              ),
+                            const Spacer(),
+
+/*
               Row(
                 children: [
                   const Text("Title"),
@@ -121,6 +151,7 @@ class _PostPageState extends State<PostPage> {
                       icon: const Icon(Icons.question_mark)),
                 ],
               ),
+              */
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -134,7 +165,7 @@ class _PostPageState extends State<PostPage> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.blue[50],
-                      hintText: "Enter your name",
+                      hintText: "Title",
                       border: UnderlineInputBorder(
                           borderSide: const BorderSide(color: Colors.red),
                           borderRadius: BorderRadius.circular(10)),
@@ -264,8 +295,14 @@ class _PostPageState extends State<PostPage> {
                                       Navigator.pop(context);
                                     } else if (details.primaryVelocity! < 0) {
                                       print('User swiped up');
+                                      //print("${titleController.text} vs ${messageController.text}");
+                                      algo.postMessage(sliderValue,titleController.text,messageController.text);
                                       Navigator.pop(context);
-                                      ApiService.instance!.pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.linear);
+                                      ApiService.instance!.pageController
+                                          .animateToPage(0,
+                                              duration:
+                                                  Duration(milliseconds: 500),
+                                              curve: Curves.linear);
                                     }
                                   },
                                 ),

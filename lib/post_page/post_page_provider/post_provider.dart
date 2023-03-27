@@ -1,3 +1,4 @@
+import 'package:coast_terminal/api_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class PostProvider extends ChangeNotifier {
@@ -25,7 +26,7 @@ class PostProvider extends ChangeNotifier {
   };
 
   Image chosen =  Image.asset('assets/face_icons/anonymous.png');
-
+  int chosenBadgeIndex = 0;
 
   void updateBadges(int index)
   { int num = 0;
@@ -37,6 +38,9 @@ class PostProvider extends ChangeNotifier {
         print('party');
                 e.value['selected'] = true;
 chosen =  e.value['icon'];
+chosenBadgeIndex = num;
+print(chosenBadgeIndex);
+
         notifyListeners();
       }
       else
@@ -47,6 +51,20 @@ notifyListeners();
       print("$num vs $index");
       num++;
     }
+  }
+
+  Future postMessage(double sliderValue, String value, String value2) async
+  {
+    
+    await ApiService.instance!.messagesDatabase!.child(ApiService.instance!.auth!.currentUser!.uid).set({"Badge Index":chosenBadgeIndex,"Max Views":sliderValue,"Title": value.toString(),"Message":value2.toString()}).then((value) async{
+      int mesref =  await ApiService.instance!.getMessageCount();
+      print("Dnsadfonsadifnasf");
+      print( mesref);
+      await ApiService.instance!.messageCount!.set({'count':mesref+1});
+      
+
+
+    });
   }
     
 
