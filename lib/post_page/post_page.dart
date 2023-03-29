@@ -40,7 +40,8 @@ class _PostPageState extends State<PostPage> {
       create: (context) => PostProvider(),
       child: Consumer<PostProvider>(
         builder: (context, algo, child) => Scaffold(
-          // backgroundColor: Color.fromARGB(255, 241, 241, 241),
+          backgroundColor: Color.fromRGBO(241, 241, 241, 1),
+          
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.close),
@@ -110,7 +111,6 @@ class _PostPageState extends State<PostPage> {
                 ),
               ),
               const Spacer(),
-              
               Slider.adaptive(
                 min: 1,
                 max: 20,
@@ -128,12 +128,13 @@ class _PostPageState extends State<PostPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-              
                   children: [
-                    Text("${sliderValue.toInt()}/20"),Icon(Icons.remove_red_eye)],
+                    Text("${sliderValue.toInt()}/20"),
+                    Icon(Icons.remove_red_eye)
+                  ],
                 ),
               ),
-                            const Spacer(),
+              const Spacer(),
 
 /*
               Row(
@@ -296,7 +297,10 @@ class _PostPageState extends State<PostPage> {
                                     } else if (details.primaryVelocity! < 0) {
                                       print('User swiped up');
                                       //print("${titleController.text} vs ${messageController.text}");
-                                      algo.postMessage(sliderValue,titleController.text,messageController.text);
+                                      algo.postMessage(
+                                          sliderValue,
+                                          titleController.text,
+                                          messageController.text);
                                       Navigator.pop(context);
                                       ApiService.instance!.pageController
                                           .animateToPage(0,

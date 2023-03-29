@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:coast_terminal/home/const_widgets/post_button.dart';
+import 'package:coast_terminal/home/const_widgets/sign_out_button.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:coast_terminal/post_page/post_page_provider/post_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +30,7 @@ class _HomeState extends State<Home> {
               builder: (context, algo, child) => PageView(
                 physics: NeverScrollableScrollPhysics(),
                 onPageChanged: (value) {
-                  print("page has been changed");               
+                  print("page has been changed");
                 },
                 reverse: true,
                 controller: ApiService.instance!.pageController,
@@ -48,7 +50,7 @@ class _HomeState extends State<Home> {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: [Spacer(flex: 20,),
                           FutureBuilder(
                               future: algo.calculate(),
                               builder: (context, snapshot) {
@@ -59,52 +61,24 @@ class _HomeState extends State<Home> {
                                   return Text("has data");
                                 }
                                 return Text("error");
-                              }),
-                          SizedBox(
-                            width: 150,
-                            height: 50,
-                            child: TextButton(
-                                style: ButtonStyle(
-                                    shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                            side: const BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 254, 44, 117)),
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Color.fromARGB(255, 254, 44, 117)),
-                                    overlayColor: MaterialStateProperty.all(
-                                        Color.fromARGB(255, 255, 34, 111))),
-                                onPressed: () {
-                                  ApiService.instance!.pageController.nextPage(duration: Duration(milliseconds:500), curve: Curves.linear).then((value) {
-                                     
-                                  });
-                              
-                                /*  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        maintainState: true,
-                                        builder: (context) => PostPage(),
-                                      )
-                                      );*/
-                                },
-                                child: Text(
-                                  "Post",
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                )),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                ApiService.instance!.signOut();
-                              },
-                              child: const Text("sign out"))
+                              }),Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [Spacer(flex:6),
+                                                 PostButton(),Spacer(flex: 2,),
+                  SignOutButton(),Spacer()
+                                ],
+                              ),Spacer()
+           
                         ],
                       ),
                     ),
-                  ),PostPage()],
+                  ),
+                  PostPage()
+                ],
               ),
             ));
   }
 }
-
