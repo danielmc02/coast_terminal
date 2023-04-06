@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/home/const_widgets/sign_out_button.dart';
+import 'package:coast_terminal/home/heart.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:coast_terminal/post_page/post_page_provider/post_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,17 +52,11 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [Spacer(flex: 20,),
-                          FutureBuilder(
-                              future: algo.calculate(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData == false) {
-                                  return Text("No data");
-                                } else if (snapshot.hasData == true) {
-                                  print(snapshot.data);
-                                  return Text("has data");
-                                }
-                                return Text("error");
-                              }),Spacer(),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height/2,
+                            child: Container(color: Colors.red,child: Heart(),)
+                          ),Spacer(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,

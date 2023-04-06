@@ -56,6 +56,8 @@ class _PostPageState extends State<PostPage> {
           body: Column(
             children: [
               const Spacer(),
+
+
               Row(
                 children: [
                   Text(

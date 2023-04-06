@@ -16,7 +16,7 @@ class ApiService {
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
     _database = FirebaseDatabase.instance;
-    _messagesDatabase = _database!.ref('messages');
+    _messagesDatabase = _database!.ref('messages'); 
     _messageCount = _database!.ref('count');
 
   }
@@ -76,6 +76,7 @@ class ApiService {
   Future getMessageCount() async
   {
     final snapshot = await _messageCount!.get();
+    _messageCount.child(path)
     return snapshot.value;
   }
   bool ref = true;
