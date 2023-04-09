@@ -76,7 +76,8 @@ class ApiService {
   Future getMessageCount() async
   {
     final snapshot = await _messageCount!.get();
-    _messageCount.child(path)
+
+   // _messageCount.child(path)
     return snapshot.value;
   }
   bool ref = true;

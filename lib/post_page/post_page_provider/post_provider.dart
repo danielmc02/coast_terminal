@@ -1,6 +1,6 @@
 import 'package:coast_terminal/api_service.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-
 class PostProvider extends ChangeNotifier {
   Map<String, Map> badges = <String, Map>{
     'Anonymous': {
@@ -114,12 +114,15 @@ class PostProvider extends ChangeNotifier {
       "Max Views": sliderValue,
       "Title": value.toString(),
       "Message": value2.toString()
-    }).then((value) async{
-          int snapshot = await ApiService.instance!.getMessageCount() +1;
-print('$snapshot ajhjh');
-       await ApiService.instance!.messageCount!.set(snapshot);
-
-    }
-    );
+    }).then((value) async {
+   
+   await incrementCounter();
+    });
   }
+  Future incrementCounter() async
+  {
+    //TransactionResult result = await ApiService.instance!.messageCount!.runTransaction((value) => value.)
 }
+  }
+
+ 
