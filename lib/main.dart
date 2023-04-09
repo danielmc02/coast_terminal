@@ -1,5 +1,6 @@
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/home/home.dart';
+import 'package:coast_terminal/models/user_model.dart';
 import 'package:coast_terminal/onboarding/onboarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-
+  Hive.registerAdapter(UserInstanceAdapter());
+  await Hive.openBox<UserInstance>('mainUser');
   await Firebase.initializeApp();
 
     SystemChrome.setPreferredOrientations([

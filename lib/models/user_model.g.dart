@@ -16,12 +16,13 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UserInstance()
-      ..uid = fields[0] as String
-      ..hasPostedMessage = fields[1] as bool
-      ..lastPostedMessageTimestamp = fields[2] as DateTime
-      ..createdAt = fields[3] as DateTime
-      ..messageInstances = (fields[4] as List?)?.cast<MessageInstance>();
+    return UserInstance(
+      fields[0] as String,
+      fields[1] as bool,
+      fields[2] as DateTime,
+      fields[3] as DateTime?,
+      (fields[4] as List?)?.cast<MessageInstance>(),
+    );
   }
 
   @override
@@ -33,9 +34,9 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       ..writeByte(1)
       ..write(obj.hasPostedMessage)
       ..writeByte(2)
-      ..write(obj.lastPostedMessageTimestamp)
-      ..writeByte(3)
       ..write(obj.createdAt)
+      ..writeByte(3)
+      ..write(obj.lastPostedMessageTimestamp)
       ..writeByte(4)
       ..write(obj.messageInstances);
   }

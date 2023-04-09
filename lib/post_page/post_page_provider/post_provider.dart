@@ -1,6 +1,9 @@
 import 'package:coast_terminal/api_service.dart';
+import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../../constants/boxes.dart';
 class PostProvider extends ChangeNotifier {
   Map<String, Map> badges = <String, Map>{
     'Anonymous': {
@@ -115,7 +118,10 @@ class PostProvider extends ChangeNotifier {
       "Title": value.toString(),
       "Message": value2.toString()
     }).then((value) async {
-   
+
+   UserInstance? newest = Boxes.getuser().get('mainUser');
+   newest!.hasPostedMessage = true;
+   Boxes.getuser().put('mainUser', newest);
    await incrementCounter();
     });
   }
