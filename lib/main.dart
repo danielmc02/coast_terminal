@@ -1,17 +1,16 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/home/home.dart';
-import 'package:coast_terminal/home/provider/home_provider.dart';
-import 'package:coast_terminal/loading_screen/loading_screen.dart';
 import 'package:coast_terminal/onboarding/onboarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
   await Firebase.initializeApp();
 
     SystemChrome.setPreferredOrientations([
