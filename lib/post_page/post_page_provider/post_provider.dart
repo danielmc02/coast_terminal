@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../constants/boxes.dart';
+
 class PostProvider extends ChangeNotifier {
   Map<String, Map> badges = <String, Map>{
     'Anonymous': {
@@ -118,17 +119,25 @@ class PostProvider extends ChangeNotifier {
       "Title": value.toString(),
       "Message": value2.toString()
     }).then((value) async {
-
-   UserInstance? newest = Boxes.getuser().get('mainUser');
-   newest!.hasPostedMessage = true;
-   Boxes.getuser().put('mainUser', newest);
-   await incrementCounter();
+      UserInstance? newest = Boxes.getuser().get('mainUser');
+      newest!.hasPostedMessage = true;
+      Boxes.getuser().put('mainUser', newest);
+      await incrementCounter();
     });
   }
-  Future incrementCounter() async
-  {
-    //TransactionResult result = await ApiService.instance!.messageCount!.runTransaction((value) => value.)
-}
-  }
 
- 
+  Future incrementCounter() async {
+    //final result =
+    final count = await ApiService.instance!.database!
+        .ref('/count')
+        .runTransaction((currentCount) {
+      int count = currentCount == null ? 0 : currentCount as int;
+      print(count);
+
+      //  int newCount = curCount + 1;
+      print("running transaction");
+      // Return the new count as the result of the transaction.
+      return Transaction.success(count + 1);
+    });
+  }
+}

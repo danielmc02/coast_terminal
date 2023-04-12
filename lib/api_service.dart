@@ -15,7 +15,7 @@ class ApiService {
   static DatabaseReference? _messagesDatabase;
   static DatabaseReference? _messageCount;
 
-  ApiService._internal() {
+  ApiService._internal(){
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
     _database = FirebaseDatabase.instance;
@@ -25,7 +25,10 @@ class ApiService {
   DatabaseReference? get messagesDatabase {
     return _messagesDatabase;
   }
-
+  FirebaseDatabase? get database 
+  {
+    return _database;
+  }
   DatabaseReference? get messageCount {
     return _messageCount;
   }

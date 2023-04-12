@@ -48,6 +48,7 @@ class _HomeState extends State<Home> {
 
         // Cancel the timer
         timer.cancel();
+        ApiService.instance!.signOut();
       } else {
         // Update the UI with the remaining time
         setState(() {
@@ -103,7 +104,7 @@ class _HomeState extends State<Home> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Spacer(),
-                              Text(
+                              Text(style:TextStyle(color: Colors.white),
                                   '${remainingTime ~/ 3600}:${(remainingTime % 3600) ~/ 60}:${remainingTime % 60}'),
                               Spacer(),
                               PostButton(),
