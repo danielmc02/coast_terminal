@@ -33,42 +33,49 @@ class _PostPageState extends State<PostPage> {
     messageController.dispose();
     super.dispose();
   }
-
+bool isOpen = false;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => PostProvider(),
       child: Consumer<PostProvider>(
-        builder: (context, algo, child) => Scaffold(
-            drawer: Drawer(
-              child: DrawerBody(),
-            ),
-            floatingActionButtonLocation: algo.drawerIsOpen
-                ? FloatingActionButtonLocation.endDocked
-                : FloatingActionButtonLocation.startDocked,
-            floatingActionButton: Builder(builder: (context) {
-              return FloatingActionButton(
-                  backgroundColor: Colors.transparent,
-                  onPressed: () {
-                    algo.changeDrawer();
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: Container(width: 50, height: 50, child: algo.chosen));
-            }),
-            backgroundColor: Color.fromRGBO(255, 255, 255,
-                1),
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  ApiService.instance!.pageController.animateToPage(0,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.linear);
-                },
+          builder: (context, algo, child) => Scaffold(
+                    onDrawerChanged: (isOpened) {
+              setState(() {
+                              isOpen = !isOpen;
+
+              });
+            },
+              floatingActionButtonLocation: isOpen
+                  ? FloatingActionButtonLocation.endDocked
+                  : FloatingActionButtonLocation.startDocked,
+              floatingActionButton: Builder(builder: (context) {
+                return FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
+                     
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: ClipOval(child: Container(width: 50, height: 50, child: algo.chosen)));
+              }),
+              drawer: Drawer(
+                child: DrawerBody(),
               ),
-              title: const Text("Post"),
-            ),
-            body: PostBody()),
+              backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+              appBar: AppBar(
+                backgroundColor: Color.fromARGB(255, 56, 62, 78),
+                leading: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    ApiService.instance!.pageController.animateToPage(0,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.linear);
+                  },
+                ),
+                title: const Text("Post"),
+              ),
+              body: PostBody()),
+        
       ),
     );
   }
@@ -97,7 +104,8 @@ class _PostBodyState extends State<PostBody> {
                     child: Container(
                       color: Color.fromARGB(0, 215, 107, 107),
                       child: TextField(
-                        showCursor: false,
+                        cursorColor: Color.fromARGB(255, 183, 183, 183),
+                        showCursor: true,
                         maxLength: 30,
                         style: TextStyle(
                             fontFamily: "Roboto",
@@ -162,28 +170,85 @@ class _PostBodyState extends State<PostBody> {
 }
 
 Widget DrawerBody() {
-  return Builder(builder: (context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 50, left: 20),
-      child: SingleChildScrollView(
-          child: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  "Icons",
-                  style: TextStyle(
-                      fontFamily: "Roboto", color: Colors.black, fontSize: 20),
+  return Consumer<PostProvider>(builder: (context, algo, child) => Builder(builder: (context) {
+      return Padding(
+        padding: EdgeInsets.only(top: 50, left: 20),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+            child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              FittedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Icons",
+                      style: TextStyle(fontFamily: "Roboto", color: Colors.black,fontSize: 50),
+                    ),
+                    
+                  ],
+                  
                 ),
-              ],
-            )
-          ],
-        ),
-      )),
-    );
-  });
+              ),
+              Flexible(
+                child: Container(
+                  //color: Colors.red,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 24,left: 8,top:0),
+                    child: ListView.builder(padding: EdgeInsets.only(top: 0),
+                    physics: ClampingScrollPhysics(),itemExtent: 80,shrinkWrap: true,itemCount:algo.badges.length ,itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top:8.0,bottom: 8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                algo.updateBadges(index);
+                              },
+                              child: Row(
+                                children: [
+                                 ChoiceChip(
+                                      elevation: algo.badges[algo.badges.keys
+                                              .elementAt(index)]!['selected']
+                                          ? 10
+                                          : 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10)),
+                                      selectedColor: Colors.white,
+                                      onSelected: (value) {
+                                        algo.updateBadges(index);
+                                
+                                        print(
+                                            "${algo.badges.keys.elementAt(index)} was pressed $index ${algo.badges[algo.badges.keys.elementAt(index)]!['selected']} ");
+                                      },
+                                      label: CircleAvatar(
+                                        child: ClipOval(
+                                          child: algo.badges[
+                                              algo.badges.keys.elementAt(index)]!['icon'],
+                                        ),
+                                      ),
+                                      selected: algo.badges[algo.badges.keys
+                                          .elementAt(index)]!['selected']),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(algo.badges.keys.elementAt(index),style:TextStyle(
+                                              fontFamily: "Roboto", color: algo.badges[algo.badges.keys
+                                              .elementAt(index)]!['selected']?Colors.black:Color.fromARGB(62, 0, 0, 0), fontSize: 25)),
+                                          )
+                                ],
+                              ),
+                            ),
+                          );
+                        },),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )),
+      );
+    }),
+  );
 }
 
 Widget messageBox() {
@@ -241,7 +306,9 @@ class DUD extends StatelessWidget {
                   //const Spacer(),
                   Expanded(
                     child: Row(
-                      children: [
+                      children: [ListView.builder(itemCount:3 ,itemBuilder: (context, index) {
+                    return Container(width: 20,height: 50,color: Colors.red,);
+                  },)
                         Text(
                           "Icon",
                           style: Theme.of(context).textTheme.bodyLarge,
