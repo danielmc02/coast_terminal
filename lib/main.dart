@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Coast Terminal',
       theme: ThemeData(
           textTheme: const TextTheme(
+          
               displayLarge: TextStyle(
                 fontFamily: "Roboto",
                 color: Colors.white,

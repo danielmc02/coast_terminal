@@ -111,14 +111,14 @@ class PostProvider extends ChangeNotifier {
     }
   }
 
-  Future postMessage(double sliderValue, String value, String value2) async {
+  Future postMessage(int sliderValue, String title, String message) async {
     await ApiService.instance!.messagesDatabase!
         .child(ApiService.instance!.auth!.currentUser!.uid)
         .set({
       "Badge Index": chosenBadgeIndex,
       "Max Views": sliderValue,
-      "Title": value.toString(),
-      "Message": value2.toString()
+      "Title": title.toString(),
+      "Message": message.toString()
     }).then((value) async {
       UserInstance? newest = Boxes.getuser().get('mainUser');
       newest!.hasPostedMessage = true;

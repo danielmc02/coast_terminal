@@ -107,7 +107,61 @@ class _HomeState extends State<Home> {
                               Text(style:TextStyle(color: Colors.white),
                                   '${remainingTime ~/ 3600}:${(remainingTime % 3600) ~/ 60}:${remainingTime % 60}'),
                               Spacer(),
-                              PostButton(),
+                              PostButton(
+                            onPressed: () {
+                                                  if (Boxes.getuser().get('mainUser')!.hasPostedMessage == true) {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                          "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages."),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.white),
+                                overlayColor:
+                                    MaterialStateProperty.all(Colors.grey)),
+                            child:
+                                const Text("Okay, I understand"),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              ApiService.instance!.pageController
+                  .nextPage(
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.linear)
+                  .then((value) {
+                setState(() {
+                  ApiService.instance!.ref = false;
+                  Timer(Duration(seconds: 1), () {
+                    ApiService.instance!.ref = true;
+                  });
+                });
+              });
+            }
+                            },
+                              ),
                               Spacer(),
                               SignOutButton(),
                               Spacer()
