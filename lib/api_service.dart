@@ -15,6 +15,7 @@ class ApiService {
   static DatabaseReference? _messagesDatabase;
   static DatabaseReference? _messageCount;
 
+
   ApiService._internal(){
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
@@ -41,6 +42,7 @@ class ApiService {
   FirebaseAuth? get auth {
     return _auth;
   }
+  bool currentMessageSucessresult = false;
 
   //Sign in anoynomously (guest)
   Future signInAnon() async {

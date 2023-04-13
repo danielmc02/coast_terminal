@@ -111,8 +111,14 @@ class PostProvider extends ChangeNotifier {
     }
   }
 
-  Future postMessage(int sliderValue, String title, String message) async {
-    await ApiService.instance!.messagesDatabase!
+//Update this method later to checking the db for the uid to make sure no update or exisitn data from the user exeists
+//I relized an exploit is that when there are updates the counter still increments
+//Despite updates not being a new message
+  Future<bool> postMessage(int sliderValue, String title, String message) async {
+    bool result = false;
+    try
+    {
+         await ApiService.instance!.messagesDatabase!
         .child(ApiService.instance!.auth!.currentUser!.uid)
         .set({
       "Badge Index": chosenBadgeIndex,
@@ -120,16 +126,27 @@ class PostProvider extends ChangeNotifier {
       "Title": title.toString(),
       "Message": message.toString()
     }).then((value) async {
-      UserInstance? newest = Boxes.getuser().get('mainUser');
+      UserInstance? newest =  Boxes.getuser().get('mainUser');
       newest!.hasPostedMessage = true;
       Boxes.getuser().put('mainUser', newest);
-      await incrementCounter();
+      result =  await incrementCounter();
     });
+       return result;
+
+    }
+    catch(e)
+    {
+      print("there was an error in step 1 of publishing message");
+      return false;
+    }
+
+ 
   }
 
-  Future incrementCounter() async {
-    //final result =
-    final count = await ApiService.instance!.database!
+  Future<bool> incrementCounter() async {
+    try
+    {
+final count = await ApiService.instance!.database!
         .ref('/count')
         .runTransaction((currentCount) {
       int count = currentCount == null ? 0 : currentCount as int;
@@ -138,10 +155,17 @@ class PostProvider extends ChangeNotifier {
       print("running transaction");
       return Transaction.success(count + 1);
     });
+    return true;
+    
+    }
+    catch(e)
+    {
+      print("There was an error in step 2 of publishing message (Increment)");
+      return false;
+    }
+    //final result =
+    
   }
 
-  void changeDrawer() {
-    drawerIsOpen = !drawerIsOpen;
-    notifyListeners();
-  }
+  
 }
