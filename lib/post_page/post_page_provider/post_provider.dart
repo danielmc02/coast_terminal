@@ -2,10 +2,12 @@ import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../constants/boxes.dart';
 
 class PostProvider extends ChangeNotifier {
+  bool drawerIsOpen = false;
   Map<String, Map> badges = <String, Map>{
     'Anonymous': {
       'icon': Image.asset('assets/face_icons/anonymous.png'),
@@ -94,7 +96,6 @@ class PostProvider extends ChangeNotifier {
 
     for (var e in badges.entries) {
       if (num == index) {
-        print('party');
         e.value['selected'] = true;
         chosen = e.value['icon'];
         chosenBadgeIndex = num;
@@ -134,10 +135,13 @@ class PostProvider extends ChangeNotifier {
       int count = currentCount == null ? 0 : currentCount as int;
       print(count);
 
-      //  int newCount = curCount + 1;
       print("running transaction");
-      // Return the new count as the result of the transaction.
       return Transaction.success(count + 1);
     });
+  }
+
+  void changeDrawer() {
+    drawerIsOpen = !drawerIsOpen;
+    notifyListeners();
   }
 }

@@ -8,17 +8,14 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserInstanceAdapter());
   await Hive.openBox<UserInstance>('mainUser');
   await Firebase.initializeApp();
 
-    SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 
@@ -37,7 +34,9 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 42.0,
                 fontWeight: FontWeight.bold,
-              ),bodyLarge: TextStyle(fontFamily: "Roboto", color: Colors.black,fontSize: 25),
+              ),
+              bodyLarge: TextStyle(
+                  fontFamily: "Roboto", color: Colors.black, fontSize: 25),
               labelLarge:
                   TextStyle(fontFamily: "Roboto", color: Colors.white))),
       home: const OnboardScreen(),
