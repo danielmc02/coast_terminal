@@ -48,16 +48,19 @@ class HomeProvider extends ChangeNotifier {
                 returnedMessage.entries.first.value['Title'],
                 returnedMessage.entries.first.value['Message']);
             Boxes.getMessage().put('currentMessage', currentFetchedMessage);
-            fetchedMessage =  Boxes.getMessage().get('currentMessage');
             print(fetchedMessage);
           });
           //  Map returnedMessage = queriedMessage.sna
 
         }
+        print("bout to return");
                   return Transaction.success(count);
 
       });
       print("done");
+                 print(Boxes.getMessage().get('currentMessage'));
+
+      print(fetchedMessage);
       return fetchedMessage;
     } catch (e) {
       print(e);
