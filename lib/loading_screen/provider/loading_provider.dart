@@ -20,7 +20,6 @@ class LoadingProvider extends ChangeNotifier {
     Timer(Duration(seconds: 2), () async{
       print("Start");
       await ApiService.instance!.signInAnon();
-      await ApiService.instance!.fetchMessage();
       print("Finished, spitting out to home");
     finished = true;
     notifyListeners();

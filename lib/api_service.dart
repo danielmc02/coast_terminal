@@ -4,8 +4,11 @@ import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'constants/boxes.dart';
+import 'home/provider/home_provider.dart';
 
 class ApiService {
   static ApiService? _instance;
@@ -15,8 +18,7 @@ class ApiService {
   static DatabaseReference? _messagesDatabase;
   static DatabaseReference? _messageCount;
 
-
-  ApiService._internal(){
+  ApiService._internal() {
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
     _database = FirebaseDatabase.instance;
@@ -26,10 +28,11 @@ class ApiService {
   DatabaseReference? get messagesDatabase {
     return _messagesDatabase;
   }
-  FirebaseDatabase? get database 
-  {
+
+  FirebaseDatabase? get database {
     return _database;
   }
+
   DatabaseReference? get messageCount {
     return _messageCount;
   }
@@ -42,6 +45,7 @@ class ApiService {
   FirebaseAuth? get auth {
     return _auth;
   }
+
   bool currentMessageSucessresult = false;
 
   //Sign in anoynomously (guest)
@@ -62,7 +66,7 @@ class ApiService {
         print("No existing UserModel instance exists. Create a new one.");
         var currentUser = UserInstance(
             tempUse!.uid, false, tempUse.metadata.creationTime!, null, null);
-        Boxes.getuser().put('mainUser',currentUser);
+        Boxes.getuser().put('mainUser', currentUser);
       }
 
       print("Signed in with TEMPORARY account.");
@@ -87,19 +91,97 @@ class ApiService {
     // await FirebaseAuth.instance.signOut();
   }
 
-  Future fetchMessage() async {}
 
   Stream<User?> getuser() async* {
     yield* _auth!.userChanges();
   }
 
-  Future getMessageCount() async {
+  Future<int> getMessageCount() async {
     final snapshot = await _messageCount!.get();
 
     // _messageCount.child(path)
-    return snapshot.value;
+    print(snapshot.value);
+    int count = snapshot.value as int;
+    return count;
   }
 
   bool ref = true;
   PageController pageController = PageController();
+
+  Widget heart() {
+    return Builder(
+      builder: (context) {
+        return ChangeNotifierProvider(
+          create: (context) => HomeProvider(),
+          builder: (context, child) => Consumer<HomeProvider>(
+            builder: (context, algo, child) => FutureBuilder(
+                future: algo.calculateIfThereAreMessages(),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case ConnectionState.done:
+                      return SizedBox(width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height/2,
+                        child: Container(decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.blueGrey),
+                      ),
+                          child: ListTile(
+                              subtitle: Text('adfasdf'/*
+                                  style: TextStyle(color: Colors.white),
+                                  Boxes.getMessage()
+                                      .get('currentMessage')!
+                                      .message*/),
+                              leading: Icon(Icons.abc),/*
+                              CircleAvatar(foregroundImage: iconReferences[Boxes.getMessage()
+                                  .get('currentMessage')!
+                                  .iconIndex]),*/
+                              title: Text('d'
+                                /*Boxes.getMessage()
+                                  .get('currentMessage')!
+                                  .title)*/
+                                  )),
+                        ),
+                      );
+
+                    default:
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      );
+                  }
+                }),
+          ),
+        );
+      },
+    );
+  }
+
+  List iconReferences = const [
+    AssetImage('assets/face_icons/anonymous.png'),
+    AssetImage('assets/face_icons/occ.jpeg'),
+    AssetImage('assets/face_icons/angel.png'), 
+    AssetImage('assets/face_icons/angry.png'), 
+    AssetImage('assets/face_icons/cool.png'),
+    AssetImage('assets/face_icons/cry.png'),
+    AssetImage('assets/face_icons/dead.png'),
+    AssetImage('assets/face_icons/demon.png'),
+    AssetImage('assets/face_icons/disappointed.png'),
+    AssetImage('assets/face_icons/exhale.png'),
+    AssetImage('assets/face_icons/frustrated.png'),
+    AssetImage('assets/face_icons/happy.png'),
+    AssetImage('assets/face_icons/hide.png'),
+    AssetImage('assets/face_icons/love.png'),
+    AssetImage('assets/face_icons/mask.png'),
+    AssetImage('assets/face_icons/neutral.png'),
+    AssetImage('assets/face_icons/scared.png'),
+    AssetImage('assets/face_icons/shock.png'),
+    AssetImage('assets/face_icons/sus.png')
+  ];
+
+  
 }

@@ -296,12 +296,12 @@ Widget DrawerBody() {
                                 onTap: () {
                                   algo.updateBadges(index);
                                 },
-                                child: Row(
+                                child: Row( mainAxisSize: MainAxisSize.max,
                                   children: [
                                     ChoiceChip(
                                         elevation: algo.badges[algo.badges.keys
                                                 .elementAt(index)]!['selected']
-                                            ? 10
+                                            ? 5
                                             : 0,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:

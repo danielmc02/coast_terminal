@@ -87,7 +87,6 @@ class PostProvider extends ChangeNotifier {
     },
     //'Unmasked': {'icon': Image.asset('assets/face_icons/unmasked.png')},
   };
-
   Image chosen = Image.asset('assets/face_icons/anonymous.png');
   int chosenBadgeIndex = 0;
 

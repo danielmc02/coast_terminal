@@ -7,11 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'models/message.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserInstanceAdapter());
   await Hive.openBox<UserInstance>('mainUser');
+  Hive.registerAdapter(MessageInstanceAdapter());
+  await Hive.openBox<MessageInstance>('messages');
   await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations(
@@ -29,7 +33,6 @@ class MyApp extends StatelessWidget {
       title: 'Coast Terminal',
       theme: ThemeData(
           textTheme: const TextTheme(
-          
               displayLarge: TextStyle(
                 fontFamily: "Roboto",
                 color: Colors.white,

@@ -16,12 +16,13 @@ class MessageInstanceAdapter extends TypeAdapter<MessageInstance> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return MessageInstance()
-      ..uidAdmin = fields[0] as String
-      ..iconIndex = fields[1] as int
-      ..views = fields[2] as int
-      ..title = fields[3] as String
-      ..message = fields[4] as String;
+    return MessageInstance(
+      fields[0] as String,
+      fields[1] as int,
+      fields[2] as int,
+      fields[3] as String,
+      fields[4] as String,
+    );
   }
 
   @override
