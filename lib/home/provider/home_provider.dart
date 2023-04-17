@@ -18,7 +18,7 @@ class HomeProvider extends ChangeNotifier {
     try {
       MessageInstance? fetchedMessage;
       //step 1: detect if and how many messages exist and plan accordingly via transactions
-      ApiService.instance!.messageCount!.runTransaction((currentCount)  {
+     await ApiService.instance!.messageCount!.runTransaction((currentCount)  {
         int count = currentCount == null ? 0 : currentCount as int;
         if (count == 0) {
           print("Count is 0, there are no messages");
