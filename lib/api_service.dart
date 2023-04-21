@@ -130,21 +130,18 @@ class ApiService {
                         border: Border.all(color: Colors.blueGrey),
                       ),
                           child: ListTile(
-                              subtitle: Text('adfasdf'/*
+                              subtitle: Text(
                                   style: TextStyle(color: Colors.white),
                                   Boxes.getMessage()
                                       .get('currentMessage')!
-                                      .message*/),
-                              leading: Icon(Icons.abc),/*
-                              CircleAvatar(foregroundImage: iconReferences[Boxes.getMessage()
+                                      .message),
+                              leading: 
+                              CircleAvatar(foregroundImage: iconReferences[Boxes.getMessage().get('currentMessage')!.iconIndex]),
+                              title: Text(Boxes.getMessage()
                                   .get('currentMessage')!
-                                  .iconIndex]),*/
-                              title: Text('d'
-                                /*Boxes.getMessage()
-                                  .get('currentMessage')!
-                                  .title)*/
+                                  .title)
                                   )),
-                        ),
+                        
                       );
 
                     default:

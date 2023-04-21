@@ -60,7 +60,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
     return StreamBuilder(
         stream: ApiService.instance!.getuser(),
         builder: (context, snapshot) {
-          print(snapshot.data);
+          print('${snapshot.data} : Beggining');
           if (snapshot.hasData) {
             if (snapshot.data!.uid != null) {
               return Home();
