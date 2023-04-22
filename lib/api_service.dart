@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:coast_terminal/models/message.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -117,6 +118,7 @@ class ApiService {
             builder: (context, algo, child) => FutureBuilder(
                 future: algo.calculateIfThereAreMessages(),
                 builder: (context, snapshot) {
+                  print(snapshot);
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return Center(
@@ -129,18 +131,7 @@ class ApiService {
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: Colors.blueGrey),
                       ),
-                          child: ListTile(
-                              subtitle: Text(
-                                  style: TextStyle(color: Colors.white),
-                                  Boxes.getMessage()
-                                      .get('currentMessage')!
-                                      .message),
-                              leading: 
-                              CircleAvatar(foregroundImage: iconReferences[Boxes.getMessage().get('currentMessage')!.iconIndex]),
-                              title: Text(Boxes.getMessage()
-                                  .get('currentMessage')!
-                                  .title)
-                                  )),
+                          child: snapshot.data != null ? ifThereIsMessagePromptIt() : Text("UH OH, there are no messages")),
                         
                       );
 
@@ -157,7 +148,22 @@ class ApiService {
       },
     );
   }
-
+Widget ifThereIsMessagePromptIt()
+{
+  print('nigger');
+  return ListTile(
+                              subtitle: Text(
+                                  style: TextStyle(color: Colors.white),
+                                  Boxes.getMessage()
+                                      .get('currentMessage')!
+                                      .message),
+                              leading: 
+                              CircleAvatar(foregroundImage: iconReferences[Boxes.getMessage().get('currentMessage')!.iconIndex]),
+                              title: Text(Boxes.getMessage()
+                                  .get('currentMessage')!
+                                  .title)
+                                  );
+}
   List iconReferences = const [
     AssetImage('assets/face_icons/anonymous.png'),
     AssetImage('assets/face_icons/occ.jpeg'),

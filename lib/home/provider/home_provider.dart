@@ -41,6 +41,11 @@ class HomeProvider extends ChangeNotifier {
               .then((value) {
             Map returnedMessage = value.snapshot.value as Map;
             globalUid = returnedMessage.entries.first.key;
+/*
+            if (globalUid ==  Boxes.getuser().get('mainUser')!.uid.toString()) {
+              fetchedMessage = null;
+              return Transaction.abort();
+            }*/
             MessageInstance currentFetchedMessage = MessageInstance(
                 returnedMessage.entries.first.key,
                 returnedMessage.entries.first.value['Badge Index'],
@@ -48,7 +53,7 @@ class HomeProvider extends ChangeNotifier {
                 returnedMessage.entries.first.value['Title'],
                 returnedMessage.entries.first.value['Message']);
             Boxes.getMessage().put('currentMessage', currentFetchedMessage);
-
+            fetchedMessage = currentFetchedMessage;
             print("Going to increment message");
             needsToUpdateRespectedMessage = true;
           });
@@ -70,18 +75,24 @@ class HomeProvider extends ChangeNotifier {
       */
       return fetchedMessage;
     } catch (e) {
-      print(e);
+      print('$e AHHHHHHHH');
     }
     //return true;
   }
 
   Future incrementRespectedMessage(String Uid) async {
-    DataSnapshot snapshot = await ApiService.instance!.messagesDatabase!.child(Uid).child('Current Views').get();
-   var view = snapshot == 0.1 ? snapshot.value as double : snapshot.value as int;
+    DataSnapshot snapshot = await ApiService.instance!.messagesDatabase!
+        .child(Uid)
+        .child('Current Views')
+        .get();
+    var view =
+        snapshot == 0.1 ? snapshot.value as double : snapshot.value as int;
     int newView = view.round();
     newView++;
     print(newView);
-    await ApiService.instance!.messagesDatabase!.child(Uid).update({'Current Views': newView});
+    await ApiService.instance!.messagesDatabase!
+        .child(Uid)
+        .update({'Current Views': newView});
     print('done');
   }
 }
