@@ -92,7 +92,6 @@ class ApiService {
     // await FirebaseAuth.instance.signOut();
   }
 
-
   Stream<User?> getuser() async* {
     yield* _auth!.userChanges();
   }
@@ -115,60 +114,148 @@ class ApiService {
         return ChangeNotifierProvider(
           create: (context) => HomeProvider(),
           builder: (context, child) => Consumer<HomeProvider>(
-            builder: (context, algo, child) => FutureBuilder(
-                future: algo.calculateIfThereAreMessages(),
-                builder: (context, snapshot) {
-                  print(snapshot);
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    case ConnectionState.done:
-                      return SizedBox(width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height/2,
-                        child: Container(decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.blueGrey),
-                      ),
-                          child: snapshot.data != null ? ifThereIsMessagePromptIt() : Text("UH OH, there are no messages")),
-                        
-                      );
+            builder: (context, algo, child) => Column(
+              children: [
+                FutureBuilder(
+                    future: algo.calculateIfThereAreMessages(),
+                    builder: (context, snapshot) {
+                      print(snapshot);
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case ConnectionState.done:
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            //height: MediaQuery.of(context).size.height/2,
+                            child: snapshot.data != null
+                                ? ifThereIsMessagePromptIt2()
+                                : Text(
+                                    "UH OH, there are no messages",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 40,
+                                    ),
+                                  ),
+                          );
 
-                    default:
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      );
-                  }
-                }),
+                        default:
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          );
+                      }
+                    }),
+                Row(
+                  children: [Text('My Messages:')],
+                )
+              ],
+            ),
           ),
         );
       },
     );
   }
-Widget ifThereIsMessagePromptIt()
-{
-  print('nigger');
-  return ListTile(
-                              subtitle: Text(
-                                  style: TextStyle(color: Colors.white),
+
+  Widget ifThereIsMessagePromptIt() {
+    print('nigger');
+    return ListTile(
+        subtitle: Text(
+            style: TextStyle(color: Colors.white),
+            Boxes.getMessage().get('currentMessage')!.message),
+        leading: CircleAvatar(
+            foregroundImage: iconReferences[
+                Boxes.getMessage().get('currentMessage')!.iconIndex]),
+        title: Text(Boxes.getMessage().get('currentMessage')!.title));
+  }
+
+  Widget ifThereIsMessagePromptIt2() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Builder(builder: (context) {
+        return Material(
+          borderRadius: BorderRadius.circular(20),
+          elevation: 20,
+          color: Colors.transparent,
+          child: Ink(
+            height: 300,
+            decoration: BoxDecoration(
+              border: Border.all(color: Color.fromARGB(105, 0, 0, 0), width: 1),
+              borderRadius: BorderRadius.circular(20),
+              color: Color.fromARGB(255, 252, 252, 252),
+            ),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              splashColor: Colors.red,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                     // color: Colors.red,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                              radius: 30,
+                              foregroundImage: iconReferences[Boxes.getMessage()
+                                  .get('currentMessage')!
+                                  .iconIndex]),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: FittedBox(
+                                child: Text(
+                                  Boxes.getMessage().get('currentMessage')!.title,
+                                  style: TextStyle(fontSize: 40),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:8.0),
+                        child: Container(
+                          //color:Colors.green,
+                        width: MediaQuery.of(context).size.width,
+                          child: Scrollbar(
+                            thumbVisibility: false,
+                            child: SingleChildScrollView(
+                              child: Text(
+                                  style: TextStyle(color: Colors.black,fontSize: 18),
                                   Boxes.getMessage()
                                       .get('currentMessage')!
                                       .message),
-                              leading: 
-                              CircleAvatar(foregroundImage: iconReferences[Boxes.getMessage().get('currentMessage')!.iconIndex]),
-                              title: Text(Boxes.getMessage()
-                                  .get('currentMessage')!
-                                  .title)
-                                  );
-}
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              // onTap: () {},
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
   List iconReferences = const [
     AssetImage('assets/face_icons/anonymous.png'),
     AssetImage('assets/face_icons/occ.jpeg'),
-    AssetImage('assets/face_icons/angel.png'), 
-    AssetImage('assets/face_icons/angry.png'), 
+    AssetImage('assets/face_icons/angel.png'),
+    AssetImage('assets/face_icons/angry.png'),
     AssetImage('assets/face_icons/cool.png'),
     AssetImage('assets/face_icons/cry.png'),
     AssetImage('assets/face_icons/dead.png'),
@@ -185,6 +272,4 @@ Widget ifThereIsMessagePromptIt()
     AssetImage('assets/face_icons/shock.png'),
     AssetImage('assets/face_icons/sus.png')
   ];
-
-  
 }

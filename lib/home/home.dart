@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.vertical,
                     children: [
                       Scaffold(
-                        backgroundColor: Color.fromARGB(255, 39, 47, 62),
+                        backgroundColor: Color.fromARGB(255, 241, 242, 246),//Dark - Color.fromARGB(255, 39, 47, 62),
                         appBar: AppBar(
                           backgroundColor: Color.fromARGB(255, 56, 62, 78),
                           shadowColor: Colors.transparent,
@@ -70,21 +70,10 @@ class _HomeState extends State<Home> {
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Spacer(
-                                flex: 20,
-                              ),
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                //  height: MediaQuery.of(context).size.height / 2,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                        //color: Colors.red,
-                                        child: ApiService.instance!.heart()),
-                                  )),
-                              Spacer(),
+                            
+                              ApiService.instance!.heart(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,
@@ -164,7 +153,6 @@ class _HomeState extends State<Home> {
                                   Spacer()
                                 ],
                               ),
-                              Spacer()
                             ],
                           ),
                         ),
@@ -274,7 +262,7 @@ class _TextTimerState extends State<TextTimer> {
   @override
   Widget build(BuildContext context) {
     return Text(
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.black),
         '${remainingTime ~/ 3600}:${(remainingTime % 3600) ~/ 60}:${remainingTime % 60}');
   }
 }
