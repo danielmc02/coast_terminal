@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
                           backgroundColor: Color.fromARGB(255, 56, 62, 78),
                           shadowColor: Colors.transparent,
                           foregroundColor: Colors.transparent,
-                          surfaceTintColor: Colors.transparent,
+                          surfaceTintColor: Colors.transparent,actions: [TextButton(onPressed: (){ApiService.instance!.signOut();}, child: Text('saf'))],
                         ),
                         body: Container(
                           width: MediaQuery.of(context).size.width,

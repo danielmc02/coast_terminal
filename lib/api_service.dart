@@ -153,17 +153,17 @@ class ApiService {
                     Row(
                       children: [Text('My Messages:')],
                     ),
-                    Boxes.getuser().get('mainUser')!.hasPostedMessage
+                /*    Boxes.getuser().get('mainUser')!.hasPostedMessage
                         ? ListView.builder(
                             itemCount: Boxes.getuser()
                                 .get('mainUser')!
                                 .messageInstances!
                                 .length,
                             itemBuilder: (context, index) {
-                              return ListTile(title: Text(Boxes.getuser().get('mainUser')!.messageInstances![index].title),);
+                              return Text('Trying to load a user message'); //ListTile(title: Text(Boxes.getuser().get('mainUser')!.messageInstances![index].title),);
                             },
                           )
-                        : Text('no messages')
+                        : Text('no messages')*/
                   ],
                 )
               ],

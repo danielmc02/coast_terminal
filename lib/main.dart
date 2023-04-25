@@ -11,9 +11,9 @@ import 'models/message.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter(UserInstanceAdapter());
+  // Hive.registerAdapter(UserInstanceAdapter());
   await Hive.openBox<UserInstance>('mainUser');
-  Hive.registerAdapter(MessageInstanceAdapter());
+  //Hive.registerAdapter(MessageInstanceAdapter());
   await Hive.openBox<MessageInstance>('messages');
   await Firebase.initializeApp();
 
