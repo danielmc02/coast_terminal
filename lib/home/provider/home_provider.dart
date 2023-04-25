@@ -11,7 +11,10 @@ class HomeProvider extends ChangeNotifier {
   HomeProvider() {
     _init();
   }
-  _init() async {}
+  _init() async {
+                  
+
+  }
 
   Future<MessageInstance?> calculateIfThereAreMessages() async {
     print("this should only print once");

@@ -109,6 +109,7 @@ class ApiService {
   PageController pageController = PageController();
 
   Widget heart() {
+
     return Builder(
       builder: (context) {
         return ChangeNotifierProvider(
@@ -119,7 +120,7 @@ class ApiService {
                 FutureBuilder(
                     future: algo.calculateIfThereAreMessages(),
                     builder: (context, snapshot) {
-                      print(snapshot);
+                      print('${snapshot.data} chchahdsfiohasfdsafasd');
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                           return Center(
