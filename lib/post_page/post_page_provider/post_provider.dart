@@ -1,4 +1,5 @@
 import 'package:coast_terminal/api_service.dart';
+import 'package:coast_terminal/models/message.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -126,14 +127,17 @@ class PostProvider extends ChangeNotifier {
         "Title": title.toString(),
         "Message": message.toString()
       }).then((value) async {
-        UserInstance? newest = Boxes.getuser().get('mainUser');
-        newest!.hasPostedMessage = true;
+        //
+        MessageInstance usersOwnMessage = MessageInstance(ApiService.instance!.auth!.currentUser!.uid, chosenBadgeIndex, 0, title.toString(), message.toString());
+        UserInstance? newest =  await Boxes.getuser().get('mainUser');
+        newest!.messageInstances = [];
+        newest.messageInstances!.add(usersOwnMessage);
         Boxes.getuser().put('mainUser', newest);
         result = await incrementCounter();
       });
       return result;
     } catch (e) {
-      print("there was an error in step 1 of publishing message");
+      print("there was an error in step 1 of publishing message : ${e}");
       return false;
     }
   }

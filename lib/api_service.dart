@@ -148,8 +148,23 @@ class ApiService {
                           );
                       }
                     }),
-                Row(
-                  children: [Text('My Messages:')],
+                Column(
+                  children: [
+                    Row(
+                      children: [Text('My Messages:')],
+                    ),
+                    Boxes.getuser().get('mainUser')!.hasPostedMessage
+                        ? ListView.builder(
+                            itemCount: Boxes.getuser()
+                                .get('mainUser')!
+                                .messageInstances!
+                                .length,
+                            itemBuilder: (context, index) {
+                              return ListTile(title: Text(Boxes.getuser().get('mainUser')!.messageInstances![index].title),);
+                            },
+                          )
+                        : Text('no messages')
+                  ],
                 )
               ],
             ),
@@ -196,13 +211,13 @@ class ApiService {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Container(
-                     // color: Colors.red,
+                      // color: Colors.red,
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CircleAvatar(
-                            backgroundColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                               radius: 30,
                               foregroundImage: iconReferences[Boxes.getMessage()
                                   .get('currentMessage')!
@@ -212,7 +227,9 @@ class ApiService {
                               padding: const EdgeInsets.only(left: 8.0),
                               child: FittedBox(
                                 child: Text(
-                                  Boxes.getMessage().get('currentMessage')!.title,
+                                  Boxes.getMessage()
+                                      .get('currentMessage')!
+                                      .title,
                                   style: TextStyle(fontSize: 40),
                                 ),
                               ),
@@ -223,15 +240,16 @@ class ApiService {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top:8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Container(
                           //color:Colors.green,
-                        width: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width,
                           child: Scrollbar(
                             thumbVisibility: false,
                             child: SingleChildScrollView(
                               child: Text(
-                                  style: TextStyle(color: Colors.black,fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 18),
                                   Boxes.getMessage()
                                       .get('currentMessage')!
                                       .message),

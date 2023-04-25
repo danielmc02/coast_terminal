@@ -46,6 +46,9 @@ class HomeProvider extends ChangeNotifier {
               fetchedMessage = null;
               return Transaction.abort();
             }*/
+            print(
+              returnedMessage.entries.first.value['Title'],
+            );
             MessageInstance currentFetchedMessage = MessageInstance(
                 returnedMessage.entries.first.key,
                 returnedMessage.entries.first.value['Badge Index'],
@@ -53,7 +56,7 @@ class HomeProvider extends ChangeNotifier {
                 returnedMessage.entries.first.value['Title'],
                 returnedMessage.entries.first.value['Message']);
             Boxes.getMessage().put('currentMessage', currentFetchedMessage);
-            fetchedMessage = currentFetchedMessage;
+            fetchedMessage =  currentFetchedMessage;
             print("Going to increment message");
             needsToUpdateRespectedMessage = true;
           });
@@ -64,8 +67,9 @@ class HomeProvider extends ChangeNotifier {
         return Transaction.success(
             count); // Leave this because we aren't modyifing count or adding any messages
       });
+      print(needsToUpdateRespectedMessage);
       needsToUpdateRespectedMessage == true
-          ? incrementRespectedMessage(globalUid)
+          ? await incrementRespectedMessage(globalUid)
           : null;
       /*
       print("done");
@@ -73,6 +77,7 @@ class HomeProvider extends ChangeNotifier {
 
       print(fetchedMessage);
       */
+      print('$fetchedMessage afasfdsf');
       return fetchedMessage;
     } catch (e) {
       print('$e AHHHHHHHH');
@@ -81,18 +86,57 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future incrementRespectedMessage(String Uid) async {
+    //Test for 3 cases
+    //1. It has never been increased so it's value is 0.1
+    //2. It has been increased but isn't maxed so just increment by one
+    //3. You are the last (max view), instead of incrementing, just delete it
+    final childNode =  ApiService.instance!.messagesDatabase!
+        .child(Uid);
     DataSnapshot snapshot = await ApiService.instance!.messagesDatabase!
         .child(Uid)
-        .child('Current Views')
         .get();
-    var view =
-        snapshot == 0.1 ? snapshot.value as double : snapshot.value as int;
+        print(snapshot.value);
+        final snap = snapshot.value as Map;
+        if(snap['Current Views'] == 0.1)
+        {
+          print("this is the first view : ${snap['Current Views']}");
+          await childNode.child('Current Views').runTransaction((value) {
+          return Transaction.success(1);
+        } );
+        }
+        else if(snap['Current Views'] != 0.1 && snap['Current Views'] +1 != snap['Max Views'])
+        {
+          int curr = snap['Current Views'];
+          curr++;
+          print('This is the second test case');
+             await childNode.child('Current Views').runTransaction((value) {
+          return Transaction.success(curr);
+        } );
+        }
+        else if(snap['Current Views'] +1 == snap['Max Views'])
+        {
+          print("Just delete it, it is the last view");
+           await childNode.remove().then((value) async{
+          final count = await ApiService.instance!.database!
+          .ref('/count')
+          .runTransaction((currentCount) {
+        int count = currentCount == null ? 0 : currentCount as int;
+        print(count);
+
+        print("running transaction");
+        return Transaction.success(count - 1);
+      });
+        });
+        
+        }/*
+    num view;
+        snapshot == 0.1 ? view = snapshot.value as double : view = snapshot.value as int;
     int newView = view.round();
     newView++;
     print(newView);
     await ApiService.instance!.messagesDatabase!
         .child(Uid)
         .update({'Current Views': newView});
-    print('done');
+    print('done');*/
   }
 }
