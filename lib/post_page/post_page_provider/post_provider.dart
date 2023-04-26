@@ -132,7 +132,7 @@ class PostProvider extends ChangeNotifier {
         UserInstance? newest =  await Boxes.getuser().get('mainUser');
 
         newest!.hasPostedMessage = true;
-                newest.messageInstances.add(usersOwnMessage);
+        //        newest.messageInstances.add(usersOwnMessage);
 
 /*
                 newest.messageInstances = [];

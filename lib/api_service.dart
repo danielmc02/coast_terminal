@@ -60,13 +60,13 @@ class ApiService {
             " An existing UserModel instance exists. There are ${userModel.values.length}. Delete it and create new one.");
 
         var currentUser = UserInstance(
-            tempUse!.uid, false, tempUse.metadata.creationTime!, null,[] );
+            tempUse!.uid, false, tempUse.metadata.creationTime!, null );
         Boxes.getuser().put('mainUser', currentUser);
         return userModel;
       } else {
         print("No existing UserModel instance exists. Create a new one.");
         var currentUser = UserInstance(
-            tempUse!.uid, false, tempUse.metadata.creationTime!, null, []);
+            tempUse!.uid, false, tempUse.metadata.creationTime!, null);
         Boxes.getuser().put('mainUser', currentUser);
       }
 
@@ -153,9 +153,10 @@ class ApiService {
                   children: [
                     Row(
                       children: [Text('My Messages:'),
-                      Boxes.getuser().get('mainUser')!.hasPostedMessage == true ? Text('${Boxes.getuser().get('mainUser')!.messageInstances.length}') : Text('has no messages')
+                     // Boxes.getuser().get('mainUser')!.hasPostedMessage == true ? Text('${Boxes.getuser().get('mainUser')!.messageInstances.length}') : Text('has no messages')
                       ],
                     ),
+                    /*
                     for(var e in Boxes.getuser().get('mainUser')!.messageInstances)
                     Container(color: Colors.white,
                       child: SizedBox(width: 250,height: 60,child: ListTile(title: Text(e.title),leading:CircleAvatar(
@@ -165,7 +166,7 @@ class ApiService {
                                     .get('currentMessage')!
                                     .iconIndex]) ,),),
                     )
-                      
+                      */
                   
 
                 

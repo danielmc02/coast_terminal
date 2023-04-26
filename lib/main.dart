@@ -12,9 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserInstanceAdapter());
-  await Hive.openBox<UserInstance>('mainUser');
+  await Hive.openBox<UserInstance>('user');
   Hive.registerAdapter(MessageInstanceAdapter());
-  await Hive.openBox<MessageInstance>('messages');
+  await Hive.openBox<MessageInstance>('chats');
   await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations(

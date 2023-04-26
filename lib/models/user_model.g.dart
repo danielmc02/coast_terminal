@@ -8,7 +8,7 @@ part of 'user_model.dart';
 
 class UserInstanceAdapter extends TypeAdapter<UserInstance> {
   @override
-  final int typeId = 2;
+  final int typeId = 0;
 
   @override
   UserInstance read(BinaryReader reader) {
@@ -21,14 +21,13 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       fields[1] as bool,
       fields[2] as DateTime,
       fields[3] as DateTime?,
-      (fields[4] as List).cast<MessageInstance>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, UserInstance obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.uid)
       ..writeByte(1)
@@ -36,9 +35,7 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       ..writeByte(2)
       ..write(obj.createdAt)
       ..writeByte(3)
-      ..write(obj.lastPostedMessageTimestamp)
-      ..writeByte(4)
-      ..write(obj.messageInstances);
+      ..write(obj.lastPostedMessageTimestamp);
   }
 
   @override
