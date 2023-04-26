@@ -27,5 +27,5 @@ class UserInstance extends HiveObject
 
 
   @HiveField(4)
-   List<MessageInstance> messageInstances = [];
+  List<MessageInstance> messageInstances = [];
 }

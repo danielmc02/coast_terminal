@@ -156,7 +156,18 @@ class ApiService {
                       Boxes.getuser().get('mainUser')!.hasPostedMessage == true ? Text('${Boxes.getuser().get('mainUser')!.messageInstances.length}') : Text('has no messages')
                       ],
                     ),
-                    
+                    for(var e in Boxes.getuser().get('mainUser')!.messageInstances)
+                    Container(color: Colors.white,
+                      child: SizedBox(width: 250,height: 60,child: ListTile(title: Text(e.title),leading:CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: 30,
+                                foregroundImage: iconReferences[Boxes.getMessage()
+                                    .get('currentMessage')!
+                                    .iconIndex]) ,),),
+                    )
+                      
+                  
+
                 
            
                   ],
