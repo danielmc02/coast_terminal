@@ -1,7 +1,7 @@
 import 'package:coast_terminal/models/message.dart';
 import 'package:hive/hive.dart';
 part 'user_model.g.dart';
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
 class UserInstance extends HiveObject
 {
   UserInstance(this.uid,this.hasPostedMessage,this.createdAt,this.lastPostedMessageTimestamp,this.messageInstances);
@@ -11,7 +11,7 @@ class UserInstance extends HiveObject
     hasPostedMessage = false;
     createdAt = json["creationTime"];
     lastPostedMessageTimestamp = null;
-    messageInstances = null;
+    messageInstances = [];
   }
   @HiveField(0)
   late String uid;
@@ -27,5 +27,5 @@ class UserInstance extends HiveObject
 
 
   @HiveField(4)
-  late List<MessageInstance>? messageInstances;
+   List<MessageInstance> messageInstances = [];
 }

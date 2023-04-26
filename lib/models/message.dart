@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 part 'message.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 3)
 class MessageInstance extends HiveObject
 {
   MessageInstance(this.uidAdmin,this.iconIndex,this.views,this.title,this.message);

@@ -8,7 +8,7 @@ part of 'user_model.dart';
 
 class UserInstanceAdapter extends TypeAdapter<UserInstance> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
   UserInstance read(BinaryReader reader) {
@@ -21,7 +21,7 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       fields[1] as bool,
       fields[2] as DateTime,
       fields[3] as DateTime?,
-      (fields[4] as List?)?.cast<MessageInstance>(),
+      (fields[4] as List).cast<MessageInstance>(),
     );
   }
 
