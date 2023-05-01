@@ -114,6 +114,8 @@ class PostProvider extends ChangeNotifier {
 //Update this method later to checking the db for the uid to make sure no update or exisitn data from the user exeists
 //I relized an exploit is that when there are updates the counter still increments
 //Despite updates not being a new message
+//Solved: This new implementaion works around this because we will be fetching a list of keys, I will then narrow and filter what uid I will pick
+
   Future<bool> postMessage(
       int sliderValue, String title, String message) async {
     bool result = false;
@@ -127,18 +129,20 @@ class PostProvider extends ChangeNotifier {
         "Title": title.toString(),
         "Message": message.toString()
       }).then((value) async {
-        //
-        MessageInstance usersOwnMessage = MessageInstance(ApiService.instance!.auth!.currentUser!.uid, chosenBadgeIndex, 0, title.toString(), message.toString());
-        UserInstance? newest =  await Boxes.getuser().get('mainUser');
+        //Message has been posted under message tree, now add it to the keys tree
+       await ApiService.instance!.keys!.child(ApiService.instance!.auth!.currentUser!.uid).set("");
+
+
+        MessageInstance usersOwnMessage = MessageInstance(
+            ApiService.instance!.auth!.currentUser!.uid,
+            chosenBadgeIndex,
+            0,
+            title.toString(),
+            message.toString());
+        UserInstance? newest = await Boxes.getuser().get('mainUser');
 
         newest!.hasPostedMessage = true;
-        //        newest.messageInstances.add(usersOwnMessage);
-
-/*
-                newest.messageInstances = [];
-
-        */
-       await Boxes.getuser().put('mainUser', newest);
+        await Boxes.getuser().put('mainUser', newest);
 
         result = await incrementCounter();
       });

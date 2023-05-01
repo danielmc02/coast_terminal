@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/home/const_widgets/sign_out_button.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
+import 'package:coast_terminal/models/message.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +74,25 @@ class _HomeState extends State<Home> {
                             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                             
-                              ApiService.instance!.heart(),
+                            FutureBuilder(future:algo.fetchMessageIfExists() ,builder: (context, snapshot) {
+                              if(snapshot.hasData == true)
+                              {
+                                if(snapshot.data != null)
+                                {
+                                  return snapshot.data!;
+                                }
+                                else
+                                {
+                                  return Text("snapshot data is null");
+                                }
+                              }
+                              else
+                              {
+                                return Text('THERE IS NO DATA');
+                              }
+                            
+                            },),
+                             // ApiService.instance!.heart(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,
