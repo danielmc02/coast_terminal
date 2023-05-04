@@ -22,20 +22,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late ConfettiController _controller;
- // late Timer _timer;
+  // late Timer _timer;
 
   late int remainingTime;
   void initState() {
     _controller = ConfettiController(duration: const Duration(seconds: 1));
-   
-
+    //Future<MessageInstance> mesI = A.fetchMessageIfExists();
+    print('home has now been initialized');
     super.initState();
   }
 
   void dispose() {
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +58,20 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.vertical,
                     children: [
                       Scaffold(
-                        backgroundColor: Color.fromARGB(255, 241, 242, 246),//Dark - Color.fromARGB(255, 39, 47, 62),
+                        backgroundColor: Color.fromARGB(255, 241, 242,
+                            246), //Dark - Color.fromARGB(255, 39, 47, 62),
                         appBar: AppBar(
                           backgroundColor: Color.fromARGB(255, 56, 62, 78),
                           shadowColor: Colors.transparent,
                           foregroundColor: Colors.transparent,
-                          surfaceTintColor: Colors.transparent,actions: [TextButton(onPressed: (){ApiService.instance!.signOut();}, child: Text('saf'))],
+                          surfaceTintColor: Colors.transparent,
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  ApiService.instance!.signOut();
+                                },
+                                child: Text('saf'))
+                          ],
                         ),
                         body: Container(
                           width: MediaQuery.of(context).size.width,
@@ -73,27 +80,144 @@ class _HomeState extends State<Home> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                            
-                            FutureBuilder(future:algo.fetchMessageIfExists() ,builder: (context, snapshot) {
-                              if(snapshot.hasData == true)
-                              {
-                                if(snapshot.data != null)
-                                {
-                                  return snapshot.data!;
-                                }
-                                else
-                                {
-                                  return Text("snapshot data is null");
-                                }
-                              }
-                              else
-                              {
-                                return Text('THERE IS NO DATA');
-                              }
-                            
-                            },),
-                             // ApiService.instance!.heart(),
-                              Row(
+                              //algo.returnedMessage == null ? Text("NULL") : Text("not null")
+                              
+                              FutureBuilder(
+                                future: ApiService.instance!.fetchMessageIfExists(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CircularProgressIndicator();
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.done && snapshot.hasData == true) {
+                                  
+                                  
+                                    if (snapshot.hasData == true) {
+                                      print(
+                                          'snapshots data is : ${snapshot.data}');
+                                      if (snapshot.data != null) {
+                                        return Padding(
+                                          padding: EdgeInsets.all(8),
+                                          child: Material(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            elevation: 20,
+                                            color: Colors.transparent,
+                                            child: Ink(
+                                              height: 300,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Color.fromARGB(
+                                                        105, 0, 0, 0),
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Color.fromARGB(
+                                                    255, 252, 252, 252),
+                                              ),
+                                              child: InkWell(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                splashColor: Colors.red,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(16),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      CircleAvatar(
+                                                          backgroundColor: Colors
+                                                              .transparent,
+                                                          radius: 30,
+                                                          foregroundImage: ApiService
+                                                              .instance!
+                                                              .iconReferences[Boxes
+                                                                  .getMessage()
+                                                              .get(
+                                                                  'currentMessage')!
+                                                              .iconIndex]),
+                                                      Flexible(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0),
+                                                          child: FittedBox(
+                                                            child: Text(
+                                                              Boxes.getMessage()
+                                                                  .get(
+                                                                      'currentMessage')!
+                                                                  .title,
+                                                              style: TextStyle(
+                                                                  fontSize: 40),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 8.0),
+                                                          child: Container(
+                                                            //color:Colors.green,
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            child: Scrollbar(
+                                                              thumbVisibility:
+                                                                  false,
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                child: Text(
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            18),
+                                                                    Boxes.getMessage()
+                                                                        .get(
+                                                                            'currentMessage')!
+                                                                        .message),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return Text("error");
+                                      }
+                                    } else {
+                                      print(
+                                          'This ran because snapshot is : ${snapshot.data}');
+                                      return Text('THERE IS NO DATA');
+                                    }
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.none) {
+                                    return Text("none");
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.active) {
+                                    return Text('waiting');
+                                  } else {
+                                    return Text('uiih oh');
+                                  }
+                                },
+                              ),
+                              // ApiService.instance!.heart(),
+                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.center,

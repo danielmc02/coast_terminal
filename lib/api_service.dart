@@ -382,4 +382,149 @@ class ApiService {
     )
     ]);
   }
+  /*
+    Future<MessageInstance?> fetchMessageIfExists() async {
+    try {
+      MessageInstance? currentFetchedMessage;
+      DatabaseReference? messageDBref = ApiService.instance!.messagesDatabase;
+
+      //Run a transaction to get the current count
+      await ApiService.instance!.messageCount!.runTransaction((currentCount) {
+        int count = currentCount == null ? 0 : currentCount as int;
+        print("THE COUNT IS $count");
+        return Transaction.success(count);
+      }).then(
+        (value) async // Transactions may run more than once to confirm the actual value, use the then function to run the final value
+        {
+          int returnedCountValue = await value.snapshot.value
+              as int; //The current messages count (instances)
+          print('The final ran value is $returnedCountValue');
+          if (returnedCountValue >
+              0) //return a  messageInstance since there is something, the future builder will display it as long as snapshot isn't null
+          {
+            String? fetchedRandomKey = await returnRandomMessageKey();
+            print(fetchedRandomKey);
+            fetchedRandomKey == null
+                ? print("It's null")
+                : print("Key is: $fetchedRandomKey");
+            messageDBref!.child(fetchedRandomKey).once().then((value) async {
+              Map returnedMessage = value.snapshot.value as Map;
+              print("$returnedMessage tud");
+
+
+              MessageInstance? currentFetchedMessage =  MessageInstance(
+                  fetchedRandomKey,
+                  returnedMessage['Badge Index'],
+                  returnedMessage['Max Views'],
+                  returnedMessage['Title'],
+                  returnedMessage['Message']);
+                  currentFetchedMessage == null ? print('current fetched message is null') : print('current fetched message isnt null');
+              await Boxes.getMessage()
+                  .put('currentMessage', currentFetchedMessage);
+                 await Timer(Duration(seconds: 2), () async{ 
+                    print(' Box returned is : ${ Boxes.getMessage().get('currentMessage')!.title}');
+                  });
+            });
+          }
+        },
+      );
+     return await Future.delayed(Duration(seconds: 2),(){
+      return currentFetchedMessage;
+     });
+      
+    } catch (e) {
+      print('error in step 1: $e');
+      return null;
+    }
+    
+  }*/
+
+
+  Future<MessageInstance?> fetchMessageIfExists() async {
+        MessageInstance? currentFetchedMessage;
+         Map spec = {};
+         String key = "";
+  try {
+    DatabaseReference? messageDBref = ApiService.instance!.messagesDatabase;
+    //Run a transaction to get the current count
+    await ApiService.instance!.messageCount!.runTransaction((currentCount) {
+      int count = currentCount == null ? 0 : currentCount as int;
+      print("THE COUNT IS $count");
+      return Transaction.success(count);
+    }).then((value) async {
+      int returnedCountValue = await value.snapshot.value as int;
+      print('The final ran value is $returnedCountValue');
+      if (returnedCountValue > 0) {
+        String? fetchedRandomKey = await returnRandomMessageKey();
+ 
+       await messageDBref!.child(fetchedRandomKey).once().then((value) async {
+spec = value.snapshot.value as Map;
+          print(spec);
+print(spec['Badge Index']);
+print(spec['Max Views']);
+print(spec['Title']);
+print(spec['Message']);
+final temp = MessageInstance(
+              fetchedRandomKey,
+              spec['Badge Index'],
+              spec['Max Views'],
+              spec['Title'],
+              spec['Message']);
+currentFetchedMessage = temp;
+          await Boxes.getMessage().put('currentMessage', currentFetchedMessage!);
+
+/*
+          //Map returnedMessage = value.snapshot.value as Map;
+          print("$returnedMessage tud");
+
+          final temp = MessageInstance(
+              fetchedRandomKey,
+              spec['Badge Index'],
+              spec['Max Views'],
+              spec['Title'],
+              spec['Message']);
+              currentFetchedMessage = temp;
+          currentFetchedMessage == null
+              ? print('current fetched message is null')
+              : print('current fetched message isnt null');
+
+         */
+        });
+      }
+    });
+    //print(currentFetchedMessage.title);
+      return currentFetchedMessage ;
+    
+  } catch (e) {
+    print("FFFFFFUUUUCCCCKKKK");
+    print('error in step 1: ${e}');
+    return null;
+  }
+}
+
+
+
+
+
+
+
+  Future<String> returnRandomMessageKey() async {
+    DatabaseReference? keysRef = ApiService.instance!.keys;
+    List<String> allKeys = [];
+
+    await keysRef!.once().then((value) async {
+      final MapResults = value.snapshot.value as Map;
+
+      MapResults.forEach(
+        (key, value) {
+         // print(key);
+          allKeys.add(key);
+        },
+      );
+    });
+
+    int randomIndex = Random().nextInt(allKeys.length);
+    print('Random IndexFetched: ${allKeys[randomIndex]}');
+    return allKeys[randomIndex];
+  }
 }
