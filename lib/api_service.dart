@@ -231,66 +231,7 @@ class ApiService {
   ];
   /////////////////////
 
-  Future<MessageInstance?> calculateIfThereAreMessages() async {
-    print("this should only print once");
-    bool needsToUpdateRespectedMessage = false;
-    String globalUid = "";
-    MessageInstance? fetchedMessage;
-
-    try {
-      //step 1: detect if and how many messages exist and plan accordingly via transactions
-      await messageCount!.runTransaction((currentCount) {
-        int count = currentCount == null ? 0 : currentCount as int;
-        print('The mutable current count is $count');
-        if (count == 0) {
-          print("Count is 0, there are no messages");
-          fetchedMessage = null;
-        //  return Transaction.success(0);
-        } else if (count > 0) {
-          print(
-              "count is greater than 0, fetching a random message in process");
-          //just return the one and only message at messages node index 0
-          int randomInt = Random().nextInt(count);
-          final queriedMessage = messagesDatabase!
-              .orderByKey()
-              .limitToFirst(1)
-              .startAt(randomInt.toString())
-              .once()
-              .then((value) async{
-            Map returnedMessage = value.snapshot.value as Map;
-            print("$returnedMessage tud");
-            globalUid = returnedMessage.entries.first.key;
-            MessageInstance? currentFetchedMessage = MessageInstance(
-                returnedMessage.entries.first.key,
-                returnedMessage.entries.first.value['Badge Index'],
-                returnedMessage.entries.first.value['Max Views'],
-                returnedMessage.entries.first.value['Title'],
-                returnedMessage.entries.first.value['Message']);
-            Boxes.getMessage().put('currentMessage', currentFetchedMessage);
-          });
-          //Increment the respected message
-                       needsToUpdateRespectedMessage = true;
-
-        }
-        return Transaction.success(count);
-      }).then((value) async{
-      print(needsToUpdateRespectedMessage);
-      needsToUpdateRespectedMessage == true ? incrementRespectedMessage(globalUid) : print('will not increment message');
-
-      },);
-      /*
-      print('done with transaction');
-      print('$needsToUpdateRespectedMessage is if it needs inc ');
-      needsToUpdateRespectedMessage == true
-          ? await incrementRespectedMessage(globalUid)
-          : null;
-          */
-    } catch (e) {
-      print('$e AHHHHHHHH');
-    }
-    //return true;
-  }
-
+ 
   Future incrementRespectedMessage(String Uid) async {
     //Test for 3 cases
     //1. It has never been increased so it's value is 0.1
@@ -298,6 +239,7 @@ class ApiService {
     //3. You are the last (max view), instead of incrementing, just delete it
     print('einac');
     final childNode = ApiService.instance!.messagesDatabase!.child(Uid);
+    final keyNode = ApiService.instance!.keys;
     DataSnapshot snapshot =
         await ApiService.instance!.messagesDatabase!.child(Uid).get();
     print('${snapshot.value} irm');
@@ -328,116 +270,14 @@ class ApiService {
 
           print("running transaction");
           return Transaction.success(count - 1);
+        }).then((value){
+          keyNode!.child(Uid).remove();
         });
       });
     }
   }
 
-  Widget heart() {
-    return Column(children: [
-    FutureBuilder(
-    future: calculateIfThereAreMessages(),
-    builder: (context, snapshot) {
-      switch (snapshot.connectionState) {
-        case ConnectionState.waiting:
-          return Center(
-            child: CircularProgressIndicator(
-              color: Colors.red,
-            ),
-          );
-        case ConnectionState.done:
-          print('${snapshot.data} taco');
-
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            //height: MediaQuery.of(context).size.height/2,
-            child: snapshot.data == null
-                ? ifThereIsMessagePromptIt2()
-                : Text(
-                    "UH OH, there are no messages",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                    ),
-                  ),
-          );
-
-        default:
-          return Center(
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          );
-      }
-    }),
-    Column(
-      children: [
-    Row(
-      children: [
-        Text('My Messages:'),
-        // Boxes.getuser().get('mainUser')!.hasPostedMessage == true ? Text('${Boxes.getuser().get('mainUser')!.messageInstances.length}') : Text('has no messages')
-      ],
-    ),
-      ],
-    )
-    ]);
-  }
-  /*
-    Future<MessageInstance?> fetchMessageIfExists() async {
-    try {
-      MessageInstance? currentFetchedMessage;
-      DatabaseReference? messageDBref = ApiService.instance!.messagesDatabase;
-
-      //Run a transaction to get the current count
-      await ApiService.instance!.messageCount!.runTransaction((currentCount) {
-        int count = currentCount == null ? 0 : currentCount as int;
-        print("THE COUNT IS $count");
-        return Transaction.success(count);
-      }).then(
-        (value) async // Transactions may run more than once to confirm the actual value, use the then function to run the final value
-        {
-          int returnedCountValue = await value.snapshot.value
-              as int; //The current messages count (instances)
-          print('The final ran value is $returnedCountValue');
-          if (returnedCountValue >
-              0) //return a  messageInstance since there is something, the future builder will display it as long as snapshot isn't null
-          {
-            String? fetchedRandomKey = await returnRandomMessageKey();
-            print(fetchedRandomKey);
-            fetchedRandomKey == null
-                ? print("It's null")
-                : print("Key is: $fetchedRandomKey");
-            messageDBref!.child(fetchedRandomKey).once().then((value) async {
-              Map returnedMessage = value.snapshot.value as Map;
-              print("$returnedMessage tud");
-
-
-              MessageInstance? currentFetchedMessage =  MessageInstance(
-                  fetchedRandomKey,
-                  returnedMessage['Badge Index'],
-                  returnedMessage['Max Views'],
-                  returnedMessage['Title'],
-                  returnedMessage['Message']);
-                  currentFetchedMessage == null ? print('current fetched message is null') : print('current fetched message isnt null');
-              await Boxes.getMessage()
-                  .put('currentMessage', currentFetchedMessage);
-                 await Timer(Duration(seconds: 2), () async{ 
-                    print(' Box returned is : ${ Boxes.getMessage().get('currentMessage')!.title}');
-                  });
-            });
-          }
-        },
-      );
-     return await Future.delayed(Duration(seconds: 2),(){
-      return currentFetchedMessage;
-     });
-      
-    } catch (e) {
-      print('error in step 1: $e');
-      return null;
-    }
-    
-  }*/
+ 
 
 
   Future<MessageInstance?> fetchMessageIfExists() async {
@@ -472,6 +312,7 @@ final temp = MessageInstance(
               spec['Message']);
 currentFetchedMessage = temp;
           await Boxes.getMessage().put('currentMessage', currentFetchedMessage!);
+          incrementRespectedMessage(fetchedRandomKey);
 
 /*
           //Map returnedMessage = value.snapshot.value as Map;
