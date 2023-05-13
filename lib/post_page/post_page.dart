@@ -15,8 +15,6 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
- 
-
   bool isOpen = false;
   @override
   Widget build(BuildContext context) {
@@ -72,7 +70,7 @@ class PostBody extends StatefulWidget {
 }
 
 class _PostBodyState extends State<PostBody> {
-   late TextEditingController titleController;
+  late TextEditingController titleController;
   late TextEditingController messageController;
 
   @override
@@ -89,23 +87,24 @@ class _PostBodyState extends State<PostBody> {
     messageController.dispose();
     super.dispose();
   }
+
   double _currentValue = 1;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 0),
-        child: SizedBox(height: MediaQuery.of(context).size.height,
+        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 0),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
           child: Container(
-            
-        //    color: Colors.green,
+            //    color: Colors.green,
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 Flexible(
                     flex: 1,
                     child: Container(
-                   //   color: Color.fromARGB(192, 194, 13, 13),
+                      //   color: Color.fromARGB(192, 194, 13, 13),
                       child: TextField(
                         controller: titleController,
                         inputFormatters: [
@@ -137,7 +136,7 @@ class _PostBodyState extends State<PostBody> {
                 Flexible(
                     flex: 3,
                     child: Container(
-                    //  color: Color.fromARGB(168, 17, 54, 187),
+                      //  color: Color.fromARGB(168, 17, 54, 187),
                       child: TextField(
                         controller: messageController,
                         showCursor: true,
@@ -168,83 +167,109 @@ class _PostBodyState extends State<PostBody> {
                         ),
                       ),
                     )),
-                    SizedBox(height: 48,),
+                SizedBox(
+                  height: 48,
+                ),
                 Flexible(
-                    flex: 1,
-                 //   child: Container(color: Color.fromARGB(153, 255, 193, 7),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(style:TextStyle(
-                                      fontFamily: "Roboto", color: Colors.black, fontSize: 21),
-                              "${_currentValue.toInt()} ${_currentValue == 1 ? "Person" : "People"} will see your message"),
-                          Container(
-                              //color:Colors.red
-                              child: Slider(
-                            activeColor: Colors.green,
-                            inactiveColor: Colors.red,
-                            thumbColor: Colors.black45,
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.white24),
-                            value: _currentValue,
-                            min: 1,
-                            max: 10,
-                            divisions: 9, // Divisions should be max - min - 1
-                            onChanged: (double value) {
-                              setState(() {
-                                _currentValue = value
-                                    .roundToDouble(); // Round to nearest integer
-                              });
-                            },
-                            // label: _currentValue.toInt().toString(),
-                          )),SizedBox(height: 8,),
-                          Consumer<PostProvider>(
-                            builder: (context, algo, child) =>  PostButton(onPressed: () async{
-                            
-                            ApiService.instance!.currentMessageSucessresult = await algo.postMessage(_currentValue.toInt(), titleController.text.toString(), messageController.text.toString());
-                            print("status report: value is ${ApiService.instance!.currentMessageSucessresult}");
-                            ApiService.instance!.currentMessageSucessresult ? ApiService.instance!.pageController.animateToPage(0,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.linear) : showDialog(context: context, builder: (context)=>AlertDialog(
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                            "There was an error in uploading your message. Try again."),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                              color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.white),
-                                  overlayColor:
-                                      MaterialStateProperty.all(Colors.grey)),
-                              child:
-                                  const Text("Okay, I understand"),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),);
-                            },),
-                          )
-                        ],
+                  flex: 1,
+                  //   child: Container(color: Color.fromARGB(153, 255, 193, 7),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontFamily: "Roboto",
+                              color: Colors.black,
+                              fontSize: 21),
+                          "${_currentValue.toInt()} ${_currentValue == 1 ? "Person" : "People"} will see your message"),
+                      Container(
+                          //color:Colors.red
+                          child: Slider(
+                        activeColor: Colors.green,
+                        inactiveColor: Colors.red,
+                        thumbColor: Colors.black45,
+                        overlayColor: MaterialStateProperty.all(Colors.white24),
+                        value: _currentValue,
+                        min: 1,
+                        max: 10,
+                        divisions: 9, // Divisions should be max - min - 1
+                        onChanged: (double value) {
+                          setState(() {
+                            _currentValue = value
+                                .roundToDouble(); // Round to nearest integer
+                          });
+                        },
+                        // label: _currentValue.toInt().toString(),
+                      )),
+                      SizedBox(
+                        height: 8,
                       ),
-                    ),
+                      Consumer<PostProvider>(
+                        builder: (context, algo, child) => PostButton(
+                          onPressed: () async {
+                            ApiService.instance!.currentMessageSucessresult =
+                                await algo.postMessage(
+                                    _currentValue.toInt(),
+                                    titleController.text.toString(),
+                                    messageController.text.toString());
+                            print(
+                                "status report: value is ${ApiService.instance!.currentMessageSucessresult}");
+                            ApiService.instance!.currentMessageSucessresult
+                                ? ApiService.instance!.pageController
+                                    .animateToPage(0,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.linear)
+                                : showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text(
+                                              "There was an error in uploading your message. Try again."),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                style: ButtonStyle(
+                                                    shape: MaterialStateProperty.all(
+                                                        RoundedRectangleBorder(
+                                                            side:
+                                                                const BorderSide(
+                                                                    color: Colors
+                                                                        .black),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10))),
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(Colors.white),
+                                                    overlayColor:
+                                                        MaterialStateProperty
+                                                            .all(Colors.grey)),
+                                                child: const Text(
+                                                    "Okay, I understand"),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -256,101 +281,99 @@ class _PostBodyState extends State<PostBody> {
 
 Widget DrawerBody() {
   return Consumer<PostProvider>(
-    builder: (context, algo, child) => 
-       Padding(
-        padding: EdgeInsets.only(top: 50, left: 20),
-        child: SizedBox(
+    builder: (context, algo, child) => Padding(
+      padding: EdgeInsets.only(top: 50, left: 20),
+      child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Container(
             height: MediaQuery.of(context).size.height,
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  FittedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Icons",
-                          style: TextStyle(
-                              fontFamily: "Roboto",
-                              color: Colors.black,
-                              fontSize: 50),
-                        ),
-                      ],
-                    ),
+            child: Column(
+              children: [
+                FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Icons",
+                        style: TextStyle(
+                            fontFamily: "Roboto",
+                            color: Colors.black,
+                            fontSize: 50),
+                      ),
+                    ],
                   ),
-                  Flexible(
-                    child: Container(
-                      //color: Colors.red,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 24, left: 8, top: 0),
-                        child: ListView.builder(
-                          padding: EdgeInsets.only(top: 0),
-                          physics: ClampingScrollPhysics(),
-                          itemExtent: 80,
-                          shrinkWrap: true,
-                          itemCount: algo.badges.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  algo.updateBadges(index);
-                                },
-                                child: Row( mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    ChoiceChip(
-                                        elevation: algo.badges[algo.badges.keys
-                                                .elementAt(index)]!['selected']
-                                            ? 5
-                                            : 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        selectedColor: Colors.white,
-                                        onSelected: (value) {
-                                          algo.updateBadges(index);
+                ),
+                Flexible(
+                  child: Container(
+                    //color: Colors.red,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 24, left: 8, top: 0),
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(top: 0),
+                        physics: ClampingScrollPhysics(),
+                        itemExtent: 80,
+                        shrinkWrap: true,
+                        itemCount: algo.badges.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                algo.updateBadges(index);
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  ChoiceChip(
+                                      elevation: algo.badges[algo.badges.keys
+                                              .elementAt(index)]!['selected']
+                                          ? 5
+                                          : 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      selectedColor: Colors.white,
+                                      onSelected: (value) {
+                                        algo.updateBadges(index);
 
-                                          print(
-                                              "${algo.badges.keys.elementAt(index)} was pressed $index ${algo.badges[algo.badges.keys.elementAt(index)]!['selected']} ");
-                                        },
-                                        label: CircleAvatar(
-                                          child: ClipOval(
-                                            child: algo.badges[algo.badges.keys
-                                                .elementAt(index)]!['icon'],
-                                          ),
+                                        print(
+                                            "${algo.badges.keys.elementAt(index)} was pressed $index ${algo.badges[algo.badges.keys.elementAt(index)]!['selected']} ");
+                                      },
+                                      label: CircleAvatar(
+                                        child: ClipOval(
+                                          child: algo.badges[algo.badges.keys
+                                              .elementAt(index)]!['icon'],
                                         ),
-                                        selected: algo.badges[algo.badges.keys
-                                            .elementAt(index)]!['selected']),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                          algo.badges.keys.elementAt(index),
-                                          style: TextStyle(
-                                              fontFamily: "Roboto",
-                                              color: algo.badges[algo
-                                                      .badges.keys
-                                                      .elementAt(
-                                                          index)]!['selected']
-                                                  ? Colors.black
-                                                  : Color.fromARGB(62, 0, 0, 0),
-                                              fontSize: 25)),
-                                    )
-                                  ],
-                                ),
+                                      ),
+                                      selected: algo.badges[algo.badges.keys
+                                          .elementAt(index)]!['selected']),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        algo.badges.keys.elementAt(index),
+                                        style: TextStyle(
+                                            fontFamily: "Roboto",
+                                            color: algo.badges[algo.badges.keys
+                                                    .elementAt(
+                                                        index)]!['selected']
+                                                ? Colors.black
+                                                : Color.fromARGB(62, 0, 0, 0),
+                                            fontSize: 25)),
+                                  )
+                                ],
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                  )
-                ],
-              ),
-            )),
-      ),
-    
+                  ),
+                )
+              ],
+            ),
+          )),
+    ),
   );
 }
 

@@ -62,7 +62,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
           print('${snapshot.data} : Beggining');
           if (snapshot.hasData) {
             if (snapshot.data!.uid != null) {
-              return Home();
+              return HomeWrapper();
             } else if (snapshot.data!.uid == null) {
               return OnboardingPage();
             }

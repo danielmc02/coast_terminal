@@ -130,8 +130,9 @@ class PostProvider extends ChangeNotifier {
         "Message": message.toString()
       }).then((value) async {
         //Message has been posted under message tree, now add it to the keys tree
-       await ApiService.instance!.keys!.child(ApiService.instance!.auth!.currentUser!.uid).set("");
-
+        await ApiService.instance!.keys!
+            .child(ApiService.instance!.auth!.currentUser!.uid)
+            .set("");
 
         MessageInstance usersOwnMessage = MessageInstance(
             ApiService.instance!.auth!.currentUser!.uid,
@@ -145,7 +146,7 @@ class PostProvider extends ChangeNotifier {
         await Boxes.getuser().put('mainUser', newest);
 
         result = await incrementCounter();
-      });
+      }).then((value) => null);
       return result;
     } catch (e) {
       print("there was an error in step 1 of publishing message : ${e}");

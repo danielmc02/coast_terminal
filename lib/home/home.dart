@@ -13,6 +13,30 @@ import '../constants/boxes.dart';
 import '../post_page/post_page.dart';
 import '../api_service.dart';
 
+class HomeWrapper extends StatelessWidget {
+  const HomeWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: ApiService.instance!.HomeBuild(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Placeholder(
+            child: Center(
+              child: LinearProgressIndicator(),
+            ),
+          );
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          return Home();
+        } else {
+          return Text("error");
+        }
+      },
+    );
+  }
+}
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -27,7 +51,8 @@ class _HomeState extends State<Home> {
   late int remainingTime;
   void initState() {
     _controller = ConfettiController(duration: const Duration(seconds: 1));
-    //Future<MessageInstance> mesI = A.fetchMessageIfExists();
+    //if a current message exists, check it's count
+
     print('home has now been initialized');
     super.initState();
   }
@@ -58,6 +83,84 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.vertical,
                     children: [
                       Scaffold(
+                        bottomNavigationBar: BottomAppBar(
+                          height: 100,
+                          elevation: 0,
+                          padding: EdgeInsets.all(8),
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              TextTimer(),
+                              PostButton(
+                                onPressed: () {
+                                  if (Boxes.getuser()
+                                          .get('mainUser')!
+                                          .hasPostedMessage ==
+                                      true) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Text(
+                                                "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages."),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  style: ButtonStyle(
+                                                      shape: MaterialStateProperty.all(
+                                                          RoundedRectangleBorder(
+                                                              side: const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10))),
+                                                      backgroundColor:
+                                                          MaterialStateProperty.all(
+                                                              Colors.white),
+                                                      overlayColor:
+                                                          MaterialStateProperty
+                                                              .all(Colors.grey)),
+                                                  child: const Text(
+                                                      "Okay, I understand"),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    ApiService.instance!.pageController
+                                        .nextPage(
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.linear)
+                                        .then((value) {
+                                      setState(() {
+                                        ApiService.instance!.ref = false;
+                                        Timer(Duration(seconds: 1), () {
+                                          ApiService.instance!.ref = true;
+                                        });
+                                      });
+                                    });
+                                  }
+                                },
+                              ),
+                              SignOutButton(),
+                            ],
+                          ),
+                        ),
                         backgroundColor: Color.fromARGB(255, 241, 242,
                             246), //Dark - Color.fromARGB(255, 39, 47, 62),
                         appBar: AppBar(
@@ -80,222 +183,312 @@ class _HomeState extends State<Home> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              //algo.returnedMessage == null ? Text("NULL") : Text("not null")
-                              
-                              FutureBuilder(
-                                future: ApiService.instance!.fetchMessageIfExists(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
-                                  } else if (snapshot.connectionState ==
-                                      ConnectionState.done && snapshot.hasData == true) {
-                                  
-                                  
-                                    if (snapshot.hasData == true) {
-                                      print(
-                                          'snapshots data is : ${snapshot.data}');
-                                      if (snapshot.data != null) {
-                                        return Padding(
-                                          padding: EdgeInsets.all(8),
-                                          child: Material(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            elevation: 20,
-                                            color: Colors.transparent,
-                                            child: Ink(
-                                              height: 300,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Color.fromARGB(
-                                                        105, 0, 0, 0),
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: Color.fromARGB(
-                                                    255, 252, 252, 252),
-                                              ),
-                                              child: InkWell(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                splashColor: Colors.red,
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(16),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      CircleAvatar(
-                                                          backgroundColor: Colors
-                                                              .transparent,
-                                                          radius: 30,
-                                                          foregroundImage: ApiService
-                                                              .instance!
-                                                              .iconReferences[Boxes
-                                                                  .getMessage()
-                                                              .get(
-                                                                  'currentMessage')!
-                                                              .iconIndex]),
-                                                      Flexible(
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0),
-                                                          child: FittedBox(
-                                                            child: Text(
-                                                              Boxes.getMessage()
-                                                                  .get(
-                                                                      'currentMessage')!
-                                                                  .title,
-                                                              style: TextStyle(
-                                                                  fontSize: 40),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 8.0),
-                                                          child: Container(
-                                                            //color:Colors.green,
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            child: Scrollbar(
-                                                              thumbVisibility:
-                                                                  false,
-                                                              child:
-                                                                  SingleChildScrollView(
-                                                                child: Text(
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            18),
+                              Expanded(
+                                  flex: 100,
+                                  child: Container(
+                                    // color: Colors.red,
+                                    child: Column(
+                                      children: [
+                                        Boxes.getMessage()
+                                                    .get('currentMessage') !=
+                                                null
+                                            ? Padding(
+                                                padding: EdgeInsets.all(8),
+                                                child: Material(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  elevation: 20,
+                                                  color: Colors.transparent,
+                                                  child: Ink(
+                                                    height: 300,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Color.fromARGB(
+                                                              105, 0, 0, 0),
+                                                          width: 1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      color: Color.fromARGB(
+                                                          255, 138, 47, 47),
+                                                    ),
+                                                    child: InkWell(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      splashColor: Colors.red,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(16),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            CircleAvatar(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                radius: 30,
+                                                                foregroundImage: ApiService
+                                                                    .instance!
+                                                                    .iconReferences[Boxes
+                                                                        .getMessage()
+                                                                    .get(
+                                                                        'currentMessage')!
+                                                                    .iconIndex]),
+                                                            Flexible(
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0),
+                                                                child:
+                                                                    FittedBox(
+                                                                  child: Text(
                                                                     Boxes.getMessage()
                                                                         .get(
                                                                             'currentMessage')!
-                                                                        .message),
+                                                                        .title,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            40),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top:
+                                                                            8.0),
+                                                                child:
+                                                                    Container(
+                                                                  //color:Colors.green,
+                                                                  width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                                  child:
+                                                                      Scrollbar(
+                                                                    thumbVisibility:
+                                                                        false,
+                                                                    child:
+                                                                        SingleChildScrollView(
+                                                                      child: Text(
+                                                                          style: TextStyle(
+                                                                              color: Colors
+                                                                                  .black,
+                                                                              fontSize:
+                                                                                  18),
+                                                                          Boxes.getMessage()
+                                                                              .get('currentMessage')!
+                                                                              .message),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : FutureBuilder(
+                                                future: ApiService.instance!
+                                                    .fetchMessageIfExists(),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
+                                                  } else if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.done) {
+                                                    if (snapshot.hasData ==
+                                                        true) {
+                                                      print(
+                                                          'snapshots data is : ${snapshot.data}');
+                                                      if (snapshot.data !=
+                                                          null) {
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.all(8),
+                                                          child: Material(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            elevation: 20,
+                                                            color: Colors
+                                                                .transparent,
+                                                            child: Ink(
+                                                              height: 300,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            105,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                    width: 1),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        252,
+                                                                        252,
+                                                                        252),
+                                                              ),
+                                                              child: InkWell(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                splashColor:
+                                                                    Colors.red,
+                                                                child: Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              16),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      CircleAvatar(
+                                                                          backgroundColor: Colors
+                                                                              .transparent,
+                                                                          radius:
+                                                                              30,
+                                                                          foregroundImage: ApiService
+                                                                              .instance!
+                                                                              .iconReferences[Boxes
+                                                                                  .getMessage()
+                                                                              .get('currentMessage')!
+                                                                              .iconIndex]),
+                                                                      Flexible(
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(left: 8.0),
+                                                                          child:
+                                                                              FittedBox(
+                                                                            child:
+                                                                                Text(
+                                                                              Boxes.getMessage().get('currentMessage')!.title,
+                                                                              style: TextStyle(fontSize: 40),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Expanded(
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(top: 8.0),
+                                                                          child:
+                                                                              Container(
+                                                                            //color:Colors.green,
+                                                                            width:
+                                                                                MediaQuery.of(context).size.width,
+                                                                            child:
+                                                                                Scrollbar(
+                                                                              thumbVisibility: false,
+                                                                              child: SingleChildScrollView(
+                                                                                child: Text(style: TextStyle(color: Colors.black, fontSize: 18), Boxes.getMessage().get('currentMessage')!.message),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
+                                                        );
+                                                      }
+                                                    } else if (snapshot.data ==
+                                                        null) {
+                                                      print(
+                                                          'This ran because snapshot is : ${snapshot.data}');
+                                                      return Container(
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "Whole lotta empty",
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge,
+                                                            ),
+                                                            Text(
+                                                                "Well this is awkward, there's no way of putting it nicely but there are no messages to fetch. This means that people have decided to utilize their time instead of redirecting their energy into anonymous messages.")
+                                                          ],
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
+                                                      );
+                                                    }
+                                                  } else if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.none) {
+                                                    return Text("none");
+                                                  } else if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.active) {
+                                                    return Text('waiting');
+                                                  } else {
+                                                    return Text('error');
+                                                  }
+                                                  throw e;
+                                                },
                                               ),
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        return Text("error");
-                                      }
-                                    } else {
-                                      print(
-                                          'This ran because snapshot is : ${snapshot.data}');
-                                      return Text('THERE IS NO DATA');
-                                    }
-                                  } else if (snapshot.connectionState ==
-                                      ConnectionState.none) {
-                                    return Text("none");
-                                  } else if (snapshot.connectionState ==
-                                      ConnectionState.active) {
-                                    return Text('waiting');
-                                  } else {
-                                    return Text('uiih oh');
-                                  }
-                                },
-                              ),
-                              // ApiService.instance!.heart(),
-                             Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Spacer(),
-                                  TextTimer(),
-                                  Spacer(),
-                                  PostButton(
-                                    onPressed: () {
-                                      if (Boxes.getuser()
-                                              .get('mainUser')!
-                                              .hasPostedMessage ==
-                                          true) {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const Text(
-                                                    "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages."),
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      style: ButtonStyle(
-                                                          shape: MaterialStateProperty.all(
-                                                              RoundedRectangleBorder(
-                                                                  side: const BorderSide(
-                                                                      color: Colors
-                                                                          .black),
-                                                                  borderRadius:
-                                                                      BorderRadius.circular(
-                                                                          10))),
-                                                          backgroundColor:
-                                                              MaterialStateProperty.all(
-                                                                  Colors.white),
-                                                          overlayColor:
-                                                              MaterialStateProperty
-                                                                  .all(Colors
-                                                                      .grey)),
-                                                      child: const Text(
-                                                          "Okay, I understand"),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        ApiService.instance!.pageController
-                                            .nextPage(
-                                                duration:
-                                                    Duration(milliseconds: 500),
-                                                curve: Curves.linear)
-                                            .then((value) {
-                                          setState(() {
-                                            ApiService.instance!.ref = false;
-                                            Timer(Duration(seconds: 1), () {
-                                              ApiService.instance!.ref = true;
-                                            });
-                                          });
-                                        });
-                                      }
-                                    },
-                                  ),
-                                  Spacer(), //     TextButton(onPressed: (){_controller.play();}, child: Text("PLAY"))
-                                  SignOutButton(),
-                                  Spacer()
-                                ],
-                              ),
+                                      ],
+                                    ),
+                                  )),
+                              Expanded(
+                                  flex: 50,
+                                  child: Container(
+                                    //color: Colors.green,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text("Previous Messages 1/2: ")
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )),
                             ],
                           ),
                         ),
@@ -404,8 +597,12 @@ class _TextTimerState extends State<TextTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return SizedBox(
+      width: 65,
+      child: Text(
+        '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
         style: TextStyle(color: Colors.black),
-        '${remainingTime ~/ 3600}:${(remainingTime % 3600) ~/ 60}:${remainingTime % 60}');
+      ),
+    );
   }
 }

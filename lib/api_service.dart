@@ -32,9 +32,11 @@ class ApiService {
   DatabaseReference? get messagesDatabase {
     return _messagesDatabase;
   }
+
   DatabaseReference? get keys {
     return _keys;
   }
+
   FirebaseDatabase? get database {
     return _database;
   }
@@ -113,100 +115,7 @@ class ApiService {
   bool ref = true;
   PageController pageController = PageController();
 
-  Widget ifThereIsMessagePromptIt() {
-    print('nigger');
-    return ListTile(
-        subtitle: Text(
-            style: TextStyle(color: Colors.white),
-            Boxes.getMessage().get('currentMessage')!.message),
-        leading: CircleAvatar(
-            foregroundImage: iconReferences[
-                Boxes.getMessage().get('currentMessage')!.iconIndex]),
-        title: Text(Boxes.getMessage().get('currentMessage')!.title));
-  }
 
-  Widget ifThereIsMessagePromptIt2() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Builder(builder: (context) {
-        return Material(
-          borderRadius: BorderRadius.circular(20),
-          elevation: 20,
-          color: Colors.transparent,
-          child: Ink(
-            height: 300,
-            decoration: BoxDecoration(
-              border: Border.all(color: Color.fromARGB(105, 0, 0, 0), width: 1),
-              borderRadius: BorderRadius.circular(20),
-              color: Color.fromARGB(255, 252, 252, 252),
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20),
-              splashColor: Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      // color: Colors.red,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              radius: 30,
-                              foregroundImage: iconReferences[Boxes.getMessage()
-                                  .get('currentMessage')!
-                                  .iconIndex]),
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: FittedBox(
-                                child: Text(
-                                  Boxes.getMessage()
-                                      .get('currentMessage')!
-                                      .title,
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Container(
-                          //color:Colors.green,
-                          width: MediaQuery.of(context).size.width,
-                          child: Scrollbar(
-                            thumbVisibility: false,
-                            child: SingleChildScrollView(
-                              child: Text(
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                  Boxes.getMessage()
-                                      .get('currentMessage')!
-                                      .message),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              // onTap: () {},
-            ),
-          ),
-        );
-      }),
-    );
-  }
 
   List iconReferences = const [
     AssetImage('assets/face_icons/anonymous.png'),
@@ -231,7 +140,6 @@ class ApiService {
   ];
   /////////////////////
 
- 
   Future incrementRespectedMessage(String Uid) async {
     //Test for 3 cases
     //1. It has never been increased so it's value is 0.1
@@ -270,49 +178,47 @@ class ApiService {
 
           print("running transaction");
           return Transaction.success(count - 1);
-        }).then((value){
+        }).then((value) {
           keyNode!.child(Uid).remove();
         });
       });
     }
   }
 
- 
-
-
   Future<MessageInstance?> fetchMessageIfExists() async {
-        MessageInstance? currentFetchedMessage;
-         Map spec = {};
-         String key = "";
-  try {
-    DatabaseReference? messageDBref = ApiService.instance!.messagesDatabase;
-    //Run a transaction to get the current count
-    await ApiService.instance!.messageCount!.runTransaction((currentCount) {
-      int count = currentCount == null ? 0 : currentCount as int;
-      print("THE COUNT IS $count");
-      return Transaction.success(count);
-    }).then((value) async {
-      int returnedCountValue = await value.snapshot.value as int;
-      print('The final ran value is $returnedCountValue');
-      if (returnedCountValue > 0) {
-        String? fetchedRandomKey = await returnRandomMessageKey();
- 
-       await messageDBref!.child(fetchedRandomKey).once().then((value) async {
-spec = value.snapshot.value as Map;
-          print(spec);
-print(spec['Badge Index']);
-print(spec['Max Views']);
-print(spec['Title']);
-print(spec['Message']);
-final temp = MessageInstance(
-              fetchedRandomKey,
-              spec['Badge Index'],
-              spec['Max Views'],
-              spec['Title'],
-              spec['Message']);
-currentFetchedMessage = temp;
-          await Boxes.getMessage().put('currentMessage', currentFetchedMessage!);
-          incrementRespectedMessage(fetchedRandomKey);
+    MessageInstance? currentFetchedMessage;
+    Map spec = {};
+    String key = "";
+    try {
+      DatabaseReference? messageDBref = ApiService.instance!.messagesDatabase;
+      //Run a transaction to get the current count
+      await ApiService.instance!.messageCount!.runTransaction((currentCount) {
+        int count = currentCount == null ? 0 : currentCount as int;
+        print("THE COUNT IS $count");
+        return Transaction.success(count);
+      }).then((value) async {
+        int returnedCountValue = await value.snapshot.value as int;
+        print('The final ran value is $returnedCountValue');
+        if (returnedCountValue > 0) {
+          String? fetchedRandomKey = await returnRandomMessageKey();
+
+          await messageDBref!
+              .child(fetchedRandomKey)
+              .once()
+              .then((value) async {
+            spec = value.snapshot.value as Map;
+            print(spec);
+            print(spec['Badge Index']);
+            print(spec['Max Views']);
+            print(spec['Title']);
+            print(spec['Message']);
+            final temp = MessageInstance(fetchedRandomKey, spec['Badge Index'],
+                spec['Max Views'], spec['Title'], spec['Message']);
+            currentFetchedMessage = temp;
+            print(currentFetchedMessage);
+            await Boxes.getMessage()
+                .put('currentMessage', currentFetchedMessage!);
+            incrementRespectedMessage(fetchedRandomKey);
 
 /*
           //Map returnedMessage = value.snapshot.value as Map;
@@ -330,24 +236,17 @@ currentFetchedMessage = temp;
               : print('current fetched message isnt null');
 
          */
-        });
-      }
-    });
-    //print(currentFetchedMessage.title);
-      return currentFetchedMessage ;
-    
-  } catch (e) {
-    print("FFFFFFUUUUCCCCKKKK");
-    print('error in step 1: ${e}');
-    return null;
+          });
+        }
+      });
+      //print(currentFetchedMessage.title);
+      return currentFetchedMessage;
+    } catch (e) {
+      print("FFFFFFUUUUCCCCKKKK");
+      print('error in step 1: ${e}');
+      return null;
+    }
   }
-}
-
-
-
-
-
-
 
   Future<String> returnRandomMessageKey() async {
     DatabaseReference? keysRef = ApiService.instance!.keys;
@@ -358,7 +257,7 @@ currentFetchedMessage = temp;
 
       MapResults.forEach(
         (key, value) {
-         // print(key);
+          // print(key);
           allKeys.add(key);
         },
       );
@@ -366,6 +265,43 @@ currentFetchedMessage = temp;
 
     int randomIndex = Random().nextInt(allKeys.length);
     print('Random IndexFetched: ${allKeys[randomIndex]}');
+
     return allKeys[randomIndex];
   }
+
+  Future<void> HomeBuild() async{
+    print("running home functions");
+    //run the necessary functions before displaying home
+    //The first one will be checking if a current message exists and if you need to delete it if it hit max view
+    //This is good because you can update the message even if you dont want to remove it
+  await Future.delayed(Duration(seconds: 2));
+
+  if (Boxes.getMessage().get('currentMessage') != null)
+    {
+      String currentMessageKey = Boxes.getMessage().get('currentMessage')!.uidAdmin.toString();
+      print('current message key is $currentMessageKey');
+    try
+    {
+            await ApiService.instance!.keys!.child(currentMessageKey).once().then((value) {
+             Map spec = value.snapshot.value as Map;
+    
+          });
+      //Once you implement likes and dislike feature than update the respected message.
+/*
+         await ApiService.instance!.keys!.child(currentMessageKey).once().then((value) {
+             Map spec = value.snapshot.value as Map;
+    
+          });
+    */
+
+    }
+    catch(e)
+    {
+      print("uhohhh, The error must not exist anymore... delete it, $e");
+      await Boxes.getMessage().get('currentMessage')!.delete();
+      print("current message has been deleteddd, ${Boxes.getMessage().get('currentMessage')!.message} ");
+      
+    }
+  }
+}
 }
