@@ -430,33 +430,12 @@ class _HomeState extends State<Home> {
                                                         null) {
                                                       print(
                                                           'This ran because snapshot is : ${snapshot.data}');
-                                                      return Container(
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              "Whole lotta empty",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyLarge,
-                                                            ),
-                                                            Text(
-                                                                "Well this is awkward, there's no way of putting it nicely but there are no messages to fetch. This means that people have decided to utilize their time instead of redirecting their energy into anonymous messages.")
-                                                          ],
-                                                        ),
-                                                      );
+                                                      return Material(child: Ink(height: 200,color: Colors.blue,child: AlertDialog(title: Center(child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Text("Empty"),
+                                                          Icon(Icons.warning_amber_outlined,color: Colors.redAccent,)
+                                                        ],
+                                                      )),content: Text("This is awkward. There are currently no messages to show at this time."),),),);
                                                     }
                                                   } else if (snapshot
                                                           .connectionState ==
