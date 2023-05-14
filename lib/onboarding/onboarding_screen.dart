@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-import '../loading_screen/loading_screen.dart';
+import '../api_service.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -62,13 +62,9 @@ class OnboardingPage extends StatelessWidget {
                                               MainAxisAlignment.center,
                                           children: [
                                             TextButton(
-                                              onPressed: () {
+                                              onPressed: () async{
                                                 Navigator.pop(context);
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) {
-                                                  return const LoadingScreen();
-                                                }));
+                                                await ApiService.instance!.signInAnon();
                                               },
                                               style: ButtonStyle(
                                                   shape: MaterialStateProperty

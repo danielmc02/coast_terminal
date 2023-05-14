@@ -115,8 +115,6 @@ class ApiService {
   bool ref = true;
   PageController pageController = PageController();
 
-
-
   List iconReferences = const [
     AssetImage('assets/face_icons/anonymous.png'),
     AssetImage('assets/face_icons/occ.jpeg'),
@@ -269,39 +267,6 @@ class ApiService {
     return allKeys[randomIndex];
   }
 
-  Future<void> HomeBuild() async{
-    print("running home functions");
-    //run the necessary functions before displaying home
-    //The first one will be checking if a current message exists and if you need to delete it if it hit max view
-    //This is good because you can update the message even if you dont want to remove it
-  await Future.delayed(Duration(seconds: 2));
 
-  if (Boxes.getMessage().get('currentMessage') != null)
-    {
-      String currentMessageKey = Boxes.getMessage().get('currentMessage')!.uidAdmin.toString();
-      print('current message key is $currentMessageKey');
-    try
-    {
-            await ApiService.instance!.keys!.child(currentMessageKey).once().then((value) {
-             Map spec = value.snapshot.value as Map;
-    
-          });
-      //Once you implement likes and dislike feature than update the respected message.
-/*
-         await ApiService.instance!.keys!.child(currentMessageKey).once().then((value) {
-             Map spec = value.snapshot.value as Map;
-    
-          });
-    */
 
-    }
-    catch(e)
-    {
-      print("uhohhh, The error must not exist anymore... delete it, $e");
-      await Boxes.getMessage().get('currentMessage')!.delete();
-      print("current message has been deleteddd, ${Boxes.getMessage().get('currentMessage')!.message} ");
-      
-    }
-  }
-}
 }

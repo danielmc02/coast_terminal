@@ -12,27 +12,51 @@ import 'package:provider/provider.dart';
 import '../constants/boxes.dart';
 import '../post_page/post_page.dart';
 import '../api_service.dart';
+import 'package:provider/provider.dart';
 
-class HomeWrapper extends StatelessWidget {
+class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});
 
   @override
+  State<HomeWrapper> createState() => _HomeWrapperState();
+}
+
+class _HomeWrapperState extends State<HomeWrapper> {
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ApiService.instance!.HomeBuild(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Placeholder(
-            child: Center(
-              child: LinearProgressIndicator(),
-            ),
-          );
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          return Home();
-        } else {
-          return Text("error");
-        }
-      },
+    return ChangeNotifierProvider(
+      create: (context) => HomeProvider(),
+      builder: (context, child) => Consumer<HomeProvider>(
+        builder: (context, algo, child) => FutureBuilder(
+          future: algo.HomeBuild(context),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Scaffold(
+                appBar: AppBar(),
+                body: Container(width: MediaQuery.of(context).size.width,
+                child: Column(
+                  
+                  children: [
+                    
+                    CircularProgressIndicator(
+                      strokeWidth: 7,
+                      color: Colors.black,
+                      value: algo.progress,
+                      backgroundColor: Colors.grey,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                    ),
+                    Text(algo.status)
+                  ],
+                ),),
+              );
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              return Home();
+            } else {
+              return Text("error");
+            }
+          },
+        ),
+      ),
     );
   }
 }
