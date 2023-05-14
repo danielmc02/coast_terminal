@@ -56,21 +56,33 @@ class OnboardScreen extends StatefulWidget {
 class _OnboardScreenState extends State<OnboardScreen> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: ApiService.instance!.getuser(),
-        builder: (context, snapshot) {
-          print('${snapshot.data} : Beggining');
-          if (snapshot.hasData) {
-            if (snapshot.data!.uid != null) {
-              return HomeWrapper();
-            } else if (snapshot.data!.uid == null) {
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting)
+        {
+          return Scaffold(body: Center(child: Text("waiting on location result"),),);
+        }
+        else if(snapshot.connectionState == ConnectionState.done)
+        {
+          
+        }
+        StreamBuilder(
+          stream: ApiService.instance!.getuser(),
+          builder: (context, snapshot) {
+            print('${snapshot.data} : Beggining');
+            if (snapshot.hasData) {
+              if (snapshot.data!.uid != null) {
+                return HomeWrapper();
+              } else if (snapshot.data!.uid == null) {
+                return OnboardingPage();
+              }
+            } else if (snapshot.hasData == false) {
               return OnboardingPage();
             }
-          } else if (snapshot.hasData == false) {
-            return OnboardingPage();
-          }
-
-          return const Text("errooooooooooor");
-        });
+    
+            return const Text("errooooooooooor");
+          }),
+      },
+    );
   }
 }
