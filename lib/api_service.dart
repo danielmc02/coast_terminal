@@ -95,6 +95,18 @@ class ApiService {
   }
 
   Future signOut() async {
+    //Delete current message and user
+    if(Boxes.getMessage().get('currentMessage') != null)
+    {
+      print("deleting currentMessage");
+     await Boxes.getMessage().get('currentMessage')!.delete();
+    }
+    if(Boxes.getuser().get('mainUser') != null)
+    {
+      print("deleting user");
+    await  Boxes.getuser().get('mainUser')!.delete();
+    }
+    await _auth!.currentUser!.delete();
     await _auth!.signOut();
     // await FirebaseAuth.instance.signOut();
   }
@@ -218,22 +230,7 @@ class ApiService {
                 .put('currentMessage', currentFetchedMessage!);
             incrementRespectedMessage(fetchedRandomKey);
 
-/*
-          //Map returnedMessage = value.snapshot.value as Map;
-          print("$returnedMessage tud");
 
-          final temp = MessageInstance(
-              fetchedRandomKey,
-              spec['Badge Index'],
-              spec['Max Views'],
-              spec['Title'],
-              spec['Message']);
-              currentFetchedMessage = temp;
-          currentFetchedMessage == null
-              ? print('current fetched message is null')
-              : print('current fetched message isnt null');
-
-         */
           });
         }
       });
@@ -260,7 +257,11 @@ class ApiService {
         },
       );
     });
-
+    if(allKeys.contains(auth!.currentUser!.uid.toString()))
+    {
+    allKeys.remove(auth!.currentUser!.uid.toString());
+  print("removed own message");
+    }
     int randomIndex = Random().nextInt(allKeys.length);
     print('Random IndexFetched: ${allKeys[randomIndex]}');
 
