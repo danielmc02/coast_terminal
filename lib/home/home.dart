@@ -281,15 +281,13 @@ class _HomeState extends State<Home> {
                                           child: Ink(
                                             height: 300,
                                             decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Color.fromARGB(
-                                                      105, 0, 0, 0),
-                                                  width: 1),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: Color.fromARGB(
-                                                  255, 138, 47, 47),
-                                            ),
+                                                border: Border.all(
+                                                    color: Color.fromARGB(
+                                                        105, 0, 0, 0),
+                                                    width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Color.fromARGB(119, 255, 255, 255)),
                                             child: InkWell(
                                               borderRadius:
                                                   BorderRadius.circular(20),
@@ -297,6 +295,9 @@ class _HomeState extends State<Home> {
                                               child: Padding(
                                                 padding: EdgeInsets.all(16),
                                                 child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   mainAxisSize:
@@ -361,7 +362,37 @@ class _HomeState extends State<Home> {
                                                           ),
                                                         ),
                                                       ),
-                                                    )
+                                                    ),
+                                                    Flexible(
+                                                        child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        Icon(Icons
+                                                            .remove_red_eye_outlined),
+                                                        Text(
+                                                            "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
+                                                        Spacer(),
+                                                        TextButton(
+                                                            onPressed: () {},
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(color:Colors.green,Icons
+                                                                    .thumb_up),SizedBox(width: 10,),Text('3')
+                                                              ],
+                                                            )),
+                                                        TextButton(
+                                                            onPressed: () {},
+                                                            child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                              children: [
+                                                                Icon(color:Colors.red,Icons
+                                                                    .thumb_down),SizedBox(width: 10,),Text('3')
+                                                              ],
+                                                            ))
+                                                      ],
+                                                    ))
                                                   ],
                                                 ),
                                               ),

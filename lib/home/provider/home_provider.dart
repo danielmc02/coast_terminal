@@ -98,11 +98,29 @@ class HomeProvider extends ChangeNotifier {
         await ApiService.instance!.keys!
             .child(currentMessageKey)
             .once()
-            .then((value) {
+            .then((value) async {
               //This is proof that the key still exists, therefore the respective message should as well
               //Retrieve the freshest instance of it, we can now fetch the freshest instance of the message.
               print("AAAAAAAAAAA ${value.snapshot.key}");
-          String spec = value.snapshot.key as String;
+          String specz = value.snapshot.key as String;
+        final result = await ApiService.instance!.messagesDatabase!.child(specz).get();
+       Map spec = result.value as Map;
+          print(spec);          
+           int curView = 0;
+            if(spec['Current Views'] == 0.1)
+            {
+              print("assigning curView of 0 ${spec['Current Views'].toString()}");
+              curView = 0;
+            }
+            else
+            {
+              print("assigning curView as what it is ${spec['Current Views'].toString()}");
+              curView = spec['Current Views'] as int;
+            }
+            final temp = MessageInstance(specz, spec['Badge Index'],
+                spec['Max Views'], spec['Title'], spec['Message'],curView);
+                await Boxes.getMessage().get('currentMessage')!.delete();
+               await Boxes.getMessage().put('currentMessage', temp);
         });
       } catch (e) {
         print("uhohhh, The error must not exist anymore... delete it, $e");

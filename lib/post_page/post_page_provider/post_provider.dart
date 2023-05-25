@@ -134,12 +134,13 @@ class PostProvider extends ChangeNotifier {
             .child(ApiService.instance!.auth!.currentUser!.uid)
             .set("");
 
+       /*
         MessageInstance usersOwnMessage = MessageInstance(
             ApiService.instance!.auth!.currentUser!.uid,
             chosenBadgeIndex,
             0,
             title.toString(),
-            message.toString());
+            message.toString(),);*/
         UserInstance? newest = await Boxes.getuser().get('mainUser');
 
         newest!.hasPostedMessage = true;

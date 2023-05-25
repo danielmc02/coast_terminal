@@ -222,8 +222,19 @@ class ApiService {
             print(spec['Max Views']);
             print(spec['Title']);
             print(spec['Message']);
+            int curView = 0;
+            if(spec['Current Views'] == 0.1)
+            {
+              print("assigning curView of 0 ${spec['Current Views'].toString()}");
+              curView = 0;
+            }
+            else
+            {
+              print("assigning curView as what it is ${spec['Current Views'].toString()}");
+              curView = spec['Current Views'] as int;
+            }
             final temp = MessageInstance(fetchedRandomKey, spec['Badge Index'],
-                spec['Max Views'], spec['Title'], spec['Message']);
+                spec['Max Views'], spec['Title'], spec['Message'],curView);
             currentFetchedMessage = temp;
             print(currentFetchedMessage);
             await Boxes.getMessage()
