@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../api_service.dart';
 
@@ -17,6 +18,28 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
+  RewardedAd? _rewardedAd;
+  final adUnitId = Platform.isAndroid
+      ? 'ca-app-pub-3940256099942544/5224354917'
+      : 'ca-app-pub-3940256099942544/1712485313';
+  Future<void> loadAd() async {
+    await RewardedAd.load(
+        adUnitId: adUnitId,
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+             
+              onAdDismissedFullScreenContent: (ad) {
+            print('ad dismissed full screen content.');
+            ad.dispose();
+          },);
+          print('$ad loaded');
+          _rewardedAd = ad;
+        }, onAdFailedToLoad: (LoadAdError error) {
+          print(error);
+        }));
+  }
+
   late PageController? _pageController;
   List<String> headings = [
     'Student Interactions',
@@ -32,6 +55,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   int titleIndex = 0;
   void initState() {
+    loadAd();
     _pageController = PageController();
     choices = [
       TyperAnimatedText(
@@ -212,8 +236,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                     children: [
                                                       TextButton(
                                                         onPressed: () async {
+                                                          await _rewardedAd!
+                                                              .show(
+                                                            onUserEarnedReward:
+                                                                (ad, reward) {
+                                                              print(
+                                                                  "here is your award");
+                                                            },
+                                                          );
                                                           Navigator.pop(
                                                               context);
+
                                                           await ApiService
                                                               .instance!
                                                               .signInAnon();
@@ -276,8 +309,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                             false,
                                                         isDefaultAction: true,
                                                         onPressed: () async {
-                                                     
-                                                                  Navigator.pop(
+                                                          await _rewardedAd!
+                                                              .show(
+                                                            onUserEarnedReward:
+                                                                (ad, reward) {
+                                                              print(
+                                                                  "here is your award");
+                                                            },
+                                                          );
+                                                          Navigator.pop(
                                                               context);
                                                           await ApiService
                                                               .instance!

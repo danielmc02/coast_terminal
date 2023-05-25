@@ -42,5 +42,7 @@
     <string>This app needs access to location when open.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>This app needs access to location when in the background.</string>
+    <key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-3530957535788194~2010813954</string>
 </dict>
 </plist>

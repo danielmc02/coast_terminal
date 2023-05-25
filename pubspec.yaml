@@ -49,6 +49,7 @@ dependencies:
   flutter_map: ^4.0.0
   latlong2: ^0.8.1
   google_fonts: ^4.0.4
+  google_mobile_ads: ^3.0.0
 
 
 dev_dependencies:

@@ -99,19 +99,21 @@ class HomeProvider extends ChangeNotifier {
             .child(currentMessageKey)
             .once()
             .then((value) {
-          Map spec = value.snapshot.value as Map;
+              //This is proof that the key still exists, therefore the respective message should as well
+              //Retrieve the freshest instance of it, we can now fetch the freshest instance of the message.
+              print("AAAAAAAAAAA ${value.snapshot.key}");
+          String spec = value.snapshot.key as String;
         });
       } catch (e) {
         print("uhohhh, The error must not exist anymore... delete it, $e");
         await Boxes.getMessage().get('currentMessage')!.delete();
-        print(
-            "current message has been deleteddd, ${Boxes.getMessage().get('currentMessage')!.message} ");
+        
       }
     }
     progress = 1.0;
     status = "done";
     notifyListeners();
-    await Future.delayed(Duration(seconds: 3));
+   // await Future.delayed(Duration(seconds: 1));
     //You need to fix the scope of the above functions, this is why nothing is working properly
     metReq = true;
     notifyListeners();

@@ -5,6 +5,7 @@ import 'package:coast_terminal/onboarding/onboarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'models/message.dart';
 
@@ -16,6 +17,7 @@ void main() async {
   Hive.registerAdapter(MessageInstanceAdapter());
   await Hive.openBox<MessageInstance>('chats');
   await Firebase.initializeApp();
+  await MobileAds.instance.initialize();
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -56,6 +58,7 @@ class OnboardScreen extends StatefulWidget {
 class _OnboardScreenState extends State<OnboardScreen> {
   @override
   Widget build(BuildContext context) {
+    //return HomeWrapper();
     return StreamBuilder(
                 stream: ApiService.instance!.getuser(),
                 builder: (context, snapshot) {
