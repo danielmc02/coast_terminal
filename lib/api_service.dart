@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:coast_terminal/models/message.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/boxes.dart';
@@ -96,15 +98,13 @@ class ApiService {
 
   Future signOut() async {
     //Delete current message and user
-    if(Boxes.getMessage().get('currentMessage') != null)
-    {
+    if (Boxes.getMessage().get('currentMessage') != null) {
       print("deleting currentMessage");
-     await Boxes.getMessage().get('currentMessage')!.delete();
+      await Boxes.getMessage().get('currentMessage')!.delete();
     }
-    if(Boxes.getuser().get('mainUser') != null)
-    {
+    if (Boxes.getuser().get('mainUser') != null) {
       print("deleting user");
-    await  Boxes.getuser().get('mainUser')!.delete();
+      await Boxes.getuser().get('mainUser')!.delete();
     }
     await _auth!.currentUser!.delete();
     await _auth!.signOut();
@@ -223,25 +223,22 @@ class ApiService {
             print(spec['Title']);
             print(spec['Message']);
             int curView = 0;
-            if(spec['Current Views'] == 0.1)
-            {
-              print("assigning curView of 0 ${spec['Current Views'].toString()}");
+            if (spec['Current Views'] == 0.1) {
+              print(
+                  "assigning curView of 0 ${spec['Current Views'].toString()}");
               curView = 0;
-            }
-            else
-            {
-              print("assigning curView as what it is ${spec['Current Views'].toString()}");
+            } else {
+              print(
+                  "assigning curView as what it is ${spec['Current Views'].toString()}");
               curView = spec['Current Views'] as int;
             }
             final temp = MessageInstance(fetchedRandomKey, spec['Badge Index'],
-                spec['Max Views'], spec['Title'], spec['Message'],curView);
+                spec['Max Views'], spec['Title'], spec['Message'], curView);
             currentFetchedMessage = temp;
             print(currentFetchedMessage);
             await Boxes.getMessage()
                 .put('currentMessage', currentFetchedMessage!);
             incrementRespectedMessage(fetchedRandomKey);
-
-
           });
         }
       });
@@ -268,10 +265,9 @@ class ApiService {
         },
       );
     });
-    if(allKeys.contains(auth!.currentUser!.uid.toString()))
-    {
-    allKeys.remove(auth!.currentUser!.uid.toString());
-  print("removed own message");
+    if (allKeys.contains(auth!.currentUser!.uid.toString())) {
+      allKeys.remove(auth!.currentUser!.uid.toString());
+      print("removed own message");
     }
     int randomIndex = Random().nextInt(allKeys.length);
     print('Random IndexFetched: ${allKeys[randomIndex]}');
@@ -279,6 +275,29 @@ class ApiService {
     return allKeys[randomIndex];
   }
 
+  Future<RewardedAd?> loadAd() async {
+    RewardedAd? _rewardedAd;
+    final adUnitId = Platform.isAndroid
+        ? 'ca-app-pub-3940256099942544/5224354917'
+        : 'ca-app-pub-3940256099942544/1712485313';
+    await RewardedAd.load(
+        adUnitId: adUnitId,
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              print('ad dismissed full screen content.');
 
-
+              ad.dispose();
+            },
+          );
+          print('$ad loaded');
+          _rewardedAd = ad;
+        }, onAdFailedToLoad: (LoadAdError error) {
+          print(error);
+        }));
+       await _rewardedAd!.show(onUserEarnedReward: (ad, reward) {
+       
+       },);
+  }
 }

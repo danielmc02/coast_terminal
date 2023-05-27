@@ -175,7 +175,7 @@ class _HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TextTimer(),
+                      TextTimer(Colors.green),
                       PostButton(
                         onPressed: () {
                           if (Boxes.getuser()
@@ -245,17 +245,19 @@ class _HomeState extends State<Home> {
                 backgroundColor: Color.fromARGB(255, 241, 242,
                     246), //Dark - Color.fromARGB(255, 39, 47, 62),
                 appBar: AppBar(
-                  backgroundColor: Color.fromARGB(255, 56, 62, 78),
+                  
+                  centerTitle: true,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextTimer(Colors.red),Text(" until automatic signout",style: TextStyle(color: Color.fromARGB(150, 0, 0, 0))),
+                      
+                    ],
+                  ),
+                  backgroundColor: Color.fromARGB(0, 56, 62, 78),
                   shadowColor: Colors.transparent,
                   foregroundColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          ApiService.instance!.signOut();
-                        },
-                        child: Text('saf'))
-                  ],
                 ),
                 body: Container(
                   width: MediaQuery.of(context).size.width,
@@ -287,7 +289,8 @@ class _HomeState extends State<Home> {
                                                     width: 1),
                                                 borderRadius:
                                                     BorderRadius.circular(20),
-                                                color: Color.fromARGB(119, 255, 255, 255)),
+                                                color: Color.fromARGB(
+                                                    119, 255, 255, 255)),
                                             child: InkWell(
                                               borderRadius:
                                                   BorderRadius.circular(20),
@@ -377,18 +380,36 @@ class _HomeState extends State<Home> {
                                                             onPressed: () {},
                                                             child: Row(
                                                               children: [
-                                                                Icon(color:Colors.green,Icons
-                                                                    .thumb_up),SizedBox(width: 10,),Text('3')
+                                                                Icon(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    Icons
+                                                                        .thumb_up),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Text('3')
                                                               ],
                                                             )),
                                                         TextButton(
                                                             onPressed: () {},
                                                             child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
                                                               children: [
-                                                                Icon(color:Colors.red,Icons
-                                                                    .thumb_down),SizedBox(width: 10,),Text('3')
+                                                                Icon(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    Icons
+                                                                        .thumb_down),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Text('3')
                                                               ],
                                                             ))
                                                       ],
@@ -632,8 +653,8 @@ class _HomeState extends State<Home> {
 }
 
 class TextTimer extends StatefulWidget {
-  const TextTimer({super.key});
-
+   TextTimer(this.color, {super.key});
+ late MaterialColor color;
   @override
   State<TextTimer> createState() => _TextTimerState();
 }
@@ -686,10 +707,10 @@ class _TextTimerState extends State<TextTimer> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 65,
+      //width: 65,
       child: Text(
         '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: this.widget.color,overflow: TextOverflow.fade),
       ),
     );
   }

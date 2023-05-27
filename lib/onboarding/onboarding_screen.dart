@@ -22,17 +22,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final adUnitId = Platform.isAndroid
       ? 'ca-app-pub-3940256099942544/5224354917'
       : 'ca-app-pub-3940256099942544/1712485313';
-  Future<void> loadAd() async {
+  Future<LoadAdError?> loadAd() async {
     await RewardedAd.load(
         adUnitId: adUnitId,
         request: const AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(
-             
-              onAdDismissedFullScreenContent: (ad) {
-            print('ad dismissed full screen content.');
-            ad.dispose();
-          },);
+            onAdDismissedFullScreenContent: (ad) async {
+              print('ad dismissed full screen content.');
+              ad.dispose();
+              Navigator.pop(context);
+              await ApiService.instance!.signInAnon();
+            },
+          );
           print('$ad loaded');
           _rewardedAd = ad;
         }, onAdFailedToLoad: (LoadAdError error) {
@@ -148,7 +150,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   width: MediaQuery.of(context).size.width,
                                   child: AnimatedTextKit(
                                       onNextBeforePause: (p0, p1) {
-                                        print(p0);
+                                        //  print(p0);
                                         setState(() {
                                           titleIndex++;
 
@@ -236,7 +238,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                     children: [
                                                       TextButton(
                                                         onPressed: () async {
-                                                          await _rewardedAd!
+                                                                    await _rewardedAd!
                                                               .show(
                                                             onUserEarnedReward:
                                                                 (ad, reward) {
@@ -244,12 +246,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                                   "here is your award");
                                                             },
                                                           );
-                                                          Navigator.pop(
-                                                              context);
-
-                                                          await ApiService
-                                                              .instance!
-                                                              .signInAnon();
                                                         },
                                                         style: ButtonStyle(
                                                             shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -317,11 +313,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                                   "here is your award");
                                                             },
                                                           );
+                                                          /*
                                                           Navigator.pop(
                                                               context);
                                                           await ApiService
                                                               .instance!
                                                               .signInAnon();
+                                                              */
                                                         },
                                                         child:
                                                             const Text('Yes'),
