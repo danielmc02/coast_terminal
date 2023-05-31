@@ -20,7 +20,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   RewardedAd? _rewardedAd;
   final adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/5224354917'
+      ? 'ca-app-pub-3940256099942544/5224354917' 
       : 'ca-app-pub-3940256099942544/1712485313';
   Future<LoadAdError?> loadAd() async {
     await RewardedAd.load(

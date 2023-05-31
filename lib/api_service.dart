@@ -196,6 +196,11 @@ class ApiService {
   }
 
   Future<MessageInstance?> fetchMessageIfExists() async {
+    if( Boxes.getMessage().get('currentMessage') != null)
+    {
+      print("Exiting early");
+      return  Boxes.getMessage().get('currentMessage');
+    }
     MessageInstance? currentFetchedMessage;
     Map spec = {};
     String key = "";

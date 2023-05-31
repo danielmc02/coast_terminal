@@ -18,6 +18,8 @@ void main() async {
   await Hive.openBox<MessageInstance>('chats');
   await Firebase.initializeApp();
   await MobileAds.instance.initialize();
+  
+SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -58,8 +60,8 @@ class OnboardScreen extends StatefulWidget {
 class _OnboardScreenState extends State<OnboardScreen> {
   @override
   Widget build(BuildContext context) {
-    //return HomeWrapper();
-    return StreamBuilder(
+   // return HomeWrapper();
+   return StreamBuilder(
                 stream: ApiService.instance!.getuser(),
                 builder: (context, snapshot) {
                   print('${snapshot.data} : Beggining');

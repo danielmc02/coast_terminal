@@ -129,7 +129,7 @@ class HomeProvider extends ChangeNotifier {
       }
     }
     progress = 1.0;
-    status = "done";
+    status = "Done";
     notifyListeners();
    // await Future.delayed(Duration(seconds: 1));
     //You need to fix the scope of the above functions, this is why nothing is working properly

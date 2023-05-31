@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:bottom_sheet_scaffold/bottom_sheet_scaffold.dart';
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/home/const_widgets/sign_out_button.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
@@ -75,20 +76,35 @@ class _HomeWrapperState extends State<HomeWrapper>
       builder: (context, child) => Consumer<HomeProvider>(
           builder: (context, algo, child) => algo.metReq == false
               ? Scaffold(
-                  appBar: AppBar(),
+                  appBar: AppBar(
+                    backgroundColor: Color.fromARGB(0, 210, 222, 255),
+                    shadowColor: Colors.transparent,
+                    foregroundColor: Color.fromARGB(0, 162, 34, 34),
+                    surfaceTintColor: Colors.transparent,
+                  ),
                   body: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AnimatedTextKit(
-                            isRepeatingAnimation: false,
-                            animatedTexts: <AnimatedText>[
-                              FadeAnimatedText(facts[randomNumber])
-                            ]),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AnimatedTextKit(
+                              isRepeatingAnimation: false,
+                              totalRepeatCount: 3,
+                              // pause: Duration(seconds: 0),
+                              animatedTexts: <AnimatedText>[
+                                FadeAnimatedText(facts[randomNumber],
+                                    duration: Duration(seconds: 300),
+                                    fadeInEnd: .005,
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                    textAlign: TextAlign.center)
+                              ]),
+                        ),
                         Container(
-                          color: Color.fromARGB(159, 158, 158, 158),
+                          //color: Color.fromARGB(159, 158, 158, 158),
                           child: SizedBox(
                             width: 200,
                             height: 200,
@@ -114,7 +130,14 @@ class _HomeWrapperState extends State<HomeWrapper>
                             ),
                           ),
                         ),
-                        Text(algo.status)
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          algo.status,
+                          style: TextStyle(
+                              color: const Color.fromARGB(110, 0, 0, 0)),
+                        )
                       ],
                     ),
                   ),
@@ -134,17 +157,21 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late ConfettiController _controller;
   // late Timer _timer;
-
+  late TextEditingController _chatController;
   late int remainingTime;
+  final _formKey = GlobalKey<FormState>();
+
   void initState() {
     _controller = ConfettiController(duration: const Duration(seconds: 1));
     //if a current message exists, check it's count
-
+    _chatController = TextEditingController();
     print('home has now been initialized');
     super.initState();
   }
 
   void dispose() {
+    _chatController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -167,15 +194,47 @@ class _HomeState extends State<Home> {
             scrollDirection: Axis.vertical,
             children: [
               Scaffold(
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.endDocked,
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                            height: MediaQuery.of(context).size.height / 2,
+                            color: Colors.white54,
+                            child: Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const Text('Modal BottomSheet'),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStatePropertyAll(Colors.red)),
+                                  child: const Text('Delete Account'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    ApiService.instance!.signOut();
+                                  },
+                                ),
+                              ],
+                            )));
+                      },
+                    );
+                  },
+                  child: Icon(Icons.settings_outlined),
+                ),
                 bottomNavigationBar: BottomAppBar(
                   height: 100,
                   elevation: 0,
                   padding: EdgeInsets.all(8),
                   color: Colors.transparent,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      TextTimer(Colors.green),
                       PostButton(
                         onPressed: () {
                           if (Boxes.getuser()
@@ -238,25 +297,25 @@ class _HomeState extends State<Home> {
                           }
                         },
                       ),
-                      SignOutButton(),
                     ],
                   ),
                 ),
                 backgroundColor: Color.fromARGB(255, 241, 242,
                     246), //Dark - Color.fromARGB(255, 39, 47, 62),
                 appBar: AppBar(
-                  
                   centerTitle: true,
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextTimer(Colors.red),Text(" until automatic signout",style: TextStyle(color: Color.fromARGB(150, 0, 0, 0))),
-                      
+                      TextTimer(Colors.red),
+                      Text(" until automatic signout",
+                          style:
+                              TextStyle(color: Color.fromARGB(150, 0, 0, 0))),
                     ],
                   ),
-                  backgroundColor: Color.fromARGB(0, 56, 62, 78),
+                  backgroundColor: Color.fromARGB(0, 210, 222, 255),
                   shadowColor: Colors.transparent,
-                  foregroundColor: Colors.transparent,
+                  foregroundColor: Color.fromARGB(0, 162, 34, 34),
                   surfaceTintColor: Colors.transparent,
                 ),
                 body: Container(
@@ -266,338 +325,303 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Expanded(
-                          flex: 100,
-                          child: Container(
-                            // color: Colors.red,
-                            child: Column(
-                              children: [
-                                Boxes.getMessage().get('currentMessage') != null
-                                    ? Padding(
-                                        padding: EdgeInsets.all(8),
-                                        child: Material(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          elevation: 20,
-                                          color: Colors.transparent,
-                                          child: Ink(
-                                            height: 300,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Color.fromARGB(
-                                                        105, 0, 0, 0),
-                                                    width: 1),
+                      FutureBuilder(
+                        future: ApiService.instance!.fetchMessageIfExists(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: Text("Loading"),
+                            );
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            print("AAAAAA${snapshot.data}");
+                            if (snapshot.data == null) {
+                              return Expanded(
+                                flex: 80,
+                                child: Container(
+                                  //   color: Colors.red,
+                                  child: AlertDialog(
+                                    title: Center(
+                                        child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("Empty"),
+                                        Icon(
+                                          Icons.warning_amber_outlined,
+                                          color: Colors.redAccent,
+                                        )
+                                      ],
+                                    )),
+                                    content: Text(
+                                        "This is awkward. There are currently no messages to show at this time."),
+                                  ),
+                                ),
+                              );
+                            } else if (false == false) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.purple,
+                                child:  SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                      TextFormField(),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else if (snapshot.data != null) {
+                              return Expanded(
+                                  flex: 80,
+                                  child: Container(
+                                    color: Colors.red,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(8),
+                                          child: Material(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            elevation: 20,
+                                            color: Colors.transparent,
+                                            child: Ink(
+                                              height: 300,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Color.fromARGB(
+                                                          105, 0, 0, 0),
+                                                      width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  color: Color.fromARGB(
+                                                      119, 255, 255, 255)),
+                                              child: InkWell(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
-                                                color: Color.fromARGB(
-                                                    119, 255, 255, 255)),
-                                            child: InkWell(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              splashColor: Colors.red,
-                                              child: Padding(
-                                                padding: EdgeInsets.all(16),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        radius: 30,
-                                                        foregroundImage: ApiService
-                                                            .instance!
-                                                            .iconReferences[Boxes
-                                                                .getMessage()
-                                                            .get(
-                                                                'currentMessage')!
-                                                            .iconIndex]),
-                                                    Flexible(
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 8.0),
-                                                        child: FittedBox(
-                                                          child: Text(
-                                                            Boxes.getMessage()
-                                                                .get(
-                                                                    'currentMessage')!
-                                                                .title,
-                                                            style: TextStyle(
-                                                                fontSize: 40),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(top: 8.0),
-                                                        child: Container(
-                                                          //color:Colors.green,
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                          child: Scrollbar(
-                                                            thumbVisibility:
-                                                                false,
-                                                            child:
-                                                                SingleChildScrollView(
-                                                              child: Text(
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          18),
-                                                                  Boxes.getMessage()
-                                                                      .get(
-                                                                          'currentMessage')!
-                                                                      .message),
+                                                splashColor: Colors.red,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(16),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      CircleAvatar(
+                                                          backgroundColor: Colors
+                                                              .transparent,
+                                                          radius: 30,
+                                                          foregroundImage: ApiService
+                                                              .instance!
+                                                              .iconReferences[Boxes
+                                                                  .getMessage()
+                                                              .get(
+                                                                  'currentMessage')!
+                                                              .iconIndex]),
+                                                      Flexible(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0),
+                                                          child: FittedBox(
+                                                            child: Text(
+                                                              Boxes.getMessage()
+                                                                  .get(
+                                                                      'currentMessage')!
+                                                                  .title,
+                                                              style: TextStyle(
+                                                                  fontSize: 40),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Flexible(
-                                                        child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Icon(Icons
-                                                            .remove_red_eye_outlined),
-                                                        Text(
-                                                            "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
-                                                        Spacer(),
-                                                        TextButton(
-                                                            onPressed: () {},
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(
-                                                                    color: Colors
-                                                                        .green,
-                                                                    Icons
-                                                                        .thumb_up),
-                                                                SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Text('3')
-                                                              ],
-                                                            )),
-                                                        TextButton(
-                                                            onPressed: () {},
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Icon(
-                                                                    color: Colors
-                                                                        .red,
-                                                                    Icons
-                                                                        .thumb_down),
-                                                                SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Text('3')
-                                                              ],
-                                                            ))
-                                                      ],
-                                                    ))
-                                                  ],
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 8.0),
+                                                          child: Container(
+                                                            //color:Colors.green,
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            child: Scrollbar(
+                                                              thumbVisibility:
+                                                                  false,
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                child: Text(
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            18),
+                                                                    Boxes.getMessage()
+                                                                        .get(
+                                                                            'currentMessage')!
+                                                                        .message),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Flexible(
+                                                          child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Icon(Icons
+                                                              .remove_red_eye_outlined),
+                                                          Text(
+                                                              "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
+                                                          Spacer(),
+                                                          TextButton(
+                                                              onPressed: () {},
+                                                              child: Row(
+                                                                children: [
+                                                                  Icon(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      Icons
+                                                                          .thumb_up),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Text('3')
+                                                                ],
+                                                              )),
+                                                          TextButton(
+                                                              onPressed: () {},
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Icon(
+                                                                      color: Colors
+                                                                          .red,
+                                                                      Icons
+                                                                          .thumb_down),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Text('3')
+                                                                ],
+                                                              ))
+                                                        ],
+                                                      ))
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      )
-                                    : FutureBuilder(
-                                        future: ApiService.instance!
-                                            .fetchMessageIfExists(),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return CircularProgressIndicator();
-                                          } else if (snapshot.connectionState ==
-                                              ConnectionState.done) {
-                                            if (snapshot.hasData == true) {
-                                              print(
-                                                  'snapshots data is : ${snapshot.data}');
-                                              if (snapshot.data != null) {
-                                                return Padding(
-                                                  padding: EdgeInsets.all(8),
-                                                  child: Material(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                    elevation: 20,
-                                                    color: Colors.transparent,
-                                                    child: Ink(
-                                                      height: 300,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    105,
-                                                                    0,
-                                                                    0,
-                                                                    0),
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
-                                                        color: Color.fromARGB(
-                                                            255, 252, 252, 252),
-                                                      ),
-                                                      child: InkWell(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
-                                                        splashColor: Colors.red,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  16),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              CircleAvatar(
-                                                                  backgroundColor: Colors
-                                                                      .transparent,
-                                                                  radius: 30,
-                                                                  foregroundImage: ApiService
-                                                                      .instance!
-                                                                      .iconReferences[Boxes
-                                                                          .getMessage()
-                                                                      .get(
-                                                                          'currentMessage')!
-                                                                      .iconIndex]),
-                                                              Flexible(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          8.0),
-                                                                  child:
-                                                                      FittedBox(
-                                                                    child: Text(
-                                                                      Boxes.getMessage()
-                                                                          .get(
-                                                                              'currentMessage')!
-                                                                          .title,
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              40),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      top: 8.0),
-                                                                  child:
-                                                                      Container(
-                                                                    //color:Colors.green,
-                                                                    width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width,
-                                                                    child:
-                                                                        Scrollbar(
-                                                                      thumbVisibility:
-                                                                          false,
-                                                                      child:
-                                                                          SingleChildScrollView(
-                                                                        child: Text(
-                                                                            style:
-                                                                                TextStyle(color: Colors.black, fontSize: 18),
-                                                                            Boxes.getMessage().get('currentMessage')!.message),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Form(
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            key: _formKey,
+                                            child: TextFormField(
+                                              validator: (value) {
+                                                return value!.length < 5
+                                                    ? "Should be greater than 5"
+                                                    : null;
+                                              },
+                                              controller: _chatController,
+                                              maxLines: 1,
+                                              maxLength: 50,
+                                              style: TextStyle(),
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      borderSide: BorderSide(
+                                                          style:
+                                                              BorderStyle.solid,
+                                                          width: .5,
+                                                          color: Colors.black)),
+                                                  errorBorder: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      borderSide: BorderSide(
+                                                          style:
+                                                              BorderStyle.solid,
+                                                          width: .5,
+                                                          color: Colors.black)),
+                                                  focusedBorder: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      borderSide: BorderSide(
+                                                          style:
+                                                              BorderStyle.solid,
+                                                          width: .5,
+                                                          color: Colors.black)),
+                                                  enabledBorder: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(20),
+                                                      borderSide: BorderSide(style: BorderStyle.solid, width: .5, color: Colors.black)),
+                                                  filled: true,
+                                                  suffixIcon: TextButton(
+                                                    onPressed: () {
+                                                      if (_formKey.currentState!
+                                                          .validate()) {
+                                                        print("continue");
+                                                      } else {
+                                                        print(
+                                                            "error, can't send chat");
+                                                      }
+                                                    },
+                                                    child: Icon(
+                                                      Icons.send,
+                                                      color: Colors.black,
                                                     ),
                                                   ),
-                                                );
-                                              }
-                                            } else if (snapshot.data == null) {
-                                              print(
-                                                  'This ran because snapshot is : ${snapshot.data}');
-                                              return Material(
-                                                child: Ink(
-                                                  height: 200,
-                                                  color: Colors.blue,
-                                                  child: AlertDialog(
-                                                    title: Center(
-                                                        child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text("Empty"),
-                                                        Icon(
-                                                          Icons
-                                                              .warning_amber_outlined,
-                                                          color:
-                                                              Colors.redAccent,
-                                                        )
-                                                      ],
-                                                    )),
-                                                    content: Text(
-                                                        "This is awkward. There are currently no messages to show at this time."),
-                                                  ),
-                                                ),
-                                              );
-                                            }
-                                          } else if (snapshot.connectionState ==
-                                              ConnectionState.none) {
-                                            return Text("none");
-                                          } else if (snapshot.connectionState ==
-                                              ConnectionState.active) {
-                                            return Text('waiting');
-                                          } else {
-                                            return Text('error');
-                                          }
-                                          throw e;
-                                        },
-                                      ),
-                              ],
-                            ),
-                          )),
-                      Expanded(
-                          flex: 50,
-                          child: Container(
-                            //color: Colors.green,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [Text("Previous Messages 1/2: ")],
-                                )
-                              ],
-                            ),
-                          )),
+                                                  hintText: "Send a chat",
+                                                  fillColor: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ));
+                            }
+                            ;
+                          }
+                          return Text("error");
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -653,8 +677,8 @@ class _HomeState extends State<Home> {
 }
 
 class TextTimer extends StatefulWidget {
-   TextTimer(this.color, {super.key});
- late MaterialColor color;
+  TextTimer(this.color, {super.key});
+  late MaterialColor color;
   @override
   State<TextTimer> createState() => _TextTimerState();
 }
@@ -710,7 +734,7 @@ class _TextTimerState extends State<TextTimer> {
       //width: 65,
       child: Text(
         '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
-        style: TextStyle(color: this.widget.color,overflow: TextOverflow.fade),
+        style: TextStyle(color: this.widget.color, overflow: TextOverflow.fade),
       ),
     );
   }
