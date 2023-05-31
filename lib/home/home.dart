@@ -6,6 +6,7 @@ import 'package:bottom_sheet_scaffold/bottom_sheet_scaffold.dart';
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/home/const_widgets/sign_out_button.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
+import 'package:coast_terminal/home/rdhome.dart';
 import 'package:coast_terminal/models/message.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
@@ -142,10 +143,12 @@ class _HomeWrapperState extends State<HomeWrapper>
                     ),
                   ),
                 )
-              : Home()),
+              : RDHOME()//Home()
+              ),
     );
   }
 }
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -356,30 +359,6 @@ class _HomeState extends State<Home> {
                                     )),
                                     content: Text(
                                         "This is awkward. There are currently no messages to show at this time."),
-                                  ),
-                                ),
-                              );
-                            } else if (false == false) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                color: Colors.purple,
-                                child:  SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                      TextFormField(),
-                                    ],
                                   ),
                                 ),
                               );
