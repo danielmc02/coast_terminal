@@ -194,6 +194,7 @@ class ApiService {
       });
     }
   }
+    MessageInstance? currentFetchedMessage;
 
   Future<MessageInstance?> fetchMessageIfExists() async {
     if( Boxes.getMessage().get('currentMessage') != null)

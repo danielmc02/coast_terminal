@@ -14,6 +14,7 @@ class HomeProvider extends ChangeNotifier {
   double progress = 0;
   String status = "Loading";
   late BuildContext context;
+  late MessageInstance? curMess;
   HomeProvider(BuildContext contextz) {
     context = contextz;
     _init();
@@ -30,6 +31,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<void> HomeBuild() async {
+   curMess = await ApiService.instance!.fetchMessageIfExists();
+   //notifyListeners();
     print("running home functions---");
     print("checking that you are in the right location");
     await updateStats("Checking that you are at an eligible campus", null);

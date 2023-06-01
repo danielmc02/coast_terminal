@@ -143,8 +143,8 @@ class _HomeWrapperState extends State<HomeWrapper>
                     ),
                   ),
                 )
-              : RDHOME()//Home()
-              ),
+              : RDHOME2() //Home()
+          ),
     );
   }
 }
