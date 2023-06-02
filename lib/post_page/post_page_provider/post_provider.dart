@@ -1,5 +1,4 @@
 import 'package:coast_terminal/api_service.dart';
-import 'package:coast_terminal/models/message.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -127,7 +126,9 @@ class PostProvider extends ChangeNotifier {
         "Current Views": 0.1,
         "Max Views": sliderValue,
         "Title": title.toString(),
-        "Message": message.toString()
+        "Message": message.toString(),
+      //  "Likes" : 0.1,
+      //  "Dislikes" : 0.1
       }).then((value) async {
         //Message has been posted under message tree, now add it to the keys tree
         await ApiService.instance!.keys!
@@ -141,7 +142,7 @@ class PostProvider extends ChangeNotifier {
             0,
             title.toString(),
             message.toString(),);*/
-        UserInstance? newest = await Boxes.getuser().get('mainUser');
+        UserInstance? newest = Boxes.getuser().get('mainUser');
 
         newest!.hasPostedMessage = true;
         await Boxes.getuser().put('mainUser', newest);
@@ -150,7 +151,7 @@ class PostProvider extends ChangeNotifier {
       }).then((value) => null);
       return result;
     } catch (e) {
-      print("there was an error in step 1 of publishing message : ${e}");
+      print("there was an error in step 1 of publishing message : $e");
       return false;
     }
   }

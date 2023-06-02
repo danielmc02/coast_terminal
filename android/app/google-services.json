@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "265150846702",
+    "firebase_url": "https://coast-terminal-b873c-default-rtdb.firebaseio.com",
     "project_id": "coast-terminal-b873c",
     "storage_bucket": "coast-terminal-b873c.appspot.com"
   },
@@ -29,10 +30,18 @@
             {
               "client_id": "265150846702-kdvsckjdedla3u7praor7911d53cmfsq.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "265150846702-5o37i5dshnciis8aft5sjodijurvss3t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coastTerminal"
+              }
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-3530957535788194~4216221185"
     }
   ],
   "configuration_version": "1"

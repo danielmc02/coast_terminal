@@ -9,10 +9,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:provider/provider.dart';
 
 import 'constants/boxes.dart';
-import 'home/provider/home_provider.dart';
 
 class ApiService {
   static ApiService? _instance;
@@ -202,6 +200,7 @@ class ApiService {
       print("Exiting early");
       return  Boxes.getMessage().get('currentMessage');
     }
+    print("didnt exit early");
     MessageInstance? currentFetchedMessage;
     Map spec = {};
     String key = "";
@@ -213,7 +212,7 @@ class ApiService {
         print("THE COUNT IS $count");
         return Transaction.success(count);
       }).then((value) async {
-        int returnedCountValue = await value.snapshot.value as int;
+        int returnedCountValue = value.snapshot.value as int;
         print('The final ran value is $returnedCountValue');
         if (returnedCountValue > 0) {
           String? fetchedRandomKey = await returnRandomMessageKey();
@@ -229,22 +228,46 @@ class ApiService {
             print(spec['Title']);
             print(spec['Message']);
             int curView = 0;
+                 int? likes = null;
+           int? dislikes = null;
             if (spec['Current Views'] == 0.1) {
               print(
-                  "assigning curView of 0 ${spec['Current Views'].toString()}");
-              curView = 0;
+                  "This is a new message, assigning the current view to 1 because it's the first view");
+              curView = 1;
             } else {
               print(
                   "assigning curView as what it is ${spec['Current Views'].toString()}");
               curView = spec['Current Views'] as int;
             }
+              if(spec["Likes"] == null)
+            {
+              print("This is a fresh message with null likes, assigning like count to zero;");
+              likes = 0;
+            }
+            else
+            {
+              print("this is not a fresh message with 0 likes, assigning like count to as is value");
+              likes = spec["Likes"];
+            
+            }
+             if(spec["Dislikes"] == null)
+            {
+              print("This is a fresh message with null dislikes, assigning dislikes count to zero;");
+              dislikes = 0;
+            }
+            else
+            {
+              print("this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
+              dislikes = spec["Dislikes"];
+            
+            }
             final temp = MessageInstance(fetchedRandomKey, spec['Badge Index'],
-                spec['Max Views'], spec['Title'], spec['Message'], curView);
+                spec['Max Views'], spec['Title'], spec['Message'], curView,null,null,likes,dislikes);
             currentFetchedMessage = temp;
             print(currentFetchedMessage);
             await Boxes.getMessage()
                 .put('currentMessage', currentFetchedMessage!);
-            incrementRespectedMessage(fetchedRandomKey);
+       //    await incrementRespectedMessage(fetchedRandomKey);
           });
         }
       });
@@ -252,7 +275,7 @@ class ApiService {
       return currentFetchedMessage;
     } catch (e) {
       print("FFFFFFUUUUCCCCKKKK");
-      print('error in step 1: ${e}');
+      print('error in step 1: $e');
       return null;
     }
   }
@@ -282,7 +305,7 @@ class ApiService {
   }
 
   Future<RewardedAd?> loadAd() async {
-    RewardedAd? _rewardedAd;
+    RewardedAd? rewardedAd;
     final adUnitId = Platform.isAndroid
         ? 'ca-app-pub-3940256099942544/5224354917'
         : 'ca-app-pub-3940256099942544/1712485313';
@@ -298,12 +321,46 @@ class ApiService {
             },
           );
           print('$ad loaded');
-          _rewardedAd = ad;
+          rewardedAd = ad;
         }, onAdFailedToLoad: (LoadAdError error) {
           print(error);
         }));
-       await _rewardedAd!.show(onUserEarnedReward: (ad, reward) {
+       await rewardedAd!.show(onUserEarnedReward: (ad, reward) {
        
        },);
+       return null;
+  }
+
+  Future<void> likeMessage() async
+  {
+   // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+  final respectedMessageNode = _messagesDatabase!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+  respectedMessageNode.child('Likes').runTransaction((value) {
+                //  int count = value == null ? 0 : value as int;
+    int likes = value == null ? 0 : value as int;
+   // print(value.isUndefinedOrNull);
+  print(likes);
+  likes++;
+    return Transaction.success(likes);
+  }).then((value) {
+    print("final value is ${value.snapshot.value}");
+
+  });
+  }
+    Future<void> dislikeMessage() async
+  {
+   // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+  final respectedMessageNode = _messagesDatabase!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+  respectedMessageNode.child('Dislikes').runTransaction((value) {
+                //  int count = value == null ? 0 : value as int;
+    int likes = value == null ? 0 : value as int;
+   // print(value.isUndefinedOrNull);
+  print(likes);
+  likes++;
+    return Transaction.success(likes);
+  }).then((value) {
+    print("final value is ${value.snapshot.value}");
+
+  });
   }
 }

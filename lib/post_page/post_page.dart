@@ -1,10 +1,7 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/post_page/post_page_provider/post_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class PostPage extends StatefulWidget {
@@ -37,26 +34,26 @@ class _PostPageState extends State<PostPage> {
                     Scaffold.of(context).openDrawer();
                   },
                   child: ClipOval(
-                      child: Container(
+                      child: SizedBox(
                           width: 50, height: 50, child: algo.chosen)));
             }),
             drawer: Drawer(
               child: DrawerBody(),
             ),
-            backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+            backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
             appBar: AppBar(
-              backgroundColor: Color.fromARGB(255, 56, 62, 78),
+              backgroundColor: const Color.fromARGB(255, 56, 62, 78),
               leading: IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
                   ApiService.instance!.pageController.animateToPage(0,
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.linear);
                 },
               ),
               title: const Text("Post"),
             ),
-            body: PostBody()),
+            body: const PostBody()),
       ),
     );
   }
@@ -92,11 +89,12 @@ class _PostBodyState extends State<PostBody> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 0),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 0),
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: Container(
+          child: SizedBox(
             //    color: Colors.green,
             height: MediaQuery.of(context).size.height,
             child: Column(
@@ -107,18 +105,18 @@ class _PostBodyState extends State<PostBody> {
                       //   color: Color.fromARGB(192, 194, 13, 13),
                       child: TextField(
                         controller: titleController,
-                        inputFormatters: [
+                        inputFormatters: const [
                           // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z_]'),)
                         ],
-                        cursorColor: Color.fromARGB(255, 183, 183, 183),
+                        cursorColor: const Color.fromARGB(255, 183, 183, 183),
                         showCursor: true,
                         maxLength: 30,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: "Roboto",
                             color: Colors.black,
                             fontSize: 35),
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.zero,
                           ),
@@ -130,7 +128,7 @@ class _PostBodyState extends State<PostBody> {
                         ),
                       ),
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Flexible(
@@ -140,22 +138,22 @@ class _PostBodyState extends State<PostBody> {
                       child: TextField(
                         controller: messageController,
                         showCursor: true,
-                        cursorColor: Color.fromARGB(255, 183, 183, 183),
+                        cursorColor: const Color.fromARGB(255, 183, 183, 183),
                         maxLength: 500,
                         minLines: 22,
                         maxLines: 22,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: "Roboto",
                             color: Colors.black,
                             fontSize: 20),
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: const BorderSide(color: Colors.black),
                             //  borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: const BorderSide(color: Colors.black),
                             //  borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -167,7 +165,7 @@ class _PostBodyState extends State<PostBody> {
                         ),
                       ),
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 48,
                 ),
                 Flexible(
@@ -179,7 +177,7 @@ class _PostBodyState extends State<PostBody> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: "Roboto",
                               color: Colors.black,
                               fontSize: 21),
@@ -203,7 +201,7 @@ class _PostBodyState extends State<PostBody> {
                         },
                         // label: _currentValue.toInt().toString(),
                       )),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Consumer<PostProvider>(
@@ -219,7 +217,7 @@ class _PostBodyState extends State<PostBody> {
                             ApiService.instance!.currentMessageSucessresult
                                 ? ApiService.instance!.pageController
                                     .animateToPage(0,
-                                        duration: Duration(milliseconds: 500),
+                                        duration: const Duration(milliseconds: 500),
                                         curve: Curves.linear)
                                 : showDialog(
                                     context: context,
@@ -282,14 +280,14 @@ class _PostBodyState extends State<PostBody> {
 Widget DrawerBody() {
   return Consumer<PostProvider>(
     builder: (context, algo, child) => Padding(
-      padding: EdgeInsets.only(top: 50, left: 20),
+      padding: const EdgeInsets.only(top: 50, left: 20),
       child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
-                FittedBox(
+                const FittedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -307,10 +305,10 @@ Widget DrawerBody() {
                   child: Container(
                     //color: Colors.red,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 24, left: 8, top: 0),
+                      padding: const EdgeInsets.only(bottom: 24, left: 8, top: 0),
                       child: ListView.builder(
-                        padding: EdgeInsets.only(top: 0),
-                        physics: ClampingScrollPhysics(),
+                        padding: const EdgeInsets.only(top: 0),
+                        physics: const ClampingScrollPhysics(),
                         itemExtent: 80,
                         shrinkWrap: true,
                         itemCount: algo.badges.length,
@@ -358,7 +356,7 @@ Widget DrawerBody() {
                                                     .elementAt(
                                                         index)]!['selected']
                                                 ? Colors.black
-                                                : Color.fromARGB(62, 0, 0, 0),
+                                                : const Color.fromARGB(62, 0, 0, 0),
                                             fontSize: 25)),
                                   )
                                 ],
@@ -378,14 +376,14 @@ Widget DrawerBody() {
 }
 
 Widget messageBox() {
-  return SizedBox(
+  return const SizedBox(
     width: 400,
     height: 300,
     child: Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const TextField(
+        TextField(
           decoration: InputDecoration(),
         )
       ],

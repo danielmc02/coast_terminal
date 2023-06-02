@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -20,7 +18,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   RewardedAd? _rewardedAd;
   final adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/5224354917' 
+      ? 'ca-app-pub-3940256099942544/5224354917'
       : 'ca-app-pub-3940256099942544/1712485313';
   Future<LoadAdError?> loadAd() async {
     await RewardedAd.load(
@@ -40,6 +38,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         }, onAdFailedToLoad: (LoadAdError error) {
           print(error);
         }));
+    return null;
   }
 
   late PageController? _pageController;
@@ -56,6 +55,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   late List<TyperAnimatedText> choices;
 
   int titleIndex = 0;
+  @override
   void initState() {
     loadAd();
     _pageController = PageController();
@@ -72,6 +72,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.initState();
   }
 
+  @override
   void dispose() {
     _pageController!.dispose();
     super.dispose();
@@ -79,15 +80,239 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return SafeArea(
+      top: false,
+      bottom: false,
+      right: false,
+      left: false,
+
+      child: Scaffold(
+     
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              Expanded(
+                  flex: 100,
+                  child: Container(
+                   // color: Colors.red,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:40.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),elevation: 4,color: Colors.teal,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 300,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Flexible(child: 
+                                  SingleChildScrollView(
+                                    child: AnimatedTextKit(animatedTexts: [
+                                      TyperAnimatedText("Does anyone feel like this school lowkey ", textStyle: Theme.of(context).textTheme.bodyLarge)
+                                    ]),
+                                  )
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),)
+                        ],
+                      ),
+                    ),
+                  )),
+              Expanded(
+                flex: 50,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 10, 10, 10),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 50,
+                            child: TextButton(
+                                style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            side: const BorderSide(
+                                                color: Colors.black),
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                    overlayColor:
+                                        MaterialStateProperty.all(Colors.grey)),
+                                onPressed: () {
+                                  Platform.isAndroid
+                                      ? showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Text(
+                                                    "To support the maintenance and improvement of the app's quality, users are kindly requested to watch an ad. By doing so, users contribute to the sustainability of the app's development and its ability to provide its services."),
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        await _rewardedAd!.show(
+                                                          onUserEarnedReward:
+                                                              (ad, reward) {
+                                                            print(
+                                                                "here is your award");
+                                                          },
+                                                        );
+                                                      },
+                                                      style: ButtonStyle(
+                                                          shape: MaterialStateProperty.all(
+                                                              RoundedRectangleBorder(
+                                                                  side: const BorderSide(
+                                                                      color: Colors
+                                                                          .black),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10))),
+                                                          backgroundColor:
+                                                              MaterialStateProperty.all(
+                                                                  Colors.white),
+                                                          overlayColor:
+                                                              MaterialStateProperty
+                                                                  .all(Colors.grey)),
+                                                      child: const Text(
+                                                          "Understood, take me to terminal"),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : Platform.isIOS == true
+                                          ? showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (context) {
+                                                return CupertinoAlertDialog(
+                                                  title: const Text("Hold on!"),
+                                                  content: const Text(
+                                                      "To support the maintenance and improvement of the app's quality, users are kindly requested to watch an ad. By doing so, users contribute to the sustainability of the app's development and its ability to provide its services."),
+                                                  actions: <CupertinoDialogAction>[
+                                                    CupertinoDialogAction(
+                                                      /// This parameter indicates this action is the default,
+                                                      /// and turns the action's text to bold text.
+                                                      isDefaultAction: true,
+                                                      isDestructiveAction: true,
+    
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'No',
+                                                      ),
+                                                    ),
+                                                    CupertinoDialogAction(
+                                                      /// This parameter indicates the action would perform
+                                                      /// a destructive action such as deletion, and turns
+                                                      /// the action's text color to red.
+                                                      isDestructiveAction: false,
+                                                      isDefaultAction: true,
+                                                      onPressed: () async {
+                                                        await _rewardedAd!.show(
+                                                          onUserEarnedReward:
+                                                              (ad, reward) {
+                                                            print(
+                                                                "here is your award");
+                                                          },
+                                                        );
+                                                        /*
+                                                              Navigator.pop(
+                                                                  context);
+                                                              await ApiService
+                                                                  .instance!
+                                                                  .signInAnon();
+                                                                  */
+                                                      },
+                                                      child: const Text('Yes'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            )
+                                          : null;
+                                },
+                                child: FittedBox(
+                                  child: const Text(
+                                    "Get Started",
+                                    style: TextStyle(
+                                        fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 40,
+                                        color: Colors.black),
+                                  ),
+                                ))),
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              "By tapping Get Started, you agree to your",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, Platform.isIOS ? CupertinoPageRoute(builder: (context) => TOS(),) : MaterialPageRoute(builder:(context) => TOS()));
+                              },
+                                child: Text(
+                              "Terms • Privacy Policy",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  /*Scaffold(
+
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      body: 
+      SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Stack(
                 children: [
@@ -106,7 +331,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                 child: PageView(
                                   reverse: false,
                                   scrollDirection: Axis.horizontal,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   controller: _pageController,
                                   children: [
                                     Align(
@@ -164,16 +389,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                         setState(() {
                                           _pageController!.animateToPage(
                                               titleIndex,
-                                              duration: Duration(seconds: 1),
+                                              duration:
+                                                  const Duration(seconds: 1),
                                               curve: Curves.decelerate);
                                         });
                                       },
-                                      pause: Duration(milliseconds: 500),
+                                      pause: const Duration(milliseconds: 500),
                                       repeatForever: true,
                                       isRepeatingAnimation: true,
                                       animatedTexts: <AnimatedText>[
                                         FadeAnimatedText(
-                                            duration: Duration(seconds: 5),
+                                            duration:
+                                                const Duration(seconds: 5),
                                             textAlign: TextAlign.center,
                                             headings[titleIndex],
                                             textStyle: GoogleFonts.poppins(
@@ -194,7 +421,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ],
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: const EdgeInsets.all(40.0),
@@ -238,7 +465,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                     children: [
                                                       TextButton(
                                                         onPressed: () async {
-                                                                    await _rewardedAd!
+                                                          await _rewardedAd!
                                                               .show(
                                                             onUserEarnedReward:
                                                                 (ad, reward) {
@@ -277,11 +504,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                 context: context,
                                                 builder: (context) {
                                                   return CupertinoAlertDialog(
-                                                    title: Text("Hold on!"),
+                                                    title:
+                                                        const Text("Hold on!"),
                                                     content: const Text(
                                                         "To support the maintenance and improvement of the app's quality, users are kindly requested to watch an ad. By doing so, users contribute to the sustainability of the app's development and its ability to provide its services."),
-                                                    actions: <
-                                                        CupertinoDialogAction>[
+                                                    actions: <CupertinoDialogAction>[
                                                       CupertinoDialogAction(
                                                         /// This parameter indicates this action is the default,
                                                         /// and turns the action's text to bold text.
@@ -344,6 +571,89 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );*/
+}
+
+class TOS extends StatelessWidget {
+  const TOS({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Terms of Service'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Terms of Service',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Introduction',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Important Section',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8.0),
+              RichText(
+                text: TextSpan(
+                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' Important details here',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' consectetur adipiscing elit.',
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Conclusion',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              ),
+            ],
+          ),
         ),
       ),
     );

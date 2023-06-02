@@ -1,14 +1,19 @@
+import 'dart:ui';
+
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/home/home.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:coast_terminal/onboarding/onboarding_screen.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'firebase_options.dart';
 import 'models/message.dart';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -16,14 +21,29 @@ void main() async {
   await Hive.openBox<UserInstance>('user');
   Hive.registerAdapter(MessageInstanceAdapter());
   await Hive.openBox<MessageInstance>('chats');
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+   // options: DefaultFirebaseOptions.currentPlatform,
+
+
+  );
   await MobileAds.instance.initialize();
-  
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
 SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
+  /*
+ runApp(DevicePreview(
+      enabled: !kReleaseMode,
+builder: (context) => const MyApp(),));*/
 }
 
 class MyApp extends StatelessWidget {
@@ -67,12 +87,12 @@ class _OnboardScreenState extends State<OnboardScreen> {
                   print('${snapshot.data} : Beggining');
                   if (snapshot.hasData) {
                     if (snapshot.data!.uid != null) {
-                      return HomeWrapper();
+                      return const HomeWrapper();
                     } else if (snapshot.data!.uid == null) {
-                      return OnboardingPage();
+                      return const OnboardingPage();
                     }
                   } else if (snapshot.hasData == false) {
-                    return OnboardingPage();
+                    return const OnboardingPage();
                   }
 
                   return const Text("errooooooooooor");

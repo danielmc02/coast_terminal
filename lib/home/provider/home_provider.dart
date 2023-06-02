@@ -1,8 +1,6 @@
-import 'dart:math';
 
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/message.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -24,6 +22,28 @@ class HomeProvider extends ChangeNotifier {
     HomeBuild();
   }
 
+  Future<void> likesOrDislikes(String code) async
+  {
+    //find out what the default value is ie. weather or not a message was ever liked/disliked to begin with
+
+
+    switch (code) {
+      case "like":
+        print("liked message");
+        await ApiService.instance!.likeMessage();
+        break;
+
+      case "dislike":
+        print("disliked the message");
+        await ApiService.instance!.dislikeMessage();
+
+        break;
+      default:
+      print("Didn't recieve a proper code");
+    }
+
+  }
+
   Future<void> updateStats(String? stat, double? prog) async {
     stat == null ? null : status = stat;
     prog == null ? null : progress = prog;
@@ -31,6 +51,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<void> HomeBuild() async {
+
    curMess = await ApiService.instance!.fetchMessageIfExists();
    //notifyListeners();
     print("running home functions---");
@@ -84,7 +105,7 @@ class HomeProvider extends ChangeNotifier {
       isAtOcc == true ? print("IT KNOWS IM AT OCC") : print("Is not at OCC");
       progress = 0.5;
       notifyListeners();
-      await Future.delayed(Duration(seconds: 4));
+      await Future.delayed(const Duration(seconds: 4));
       //run the necessary functions before displaying home
       //The first one will be checking if a current message exists and if you need to delete it if it hit max view
       //This is good because you can update the message even if you dont want to remove it
@@ -110,20 +131,46 @@ class HomeProvider extends ChangeNotifier {
        Map spec = result.value as Map;
           print(spec);          
            int curView = 0;
+           int? likes = null;
+           int? dislikes = null;
             if(spec['Current Views'] == 0.1)
             {
               print("assigning curView of 0 ${spec['Current Views'].toString()}");
-              curView = 0;
+              curView = 1;
             }
             else
             {
               print("assigning curView as what it is ${spec['Current Views'].toString()}");
-              curView = spec['Current Views'] as int;
+              curView = spec['Current Views']+1 as int;
+            }
+            if(spec["Likes"] == null)
+            {
+              print("This is a fresh message with 0 likes, assigning like count to zero;");
+              likes = 0;
+            }
+            else
+            {
+              print("this is not a fresh message with 0 likes, assigning like count to as is value");
+              likes = spec["Likes"];
+            
+            }
+             if(spec["Dislikes"] == null)
+            {
+              print("This is a fresh message with 0 likes, assigning dislikes count to zero;");
+              dislikes = 0;
+            }
+            else
+            {
+              print("this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
+              dislikes = spec["Dislikes"];
+            
             }
             final temp = MessageInstance(specz, spec['Badge Index'],
-                spec['Max Views'], spec['Title'], spec['Message'],curView);
+                spec['Max Views'], spec['Title'], spec['Message'],curView,null,null,likes,dislikes);
                 await Boxes.getMessage().get('currentMessage')!.delete();
                await Boxes.getMessage().put('currentMessage', temp);
+                          await ApiService.instance!.incrementRespectedMessage(specz);
+
         });
       } catch (e) {
         print("uhohhh, The error must not exist anymore... delete it, $e");

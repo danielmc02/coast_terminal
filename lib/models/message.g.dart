@@ -23,13 +23,17 @@ class MessageInstanceAdapter extends TypeAdapter<MessageInstance> {
       fields[3] as String,
       fields[4] as String,
       fields[5] as int,
+      fields[6] as bool?,
+      fields[7] as bool?,
+      fields[8] as int?,
+      fields[9] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MessageInstance obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.uidAdmin)
       ..writeByte(1)
@@ -41,7 +45,15 @@ class MessageInstanceAdapter extends TypeAdapter<MessageInstance> {
       ..writeByte(4)
       ..write(obj.message)
       ..writeByte(5)
-      ..write(obj.currentViews);
+      ..write(obj.currentViews)
+      ..writeByte(6)
+      ..write(obj.liked)
+      ..writeByte(7)
+      ..write(obj.disliked)
+      ..writeByte(8)
+      ..write(obj.likes)
+      ..writeByte(9)
+      ..write(obj.dislikes);
   }
 
   @override

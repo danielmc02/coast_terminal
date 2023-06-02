@@ -2,12 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:bottom_sheet_scaffold/bottom_sheet_scaffold.dart';
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
-import 'package:coast_terminal/home/const_widgets/sign_out_button.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:coast_terminal/home/rdhome.dart';
-import 'package:coast_terminal/models/message.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../constants/boxes.dart';
 import '../post_page/post_page.dart';
 import '../api_service.dart';
-import 'package:provider/provider.dart';
 
 class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});
@@ -34,7 +30,7 @@ class _HomeWrapperState extends State<HomeWrapper>
     randomNumber = Random().nextInt(facts.length);
     super.initState();
     _animationController =
-        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+        AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     _animation =
         Tween<double>(begin: null, end: null).animate(_animationController);
   }
@@ -78,12 +74,12 @@ class _HomeWrapperState extends State<HomeWrapper>
           builder: (context, algo, child) => algo.metReq == false
               ? Scaffold(
                   appBar: AppBar(
-                    backgroundColor: Color.fromARGB(0, 210, 222, 255),
+                    backgroundColor: const Color.fromARGB(0, 210, 222, 255),
                     shadowColor: Colors.transparent,
-                    foregroundColor: Color.fromARGB(0, 162, 34, 34),
+                    foregroundColor: const Color.fromARGB(0, 162, 34, 34),
                     surfaceTintColor: Colors.transparent,
                   ),
-                  body: Container(
+                  body: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -97,7 +93,7 @@ class _HomeWrapperState extends State<HomeWrapper>
                               // pause: Duration(seconds: 0),
                               animatedTexts: <AnimatedText>[
                                 FadeAnimatedText(facts[randomNumber],
-                                    duration: Duration(seconds: 300),
+                                    duration: const Duration(seconds: 300),
                                     fadeInEnd: .005,
                                     textStyle:
                                         Theme.of(context).textTheme.bodyLarge,
@@ -120,7 +116,7 @@ class _HomeWrapperState extends State<HomeWrapper>
                                     color: Colors.black,
                                     value: algo.progress,
                                     backgroundColor: Colors.grey,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                    valueColor: const AlwaysStoppedAnimation<Color>(
                                         Colors.green),
                                   ),
                                 ),
@@ -131,25 +127,25 @@ class _HomeWrapperState extends State<HomeWrapper>
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Text(
                           algo.status,
-                          style: TextStyle(
-                              color: const Color.fromARGB(110, 0, 0, 0)),
+                          style: const TextStyle(
+                              color: Color.fromARGB(110, 0, 0, 0)),
                         )
                       ],
                     ),
                   ),
                 )
-              : RDHOME2() //Home()
+              : const RDHOME2() //Home()
           ),
     );
   }
 }
 
-
+/*
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -164,6 +160,7 @@ class _HomeState extends State<Home> {
   late int remainingTime;
   final _formKey = GlobalKey<FormState>();
 
+  @override
   void initState() {
     _controller = ConfettiController(duration: const Duration(seconds: 1));
     //if a current message exists, check it's count
@@ -172,6 +169,7 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  @override
   void dispose() {
     _chatController.dispose();
     _controller.dispose();
@@ -184,7 +182,7 @@ class _HomeState extends State<Home> {
       children: [
         Consumer<HomeProvider>(
           builder: (context, algo, child) => PageView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             onPageChanged: (value) {
               print("page has been changed: $value");
               if (value == 0 &&
@@ -214,7 +212,7 @@ class _HomeState extends State<Home> {
                               children: <Widget>[
                                 const Text('Modal BottomSheet'),
                                 ElevatedButton(
-                                  style: ButtonStyle(
+                                  style: const ButtonStyle(
                                       backgroundColor:
                                           MaterialStatePropertyAll(Colors.red)),
                                   child: const Text('Delete Account'),
@@ -228,12 +226,12 @@ class _HomeState extends State<Home> {
                       },
                     );
                   },
-                  child: Icon(Icons.settings_outlined),
+                  child: const Icon(Icons.settings_outlined),
                 ),
                 bottomNavigationBar: BottomAppBar(
                   height: 100,
                   elevation: 0,
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   color: Colors.transparent,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -287,12 +285,12 @@ class _HomeState extends State<Home> {
                           } else {
                             ApiService.instance!.pageController
                                 .nextPage(
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     curve: Curves.linear)
                                 .then((value) {
                               setState(() {
                                 ApiService.instance!.ref = false;
-                                Timer(Duration(seconds: 1), () {
+                                Timer(const Duration(seconds: 1), () {
                                   ApiService.instance!.ref = true;
                                 });
                               });
@@ -303,7 +301,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                backgroundColor: Color.fromARGB(255, 241, 242,
+                backgroundColor: const Color.fromARGB(255, 241, 242,
                     246), //Dark - Color.fromARGB(255, 39, 47, 62),
                 appBar: AppBar(
                   centerTitle: true,
@@ -311,17 +309,17 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextTimer(Colors.red),
-                      Text(" until automatic signout",
+                      const Text(" until automatic signout",
                           style:
                               TextStyle(color: Color.fromARGB(150, 0, 0, 0))),
                     ],
                   ),
-                  backgroundColor: Color.fromARGB(0, 210, 222, 255),
+                  backgroundColor: const Color.fromARGB(0, 210, 222, 255),
                   shadowColor: Colors.transparent,
-                  foregroundColor: Color.fromARGB(0, 162, 34, 34),
+                  foregroundColor: const Color.fromARGB(0, 162, 34, 34),
                   surfaceTintColor: Colors.transparent,
                 ),
-                body: Container(
+                body: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -333,7 +331,7 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
+                            return const Center(
                               child: Text("Loading"),
                             );
                           } else if (snapshot.connectionState ==
@@ -344,7 +342,7 @@ class _HomeState extends State<Home> {
                                 flex: 80,
                                 child: Container(
                                   //   color: Colors.red,
-                                  child: AlertDialog(
+                                  child: const AlertDialog(
                                     title: Center(
                                         child: Row(
                                       mainAxisAlignment:
@@ -373,7 +371,7 @@ class _HomeState extends State<Home> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(8),
                                           child: Material(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -383,19 +381,19 @@ class _HomeState extends State<Home> {
                                               height: 300,
                                               decoration: BoxDecoration(
                                                   border: Border.all(
-                                                      color: Color.fromARGB(
+                                                      color: const Color.fromARGB(
                                                           105, 0, 0, 0),
                                                       width: 1),
                                                   borderRadius:
                                                       BorderRadius.circular(20),
-                                                  color: Color.fromARGB(
+                                                  color: const Color.fromARGB(
                                                       119, 255, 255, 255)),
                                               child: InkWell(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                                 splashColor: Colors.red,
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(16),
+                                                  padding: const EdgeInsets.all(16),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -429,7 +427,7 @@ class _HomeState extends State<Home> {
                                                                   .get(
                                                                       'currentMessage')!
                                                                   .title,
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   fontSize: 40),
                                                             ),
                                                           ),
@@ -441,7 +439,7 @@ class _HomeState extends State<Home> {
                                                               const EdgeInsets
                                                                       .only(
                                                                   top: 8.0),
-                                                          child: Container(
+                                                          child: SizedBox(
                                                             //color:Colors.green,
                                                             width:
                                                                 MediaQuery.of(
@@ -454,7 +452,7 @@ class _HomeState extends State<Home> {
                                                               child:
                                                                   SingleChildScrollView(
                                                                 child: Text(
-                                                                    style: TextStyle(
+                                                                    style: const TextStyle(
                                                                         color: Colors
                                                                             .black,
                                                                         fontSize:
@@ -473,14 +471,14 @@ class _HomeState extends State<Home> {
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         children: [
-                                                          Icon(Icons
+                                                          const Icon(Icons
                                                               .remove_red_eye_outlined),
                                                           Text(
                                                               "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
-                                                          Spacer(),
+                                                          const Spacer(),
                                                           TextButton(
                                                               onPressed: () {},
-                                                              child: Row(
+                                                              child: const Row(
                                                                 children: [
                                                                   Icon(
                                                                       color: Colors
@@ -495,7 +493,7 @@ class _HomeState extends State<Home> {
                                                               )),
                                                           TextButton(
                                                               onPressed: () {},
-                                                              child: Row(
+                                                              child: const Row(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .spaceBetween,
@@ -538,13 +536,13 @@ class _HomeState extends State<Home> {
                                               controller: _chatController,
                                               maxLines: 1,
                                               maxLength: 50,
-                                              style: TextStyle(),
+                                              style: const TextStyle(),
                                               decoration: InputDecoration(
                                                   border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                           style:
                                                               BorderStyle.solid,
                                                           width: .5,
@@ -553,7 +551,7 @@ class _HomeState extends State<Home> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                           style:
                                                               BorderStyle.solid,
                                                           width: .5,
@@ -562,7 +560,7 @@ class _HomeState extends State<Home> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               20),
-                                                      borderSide: BorderSide(
+                                                      borderSide: const BorderSide(
                                                           style:
                                                               BorderStyle.solid,
                                                           width: .5,
@@ -570,7 +568,7 @@ class _HomeState extends State<Home> {
                                                   enabledBorder: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(20),
-                                                      borderSide: BorderSide(style: BorderStyle.solid, width: .5, color: Colors.black)),
+                                                      borderSide: const BorderSide(style: BorderStyle.solid, width: .5, color: Colors.black)),
                                                   filled: true,
                                                   suffixIcon: TextButton(
                                                     onPressed: () {
@@ -582,7 +580,7 @@ class _HomeState extends State<Home> {
                                                             "error, can't send chat");
                                                       }
                                                     },
-                                                    child: Icon(
+                                                    child: const Icon(
                                                       Icons.send,
                                                       color: Colors.black,
                                                     ),
@@ -596,16 +594,15 @@ class _HomeState extends State<Home> {
                                     ),
                                   ));
                             }
-                            ;
                           }
-                          return Text("error");
+                          return const Text("error");
                         },
                       )
                     ],
                   ),
                 ),
               ),
-              PostPage(),
+              const PostPage(),
             ],
           ),
         ),
@@ -666,8 +663,9 @@ class _TextTimerState extends State<TextTimer> {
   late Timer _timer;
 
   late int remainingTime;
+  @override
   void initState() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       int remainingTimeInSeconds = 24 * 60 * 60 -
           (DateTime.now().millisecondsSinceEpoch -
                   Boxes.getuser()
@@ -696,13 +694,14 @@ class _TextTimerState extends State<TextTimer> {
     super.initState();
   }
 
+  @override
   void dispose() {
     _timer.cancel();
     super.dispose();
   }
 
   void startTimer() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       // Calculate the remaining time in seconds
     });
   }
@@ -713,8 +712,9 @@ class _TextTimerState extends State<TextTimer> {
       //width: 65,
       child: Text(
         '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
-        style: TextStyle(color: this.widget.color, overflow: TextOverflow.fade),
+        style: TextStyle(color: widget.color, overflow: TextOverflow.fade),
       ),
     );
   }
 }
+*/
