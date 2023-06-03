@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:coast_terminal/api_service.dart';
+import 'package:coast_terminal/consent/consent_page.dart';
 import 'package:coast_terminal/home/home.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:coast_terminal/onboarding/onboarding_screen.dart';
@@ -80,8 +81,9 @@ class OnboardScreen extends StatefulWidget {
 class _OnboardScreenState extends State<OnboardScreen> {
   @override
   Widget build(BuildContext context) {
+    return ConsentPage();
    // return HomeWrapper();
-   return StreamBuilder(
+ /*  return StreamBuilder(
                 stream: ApiService.instance!.getuser(),
                 builder: (context, snapshot) {
                   print('${snapshot.data} : Beggining');
@@ -96,7 +98,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                   }
 
                   return const Text("errooooooooooor");
-                });
+                });*/
           }
     
   }

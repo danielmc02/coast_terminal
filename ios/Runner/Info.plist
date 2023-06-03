@@ -44,5 +44,8 @@
     <string>This app needs access to location when in the background.</string>
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-3530957535788194~2010813954</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>This app uses tracking data to show you personalized ads</string>
+
 </dict>
 </plist>

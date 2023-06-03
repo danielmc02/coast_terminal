@@ -77,7 +77,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     _pageController!.dispose();
     super.dispose();
   }
-
+  bool doneanim = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -102,25 +102,35 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),elevation: 4,color: Colors.teal,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 300,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Flexible(child: 
-                                  SingleChildScrollView(
-                                    child: AnimatedTextKit(animatedTexts: [
-                                      TyperAnimatedText("Does anyone feel like this school lowkey ", textStyle: Theme.of(context).textTheme.bodyLarge)
-                                    ]),
-                                  )
-                                  )
-                                ],
+                          Flexible(
+                            child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),elevation: 4,color: Colors.red,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 300,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Flexible(child: 
+                                    SingleChildScrollView(
+                                      child: AnimatedTextKit(onFinished: () {
+                                        setState(() {
+                                          doneanim = true;
+                                        });
+                                      },animatedTexts: [
+                                        TyperAnimatedText("Does anyone know where I can get a juul on campus. I will pay extra", textStyle:  TextStyle(
+                  fontFamily: "Roboto", color: Colors.white, fontSize: 25))
+                                      ]),
+                                    )
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ),)
+                            ),),
+                          )
+                      ,  
+                   //   AnimatedPositioned(child: Container(width:100,height:100,color: Colors.red,), duration: Duration(seconds: 2),left: doneanim ? 50 : 10 ,)
+         
                         ],
                       ),
                     ),
@@ -607,8 +617,8 @@ class TOS extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8.0),
-              Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              Text("tacooo"
+                //"Welcome to Edulink! We're delighted to have you as a user of our mobile application. These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us. Thank you for choosing Edulink!",
               ),
               SizedBox(height: 16.0),
               Text(

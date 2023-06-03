@@ -9,7 +9,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'constants/boxes.dart';
 
 class ApiService {
@@ -248,6 +248,7 @@ class ApiService {
             {
               print("this is not a fresh message with 0 likes, assigning like count to as is value");
               likes = spec["Likes"];
+              
             
             }
              if(spec["Dislikes"] == null)
@@ -276,6 +277,7 @@ class ApiService {
     } catch (e) {
       print("FFFFFFUUUUCCCCKKKK");
       print('error in step 1: $e');
+      
       return null;
     }
   }
