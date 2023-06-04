@@ -1,42 +1,46 @@
 import 'dart:ui';
 
-import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/consent/consent_page.dart';
-import 'package:coast_terminal/home/home.dart';
+import 'package:coast_terminal/models/contract_consent_certificate.dart';
 import 'package:coast_terminal/models/user_model.dart';
-import 'package:coast_terminal/onboarding/onboarding_screen.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'firebase_options.dart';
+import 'api_service.dart';
+import 'home/home.dart';
 import 'models/message.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
+import 'onboarding/onboarding_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserInstanceAdapter());
   await Hive.openBox<UserInstance>('user');
+
+  Hive.registerAdapter(ContractConsentCertificateAdapter());
+  await Hive.openBox<ContractConsentCertificate>('cert');
+
   Hive.registerAdapter(MessageInstanceAdapter());
   await Hive.openBox<MessageInstance>('chats');
   await Firebase.initializeApp(
-   // options: DefaultFirebaseOptions.currentPlatform,
+      // options: DefaultFirebaseOptions.currentPlatform,
 
-
-  );
+      );
   await MobileAds.instance.initialize();
-    FlutterError.onError = (errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-    };
-    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-    PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -81,9 +85,9 @@ class OnboardScreen extends StatefulWidget {
 class _OnboardScreenState extends State<OnboardScreen> {
   @override
   Widget build(BuildContext context) {
-    return ConsentPage();
-   // return HomeWrapper();
- /*  return StreamBuilder(
+    //return const ConsentPage();
+    // return HomeWrapper();
+      return StreamBuilder(
                 stream: ApiService.instance!.getuser(),
                 builder: (context, snapshot) {
                   print('${snapshot.data} : Beggining');
@@ -98,7 +102,6 @@ class _OnboardScreenState extends State<OnboardScreen> {
                   }
 
                   return const Text("errooooooooooor");
-                });*/
-          }
-    
+                });
   }
+}

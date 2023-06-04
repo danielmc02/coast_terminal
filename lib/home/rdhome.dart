@@ -91,7 +91,7 @@ class _RDHOME2State extends State<RDHOME2> {
                           child: Column(
                             children: [
                               //   print("AAAAAA${snapshot.data}");
-                              algo.curMess == null
+                           /*   algo.curMess*/ Boxes.getMessage().get('currentMessage') == null
                                   ? Expanded(
                                       flex: 80,
                                       child: Container(
@@ -114,7 +114,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                         ),
                                       ),
                                     )
-                                  : algo.curMess != null
+                                  : /*algo.curMess*/ Boxes.getMessage().get('currentMessage') != null
                                       ? Expanded(
                                           flex: 40,
                                           child: Container(
@@ -237,52 +237,18 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                   Text(
                                                                       "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
                                                                   const Spacer(),
-                                                                  TextButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        //presses like
-                                                                        algo.likesOrDislikes("like");
-                                                                      },
-                                                                      child:
-                                                                           Row(
-                                                                        children: [
-                                                                          Icon(
+                                                                  ChoiceChip(avatar: Icon(
                                                                               color: Colors.green,
-                                                                              Icons.thumb_up),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                               Boxes.getMessage().get('currentMessage')!.likes.toString())
-                                                                        ],
-                                                                      )),
-                                                                  TextButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        //presses dislike
-                                                                        algo.likesOrDislikes("dislike");
-
-                                                                      },
-                                                                      child:
-                                                                           Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.center,
-                                                                        children: [
-                                                                          Icon(
+                                                                              Icons.thumb_up),label: Text(Boxes.getMessage().get('currentMessage')!.likes.toString()), selected: false,onSelected: (value) {
+                                                                                value ? algo.likesOrDislikes("like") : null;
+                                                                              },),
+                                                                              ChoiceChip(onSelected: (value) {
+                                                                                
+                                                                              },avatar: Icon(
                                                                               color: Colors.red,
-                                                                              Icons.thumb_down),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                             Boxes.getMessage().get('currentMessage')!.dislikes.toString())
-                                                                        ],
-                                                                      ))
-                                                                ],
+                                                                              Icons.thumb_down),label: Text(Boxes.getMessage().get('currentMessage')!.dislikes.toString()), selected: false
+                                                                              ),
+   ],
                                                               ))
                                                             ],
                                                           ),
@@ -359,7 +325,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                   ),
                                   hintText: "Send a chat",
                                   fillColor:
-                                      Color.fromARGB(255, 241, 241, 239)),
+                                      const Color.fromARGB(255, 241, 241, 239)),
                             ),
                           ),
                         ),

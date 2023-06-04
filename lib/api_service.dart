@@ -148,6 +148,10 @@ class ApiService {
   ];
   /////////////////////
 
+Future deleteMessage(String Uid) async
+{
+
+}
   Future incrementRespectedMessage(String Uid) async {
     //Test for 3 cases
     //1. It has never been increased so it's value is 0.1
@@ -174,10 +178,12 @@ class ApiService {
       await childNode.child('Current Views').runTransaction((value) {
         return Transaction.success(curr);
       });
-    } else if (snap['Current Views'] + 1 == snap['Max Views'] ||
+    } 
+    else if (snap['Current Views'] + 1 == snap['Max Views'] ||
         snap['Current Views'] >= snap['Max Views']) {
-      print("Just delete it, it is the last view");
-      await childNode.remove().then((value) async {
+          print("AHH FUCKING SHIT");
+     // print("Just delete it, it is the last view");
+    /*  await childNode.remove().then((value) async {
         final count = await ApiService.instance!.database!
             .ref('/count')
             .runTransaction((currentCount) {
@@ -189,16 +195,21 @@ class ApiService {
         }).then((value) {
           keyNode!.child(Uid).remove();
         });
-      });
+      }*/
+        int curr = snap['Current Views'];
+              curr++;
+await childNode.child('Current Views').runTransaction((value) {
+  return Transaction.success(curr);
+});
     }
   }
-    MessageInstance? currentFetchedMessage;
+
+  MessageInstance? currentFetchedMessage;
 
   Future<MessageInstance?> fetchMessageIfExists() async {
-    if( Boxes.getMessage().get('currentMessage') != null)
-    {
+    if (Boxes.getMessage().get('currentMessage') != null) {
       print("Exiting early");
-      return  Boxes.getMessage().get('currentMessage');
+      return Boxes.getMessage().get('currentMessage');
     }
     print("didnt exit early");
     MessageInstance? currentFetchedMessage;
@@ -219,8 +230,7 @@ class ApiService {
 
           await messageDBref!
               .child(fetchedRandomKey)
-              .once()
-              .then((value) async {
+              .once() .then((value) async {
             spec = value.snapshot.value as Map;
             print(spec);
             print(spec['Badge Index']);
@@ -228,47 +238,52 @@ class ApiService {
             print(spec['Title']);
             print(spec['Message']);
             int curView = 0;
-                 int? likes = null;
-           int? dislikes = null;
+            int? likes = null;
+            int? dislikes = null;
             if (spec['Current Views'] == 0.1) {
               print(
-                  "This is a new message, assigning the current view to 1 because it's the first view");
-              curView = 1;
+                  "This is a new message, assigning the current view to 0 because this function ran before the user sees the message");
+              curView = 0;
             } else {
               print(
                   "assigning curView as what it is ${spec['Current Views'].toString()}");
               curView = spec['Current Views'] as int;
             }
-              if(spec["Likes"] == null)
-            {
-              print("This is a fresh message with null likes, assigning like count to zero;");
+            if (spec["Likes"] == null) {
+              print(
+                  "This is a fresh message with null likes, assigning like count to zero;");
               likes = 0;
-            }
-            else
-            {
-              print("this is not a fresh message with 0 likes, assigning like count to as is value");
+            } else {
+              print(
+                  "this is not a fresh message with 0 likes, assigning like count to as is value");
               likes = spec["Likes"];
-              
-            
             }
-             if(spec["Dislikes"] == null)
-            {
-              print("This is a fresh message with null dislikes, assigning dislikes count to zero;");
+            if (spec["Dislikes"] == null) {
+              print(
+                  "This is a fresh message with null dislikes, assigning dislikes count to zero;");
               dislikes = 0;
-            }
-            else
-            {
-              print("this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
+            } else {
+              print(
+                  "this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
               dislikes = spec["Dislikes"];
-            
             }
-            final temp = MessageInstance(fetchedRandomKey, spec['Badge Index'],
-                spec['Max Views'], spec['Title'], spec['Message'], curView,null,null,likes,dislikes);
+            final temp = MessageInstance(
+                fetchedRandomKey,
+                spec['Badge Index'],
+                spec['Max Views'],
+                spec['Title'],
+                spec['Message'],
+                curView,
+                null,
+                null,
+                likes,
+                dislikes);
             currentFetchedMessage = temp;
             print(currentFetchedMessage);
             await Boxes.getMessage()
                 .put('currentMessage', currentFetchedMessage!);
-       //    await incrementRespectedMessage(fetchedRandomKey);
+                await incrementRespectedMessage(fetchedRandomKey);
+                print("INCREMENTED JUST NOW");
           });
         }
       });
@@ -277,7 +292,7 @@ class ApiService {
     } catch (e) {
       print("FFFFFFUUUUCCCCKKKK");
       print('error in step 1: $e');
-      
+
       return null;
     }
   }
@@ -327,42 +342,41 @@ class ApiService {
         }, onAdFailedToLoad: (LoadAdError error) {
           print(error);
         }));
-       await rewardedAd!.show(onUserEarnedReward: (ad, reward) {
-       
-       },);
-       return null;
+    await rewardedAd!.show(
+      onUserEarnedReward: (ad, reward) {},
+    );
+    return null;
   }
 
-  Future<void> likeMessage() async
-  {
-   // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
-  final respectedMessageNode = _messagesDatabase!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
-  respectedMessageNode.child('Likes').runTransaction((value) {
-                //  int count = value == null ? 0 : value as int;
-    int likes = value == null ? 0 : value as int;
-   // print(value.isUndefinedOrNull);
-  print(likes);
-  likes++;
-    return Transaction.success(likes);
-  }).then((value) {
-    print("final value is ${value.snapshot.value}");
-
-  });
+  Future<void> likeMessage() async {
+    // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    final respectedMessageNode = _messagesDatabase!
+        .child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    respectedMessageNode.child('Likes').runTransaction((value) {
+      //  int count = value == null ? 0 : value as int;
+      int likes = value == null ? 0 : value as int;
+      // print(value.isUndefinedOrNull);
+      print(likes);
+      likes++;
+      return Transaction.success(likes);
+    }).then((value) {
+      print("final value is ${value.snapshot.value}");
+    });
   }
-    Future<void> dislikeMessage() async
-  {
-   // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
-  final respectedMessageNode = _messagesDatabase!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
-  respectedMessageNode.child('Dislikes').runTransaction((value) {
-                //  int count = value == null ? 0 : value as int;
-    int likes = value == null ? 0 : value as int;
-   // print(value.isUndefinedOrNull);
-  print(likes);
-  likes++;
-    return Transaction.success(likes);
-  }).then((value) {
-    print("final value is ${value.snapshot.value}");
 
-  });
+  Future<void> dislikeMessage() async {
+    // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    final respectedMessageNode = _messagesDatabase!
+        .child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    respectedMessageNode.child('Dislikes').runTransaction((value) {
+      //  int count = value == null ? 0 : value as int;
+      int likes = value == null ? 0 : value as int;
+      // print(value.isUndefinedOrNull);
+      print(likes);
+      likes++;
+      return Transaction.success(likes);
+    }).then((value) {
+      print("final value is ${value.snapshot.value}");
+    });
   }
 }

@@ -89,7 +89,7 @@ class _PostBodyState extends State<PostBody> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: ClampingScrollPhysics(),
+      physics: const ClampingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 0),
         child: SizedBox(

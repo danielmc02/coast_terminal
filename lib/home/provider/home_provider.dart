@@ -1,6 +1,6 @@
-
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/message.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -22,15 +22,17 @@ class HomeProvider extends ChangeNotifier {
     HomeBuild();
   }
 
-  Future<void> likesOrDislikes(String code) async
-  {
+//int likes = Boxes.getMessage().get('currentMessage')!.likes!;
+  Future<void> likesOrDislikes(String code) async {
     //find out what the default value is ie. weather or not a message was ever liked/disliked to begin with
-
 
     switch (code) {
       case "like":
         print("liked message");
-        await ApiService.instance!.likeMessage();
+        await ApiService.instance!.likeMessage().then((value) {
+          //likes++;
+          notifyListeners();
+        });
         break;
 
       case "dislike":
@@ -39,9 +41,8 @@ class HomeProvider extends ChangeNotifier {
 
         break;
       default:
-      print("Didn't recieve a proper code");
+        print("Didn't recieve a proper code");
     }
-
   }
 
   Future<void> updateStats(String? stat, double? prog) async {
@@ -50,12 +51,12 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool messageExists = false;
   Future<void> HomeBuild() async {
-
-   curMess = await ApiService.instance!.fetchMessageIfExists();
-   //notifyListeners();
+    curMess = await ApiService.instance!.fetchMessageIfExists();
+    //notifyListeners();
     print("running home functions---");
-    print("checking that you are in the right location");
+    /*
     await updateStats("Checking that you are at an eligible campus", null);
     bool serviceEnabled;
     LocationPermission permission;
@@ -111,9 +112,8 @@ class HomeProvider extends ChangeNotifier {
       //This is good because you can update the message even if you dont want to remove it
       status = "Updating messages";
       notifyListeners();
-    }
+    }*/
 
-    print("Updating any existing messages");
     if (Boxes.getMessage().get('currentMessage') != null) {
       String currentMessageKey =
           Boxes.getMessage().get('currentMessage')!.uidAdmin.toString();
@@ -123,65 +123,95 @@ class HomeProvider extends ChangeNotifier {
             .child(currentMessageKey)
             .once()
             .then((value) async {
-              //This is proof that the key still exists, therefore the respective message should as well
-              //Retrieve the freshest instance of it, we can now fetch the freshest instance of the message.
-              print("AAAAAAAAAAA ${value.snapshot.key}");
+          //This is proof that the key still exists, therefore the respective message should as well
+          //Retrieve the freshest instance of it, we can now fetch the freshest instance of the message.
+          print("AAAAAAAAAAA ${value.snapshot.key}");
           String specz = value.snapshot.key as String;
-        final result = await ApiService.instance!.messagesDatabase!.child(specz).get();
-       Map spec = result.value as Map;
-          print(spec);          
-           int curView = 0;
-           int? likes = null;
-           int? dislikes = null;
-            if(spec['Current Views'] == 0.1)
-            {
-              print("assigning curView of 0 ${spec['Current Views'].toString()}");
-              curView = 1;
-            }
-            else
-            {
-              print("assigning curView as what it is ${spec['Current Views'].toString()}");
-              curView = spec['Current Views']+1 as int;
-            }
-            if(spec["Likes"] == null)
-            {
-              print("This is a fresh message with 0 likes, assigning like count to zero;");
-              likes = 0;
-            }
-            else
-            {
-              print("this is not a fresh message with 0 likes, assigning like count to as is value");
-              likes = spec["Likes"];
-            
-            }
-             if(spec["Dislikes"] == null)
-            {
-              print("This is a fresh message with 0 likes, assigning dislikes count to zero;");
-              dislikes = 0;
-            }
-            else
-            {
-              print("this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
-              dislikes = spec["Dislikes"];
-            
-            }
-            final temp = MessageInstance(specz, spec['Badge Index'],
-                spec['Max Views'], spec['Title'], spec['Message'],curView,null,null,likes,dislikes);
-                await Boxes.getMessage().get('currentMessage')!.delete();
-               await Boxes.getMessage().put('currentMessage', temp);
-                          await ApiService.instance!.incrementRespectedMessage(specz);
+          //final result = await ApiService.instance!.messagesDatabase!.child(specz).get();
+          //final childNode = ApiService.instance!.messagesDatabase!.child(specz);
+          final childNode = ApiService.instance!.messagesDatabase!.child(specz);
+          final keyNode = ApiService.instance!.keys;
 
+          final es = await childNode.get();
+
+          Map spec = es.value as Map;
+          print(spec);
+          int curView = 0;
+          int? likes;
+          int? dislikes;
+          bool firstTime = false;
+          if (spec['Current Views'] == 0.1) {
+            print("assigning curView of 0 ${spec['Current Views'].toString()}");
+            curView = 1;
+            //  firstTime = true;
+          } else {
+            print(
+                "assigning curView as what it is ${spec['Current Views'].toString()}");
+            curView = spec['Current Views'] as int;
+          }
+          if (spec["Likes"] == null) {
+            print(
+                "This is a fresh message with 0 likes, assigning like count to zero;");
+            likes = 0;
+          } else {
+            print(
+                "this is not a fresh message with 0 likes, assigning like count to as is value");
+            likes = spec["Likes"];
+          }
+          if (spec["Dislikes"] == null) {
+            print(
+                "This is a fresh message with 0 likes, assigning dislikes count to zero;");
+            dislikes = 0;
+          } else {
+            print(
+                "this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
+            dislikes = spec["Dislikes"];
+          }
+          print("NIGGERSS");
+          final temp = MessageInstance(
+              specz,
+              spec['Badge Index'],
+              spec['Max Views'],
+              spec['Title'],
+              spec['Message'],
+              curView,
+              null,
+              null,
+              likes,
+              dislikes);
+          await Boxes.getMessage().get('currentMessage')!.delete();
+          await Boxes.getMessage().put('currentMessage', temp);
+          //firstTime ? await ApiService.instance!.incrementRespectedMessage(specz) : null;
+          if (spec['Current Views'] == spec['Max Views'] ||
+              spec['Current Views'] >= spec['Max Views']) {
+
+            print("Just delete it, it is the last view, fell in hell");
+            await childNode.remove().then((value) async {
+              final count = await ApiService.instance!.database!
+                  .ref('/count')
+                  .runTransaction((currentCount) {
+                int count = currentCount == null ? 0 : currentCount as int;
+                print(count);
+
+                print("running transaction");
+                return Transaction.success(count - 1);
+              }).then((value) {
+                keyNode!.child(specz).remove();
+              });
+            });
+          }
         });
       } catch (e) {
         print("uhohhh, The error must not exist anymore... delete it, $e");
         await Boxes.getMessage().get('currentMessage')!.delete();
-        
       }
+    } else {
+      print("got in heeeerrre");
     }
     progress = 1.0;
     status = "Done";
     notifyListeners();
-   // await Future.delayed(Duration(seconds: 1));
+    // await Future.delayed(Duration(seconds: 1));
     //You need to fix the scope of the above functions, this is why nothing is working properly
     metReq = true;
     notifyListeners();
