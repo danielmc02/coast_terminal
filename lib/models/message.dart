@@ -4,7 +4,7 @@ part 'message.g.dart';
 @HiveType(typeId: 1)
 class MessageInstance extends HiveObject
 {
-  MessageInstance(this.uidAdmin,this.iconIndex,this.views,this.title,this.message,this.currentViews,this.liked,this.disliked,this.likes,this.dislikes);
+  MessageInstance({required this.uidAdmin, required this.iconIndex, required this.views,required this.title,required this.message, required this.currentViews, this.liked = false,this.disliked= false,this.likes,this.dislikes});
   @HiveField(0)
   late String uidAdmin;
 
@@ -24,10 +24,10 @@ class MessageInstance extends HiveObject
   late int currentViews;
 
  @HiveField(6)
-  late bool? liked;
+  late bool liked;
 
  @HiveField(7)
-  late bool? disliked;
+  late bool disliked;
 
  @HiveField(8)
   late int? likes;

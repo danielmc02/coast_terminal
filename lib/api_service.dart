@@ -268,16 +268,15 @@ await childNode.child('Current Views').runTransaction((value) {
               dislikes = spec["Dislikes"];
             }
             final temp = MessageInstance(
-                fetchedRandomKey,
-                spec['Badge Index'],
-                spec['Max Views'],
-                spec['Title'],
-                spec['Message'],
-                curView,
-                null,
-                null,
-                likes,
-                dislikes);
+             uidAdmin:    fetchedRandomKey,
+              iconIndex:  spec['Badge Index'],
+               views:  spec['Max Views'],
+            title:     spec['Title'],
+                message:    spec['Message'],
+              currentViews:  curView,
+                
+                likes:  likes,
+                      dislikes:  dislikes);
             currentFetchedMessage = temp;
             print(currentFetchedMessage);
             await Boxes.getMessage()
@@ -359,6 +358,40 @@ await childNode.child('Current Views').runTransaction((value) {
       print(likes);
       likes++;
       return Transaction.success(likes);
+    }).then((value) {
+      print("final value is ${value.snapshot.value}");
+    });
+  }
+
+  Future<void> removeLike() async {
+    // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    final respectedMessageNode = _messagesDatabase!
+        .child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    respectedMessageNode.child('Likes').runTransaction((value) {
+      //  int count = value == null ? 0 : value as int;
+      int likes = value == null ? 0 : value as int;
+      print("Going to remove like, Current like is $likes but will be changed to ${likes - 1}");
+      // print(value.isUndefinedOrNull);
+      print(likes);
+      
+      return Transaction.success(likes - 1);
+    }).then((value) {
+      print("final value is ${value.snapshot.value}");
+    });
+  }
+
+  Future<void> removeDislike() async {
+    // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    final respectedMessageNode = _messagesDatabase!
+        .child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+    respectedMessageNode.child('Dislikes').runTransaction((value) {
+      //  int count = value == null ? 0 : value as int;
+      int dislikes = value == null ? 0 : value as int;
+     // print("Going to remove like, Current like is $likes but will be changed to ${likes - 1}");
+      // print(value.isUndefinedOrNull);
+     // print(likes);
+      
+      return Transaction.success(dislikes - 1);
     }).then((value) {
       print("final value is ${value.snapshot.value}");
     });

@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
@@ -41,6 +44,58 @@ class _RDHOME2State extends State<RDHOME2> {
     super.dispose();
   }
 
+/*
+  void incrementLikes() {
+    setState(() {
+      likes++;
+    });
+  }
+
+  void decrementLikes() {
+    setState(() {
+      likes--;
+    });
+  }
+
+  void incrementDislikes() {
+    setState(() {
+      dislikes++;
+    });
+  }
+
+  void decrementDislikes() {
+    setState(() {
+      dislikes--;
+    });
+  }
+
+  void onLikeSelected() {
+    if (!isLikeSelected) {
+      incrementLikes();
+      decrementDislikes();
+    }
+    setState(() {
+      isLikeSelected = !isLikeSelected;
+      isDislikeSelected = false;
+    });
+  }
+
+  void onDislikeSelected() {
+    if (!isDislikeSelected) {
+      incrementDislikes();
+      decrementLikes();
+    }
+    setState(() {
+      isDislikeSelected = !isDislikeSelected;
+      isLikeSelected = false;
+    });
+  }
+
+  int likes = 0;
+  int dislikes = 0;
+  bool isLikeSelected = false;
+  bool isDislikeSelected = false;
+  */
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -59,9 +114,42 @@ class _RDHOME2State extends State<RDHOME2> {
           scrollDirection: Axis.vertical,
           children: [
             Scaffold(
-              appBar: AppBar(
+              
+            drawer: Drawer(
+  // Add a ListView to the drawer. This ensures the user can scroll
+  // through the options in the drawer if there isn't enough vertical
+  // space to fit everything.
+  child: ListView(
+    // Important: Remove any padding from the ListView.
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.blue,
+        ),
+        child: Text('Drawer Header'),
+      ),
+      ListTile(
+        title: const Text('Item 1'),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+      ListTile(
+        title: const Text('Item 2'),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+    ],
+  ),
+),
+              appBar: AppBar(automaticallyImplyLeading: false,
                 centerTitle: true,
                 title: Row(
+                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextTimer(Colors.grey),
@@ -76,26 +164,30 @@ class _RDHOME2State extends State<RDHOME2> {
               ),
               body: Consumer<HomeProvider>(
                 builder: (context, algo, child) => Column(
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                         child: SizedBox(
                       width: MediaQuery.of(context).size.width,
+                      // height: 40,
                       //  color: Colors.green,
                       child: SingleChildScrollView(
+                        physics: ClampingScrollPhysics(),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               //   print("AAAAAA${snapshot.data}");
-                           /*   algo.curMess*/ Boxes.getMessage().get('currentMessage') == null
+                              /*   algo.curMess*/ Boxes.getMessage()
+                                          .get('currentMessage') ==
+                                      null
                                   ? Expanded(
-                                      flex: 80,
                                       child: Container(
-                                        //   color: Colors.red,
+                                        color: Colors.red,
                                         child: const AlertDialog(
                                           title: Center(
                                               child: Row(
@@ -114,227 +206,392 @@ class _RDHOME2State extends State<RDHOME2> {
                                         ),
                                       ),
                                     )
-                                  : /*algo.curMess*/ Boxes.getMessage().get('currentMessage') != null
-                                      ? Expanded(
-                                          flex: 40,
+                                  : /*algo.curMess*/ Boxes.getMessage()
+                                              .get('currentMessage') !=
+                                          null
+                                      ? Flexible(
                                           child: Container(
-                                            //  color: Colors.red,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8),
-                                                  child: Material(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    elevation: 20,
-                                                    color: Colors.transparent,
-                                                    child: Ink(
-                                                      height: 300,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: const Color
-                                                                      .fromARGB(
-                                                                  105, 0, 0, 0),
-                                                              width: 1),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          color: const Color
-                                                                  .fromARGB(119,
-                                                              255, 255, 255)),
-                                                      child: InkWell(
+                                          // ] color: Colors.red,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                child: Material(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  elevation: 20,
+                                                  color: const Color.fromARGB(0, 199, 64, 64),
+                                                  child: Ink(
+                                                    height: 300,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: const Color
+                                                                    .fromARGB(
+                                                                105, 0, 0, 0),
+                                                            width: 1),
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(20),
-                                                        splashColor: Colors.red,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(16),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              CircleAvatar(
-                                                                  backgroundColor: Colors
-                                                                      .transparent,
-                                                                  radius: 30,
-                                                                  foregroundImage: ApiService
-                                                                      .instance!
-                                                                      .iconReferences[Boxes
-                                                                          .getMessage()
-                                                                      .get(
-                                                                          'currentMessage')!
-                                                                      .iconIndex]),
-                                                              Flexible(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          8.0),
+                                                        color: Colors.black),
+                                                    child: InkWell(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      //splashColor: Colors.red,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(16),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            CircleAvatar(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                radius: 30,
+                                                                foregroundImage: ApiService
+                                                                    .instance!
+                                                                    .iconReferences[Boxes
+                                                                        .getMessage()
+                                                                    .get(
+                                                                        'currentMessage')!
+                                                                    .iconIndex]),
+                                                            Flexible(
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0),
+                                                                child:
+                                                                    FittedBox(
+                                                                  child: Text(
+                                                                    Boxes.getMessage()
+                                                                        .get(
+                                                                            'currentMessage')!
+                                                                        .title,
+                                                                    style: const TextStyle(color: Colors.white,
+                                                                        fontSize:
+                                                                            40),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top:
+                                                                            8.0),
+                                                                child: SizedBox(
+                                                                  //color:Colors.green,
+                                                                  width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
                                                                   child:
-                                                                      FittedBox(
-                                                                    child: Text(
-                                                                      Boxes.getMessage()
+                                                                      Scrollbar(
+                                                                    thumbVisibility:
+                                                                        false,
+                                                                    child:
+                                                                        SingleChildScrollView(
+                                                                      child: Text(
+                                                                          style: const TextStyle(
+                                                                              color: Colors
+                                                                                  .white,
+                                                                              fontSize:
+                                                                                  18),
+                                                                          Boxes.getMessage()
+                                                                              .get('currentMessage')!
+                                                                              .message),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Flexible(
+                                                                child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                const Icon(color:Colors.white,Icons
+                                                                    .remove_red_eye_outlined),
+                                                                Text(style:TextStyle(color:Colors.white),
+                                                                    "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
+                                                                const Spacer(),
+                                                                ChoiceChip(
+                                                                 // backgroundColor: Colors.black,
+                                                              //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
+                                                                  elevation: algo.isLikeSelected ? 8 :0,
+                                                                  avatar: Icon(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      Icons
+                                                                          .thumb_up),
+                                                                  label: Text(
+                                                                      algo.copiedLikes
+                                                                          .toString() /*Boxes
+                                                                              .getMessage()
                                                                           .get(
                                                                               'currentMessage')!
-                                                                          .title,
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              40),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      top: 8.0),
-                                                                  child:
-                                                                      SizedBox(
-                                                                    //color:Colors.green,
-                                                                    width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width,
-                                                                    child:
-                                                                        Scrollbar(
-                                                                      thumbVisibility:
-                                                                          false,
-                                                                      child:
-                                                                          SingleChildScrollView(
-                                                                        child: Text(
-                                                                            style:
-                                                                                const TextStyle(color: Colors.black, fontSize: 18),
-                                                                            Boxes.getMessage().get('currentMessage')!.message),
+                                                                          .likes
+                                                                          .toString()*/
                                                                       ),
-                                                                    ),
-                                                                  ),
+                                                                  selected: algo
+                                                                      .isLikeSelected,
+                                                                  onSelected:
+                                                                      (value) async {
+                                                                    await algo.likesOrDislikes(
+                                                                        "like",
+                                                                        value);
+                                                                  },
+                                                                  selectedColor: algo.isLikeSelected ? 
+                                                                      Colors
+                                                                          .white : Colors.transparent,
                                                                 ),
-                                                              ),
-                                                              Flexible(
-                                                                  child: Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  const Icon(Icons
-                                                                      .remove_red_eye_outlined),
-                                                                  Text(
-                                                                      "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
-                                                                  const Spacer(),
-                                                                  ChoiceChip(avatar: Icon(
-                                                                              color: Colors.green,
-                                                                              Icons.thumb_up),label: Text(Boxes.getMessage().get('currentMessage')!.likes.toString()), selected: false,onSelected: (value) {
-                                                                                value ? algo.likesOrDislikes("like") : null;
-                                                                              },),
-                                                                              ChoiceChip(onSelected: (value) {
-                                                                                
-                                                                              },avatar: Icon(
-                                                                              color: Colors.red,
-                                                                              Icons.thumb_down),label: Text(Boxes.getMessage().get('currentMessage')!.dislikes.toString()), selected: false
-                                                                              ),
-   ],
-                                                              ))
-                                                            ],
-                                                          ),
+                                                                ChoiceChip(
+                                                                  //disabledColor: Colors.red,
+                                                                // backgroundColor: Colors.red,
+                                                                                                                                    elevation: algo.isDislikeSelected ? 8 :0,
+
+                                                                  selectedColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  onSelected:
+                                                                      (value) async {
+                                                                    await algo.likesOrDislikes(
+                                                                        "dislike",
+                                                                        value);
+                                                                  },
+                                                                  avatar: Icon(
+                                                                      color: Colors
+                                                                          .red,
+                                                                      Icons
+                                                                          .thumb_down),
+                                                                  label: Text(
+                                                                      algo.copiedDislikes
+                                                                          .toString() /*Boxes
+                                                                              .getMessage()
+                                                                          .get(
+                                                                              'currentMessage')!
+                                                                          .dislikes
+                                                                          .toString()*/
+                                                                      ),
+                                                                  selected: algo
+                                                                      .isDislikeSelected,
+                                                                ),
+                                                              ],
+                                                            ))
+                                                          ],
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ))
+                                              ),
+                                            ],
+                                          ),
+                                        ))
                                       : const Text("data")
                             ],
                           ),
                         ),
                       ),
                     )),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Form(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            key: _formKey,
-                            child: TextFormField(
-                              minLines: null,
-                              validator: (value) {
-                                return value!.length < 5
-                                    ? "Should be greater than 5"
-                                    : null;
-                              },
-                              controller: _chatController,
-                              maxLines: 1,
-                              //    maxLength: 50,
-                              style: const TextStyle(),
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0),
-                                      borderSide: const BorderSide(
-                                          style: BorderStyle.solid,
-                                          width: .5,
-                                          color: Colors.black)),
-                                  errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0),
-                                      borderSide: const BorderSide(
-                                          style: BorderStyle.solid,
-                                          width: .5,
-                                          color: Colors.black)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0),
-                                      borderSide: const BorderSide(
-                                          style: BorderStyle.solid,
-                                          width: .5,
-                                          color: Colors.black)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(0),
-                                      borderSide: const BorderSide(
-                                          style: BorderStyle.solid,
-                                          width: .5,
-                                          color: Colors.black)),
-                                  filled: true,
-                                  suffixIcon: TextButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        print("continue");
-                                      } else {
-                                        print("error, can't send chat");
-                                      }
-                                    },
-                                    child: const Icon(
-                                      Icons.send,
-                                      color: Colors.black,
+                    Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                minLines: null,
+                                validator: (value) {
+                                  return value!.length < 5
+                                      ? "Should be greater than 5"
+                                      : null;
+                                },
+                                controller: _chatController,
+                                maxLines: 1,
+                                    maxLength: 50,
+                                style: const TextStyle(),
+                                decoration: InputDecoration(
+                                  
+                                  fillColor:Colors.transparent,
+                                    border: OutlineInputBorder(
+                                      
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: .5,
+                                            color: Colors.black)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: .5,
+                                            color: Colors.black)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: .5,
+                                            color: Colors.black)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            style: BorderStyle.solid,
+                                            width: .5,
+                                            color: Colors.black)),
+                                    filled: true,
+                                    suffixIcon: TextButton(
+                                      style: ButtonStyle(),
+                                      onPressed: () {
+                                     
+                                          print("continue");
+                                          String message = _chatController.text;
+                                          print(message);
+                                          _chatController.clear();
+                                          algo.sendChat(message);
+                                     
+                                      },
+                                      child: const Icon(
+                                        Icons.send,
+                                        color: Colors.black,
+                                      ),
                                     ),
+                                    hintText: "Send a chat",
                                   ),
-                                  hintText: "Send a chat",
-                                  fillColor:
-                                      const Color.fromARGB(255, 241, 241, 239)),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              bottomNavigationBar: BottomAppBar(
+              bottomNavigationBar:  BottomNavigationBar(
+                onTap: (value) {
+                  print(value);
+                  switch(value)
+                  {
+                    case 0:
+                    break;
+                    case 1:
+                    if (Boxes.getuser().get('mainUser')!.hasPostedMessage ==
+                            true) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                      "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages."),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        style: ButtonStyle(
+                                            shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                    side: const BorderSide(
+                                                        color: Colors.black),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10))),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.white),
+                                            overlayColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.grey)),
+                                        child: const Text("Okay, I understand"),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          ApiService.instance!.pageController
+                              .nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.linear)
+                              .then((value) {
+                            setState(() {
+                              ApiService.instance!.ref = false;
+                              Timer(const Duration(seconds: 1), () {
+                                ApiService.instance!.ref = true;
+                              });
+                            });
+                          });
+                        }
+                    break;
+                    case 2:
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: MediaQuery.of(context).size.height / 2,
+                              color: Colors.white54,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Text('Modal BottomSheet'),
+                                    ElevatedButton(
+                                      style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Colors.red),
+                                      ),
+                                      child: const Text('Delete Account'),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        ApiService.instance!.signOut();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                    break;
+                    default:
+                  }
+                },items: const [
+                BottomNavigationBarItem(label: "Settings",icon: Icon(Icons.settings)),
+                                BottomNavigationBarItem(label: "Post",icon: Icon(Icons.add)),
+                                                                BottomNavigationBarItem(label: "Profile",icon: Icon(Icons.person))
+
+
+              ],)
+
+            /*   BottomAppBar(
                 height: 100,
                 elevation: 0,
                 padding: const EdgeInsets.all(8),
@@ -437,7 +694,7 @@ class _RDHOME2State extends State<RDHOME2> {
                     ),
                   ],
                 ),
-              ),
+              ),*/
             ),
             const PostPage()
           ],
@@ -544,12 +801,25 @@ class _TextTimerState extends State<TextTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      //width: 65,
-      child: Text(
-        '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
-        style: TextStyle(color: widget.color, overflow: TextOverflow.fade),
-      ),
+    return Consumer<HomeProvider>(
+      builder: (context, algo, child) {
+        
+           if( remainingTime%30 == 0 ) 
+           {
+            //print("HSADPFHS");
+          //  algo.HomeBuild();
+
+           }
+
+        return  SizedBox(
+        //width: 65,
+        child: Text(
+          '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
+          style: TextStyle(color: widget.color, overflow: TextOverflow.fade),
+        ),
+      );
+      },
+      
     );
   }
 }

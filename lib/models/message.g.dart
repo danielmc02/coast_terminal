@@ -17,16 +17,16 @@ class MessageInstanceAdapter extends TypeAdapter<MessageInstance> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MessageInstance(
-      fields[0] as String,
-      fields[1] as int,
-      fields[2] as int,
-      fields[3] as String,
-      fields[4] as String,
-      fields[5] as int,
-      fields[6] as bool?,
-      fields[7] as bool?,
-      fields[8] as int?,
-      fields[9] as int?,
+      uidAdmin: fields[0] as String,
+      iconIndex: fields[1] as int,
+      views: fields[2] as int,
+      title: fields[3] as String,
+      message: fields[4] as String,
+      currentViews: fields[5] as int,
+      liked: fields[6] as bool,
+      disliked: fields[7] as bool,
+      likes: fields[8] as int?,
+      dislikes: fields[9] as int?,
     );
   }
 

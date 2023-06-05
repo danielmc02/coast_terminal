@@ -188,6 +188,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                     TextButton(
 
                                                       onPressed: () async {
+                                                                  Navigator.pop(
+                                                                  context);
+                                                              await ApiService
+                                                                  .instance!
+                                                                  .signInAnon();
                                                         /*
                                                         await _rewardedAd!.show(
                                                           onUserEarnedReward:

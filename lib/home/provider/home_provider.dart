@@ -13,6 +13,7 @@ class HomeProvider extends ChangeNotifier {
   String status = "Loading";
   late BuildContext context;
   late MessageInstance? curMess;
+  late int choiceLikes;
   HomeProvider(BuildContext contextz) {
     context = contextz;
     _init();
@@ -22,22 +23,92 @@ class HomeProvider extends ChangeNotifier {
     HomeBuild();
   }
 
-//int likes = Boxes.getMessage().get('currentMessage')!.likes!;
-  Future<void> likesOrDislikes(String code) async {
+ 
+
+
+  Future<void> dislikeMessage() async {
+    await ApiService.instance!.dislikeMessage();
+  }
+
+  Future<void> likeMessage() async {
+    await ApiService.instance!.likeMessage();
+  }
+
+  Future<void> removeLike() async {
+    await ApiService.instance!.removeLike();
+  }
+
+  Future<void> removeDislike() async {
+    await ApiService.instance!.removeDislike();
+  }
+
+  Future<void> likesOrDislikes(String code, bool value) async {
     //find out what the default value is ie. weather or not a message was ever liked/disliked to begin with
 
     switch (code) {
       case "like":
         print("liked message");
-        await ApiService.instance!.likeMessage().then((value) {
-          //likes++;
-          notifyListeners();
-        });
+
+        isLikeSelected = value;
+        Boxes.getMessage().get('currentMessage')!.liked = isLikeSelected;
+        final uptdated = Boxes.getMessage().get('currentMessage');
+
+        await Boxes.getMessage().get('currentMessage')!.delete().then(
+            (value) => Boxes.getMessage().put('currentMessage', uptdated!));
+
+        if (isLikeSelected == true) {
+          if (isDislikeSelected == true) {
+            isDislikeSelected = false;
+            Boxes.getMessage().get('currentMessage')!.disliked =
+                isDislikeSelected;
+            final uptdated = Boxes.getMessage().get('currentMessage');
+            await Boxes.getMessage().get('currentMessage')!.delete().then(
+                (value) => Boxes.getMessage().put('currentMessage', uptdated!));
+            copiedDislikes--;
+            //remove a dislike
+            await removeDislike();
+          }
+          //add a like
+          copiedLikes++;
+          await likeMessage();
+        } else if (isLikeSelected == false) {
+          print("removing like");
+          copiedLikes--;
+          //remove a like
+
+          await removeLike();
+        }
+        notifyListeners();
         break;
 
       case "dislike":
         print("disliked the message");
-        await ApiService.instance!.dislikeMessage();
+
+        isDislikeSelected = value;
+        Boxes.getMessage().get('currentMessage')!.disliked = isDislikeSelected;
+        final uptdated = Boxes.getMessage().get('currentMessage');
+
+        await Boxes.getMessage().get('currentMessage')!.delete().then(
+            (value) => Boxes.getMessage().put('currentMessage', uptdated!));
+        if (isDislikeSelected == true) {
+          if (isLikeSelected == true) {
+            isLikeSelected = false;
+            Boxes.getMessage().get('currentMessage')!.liked = isLikeSelected;
+            final uptdated = Boxes.getMessage().get('currentMessage');
+            await Boxes.getMessage().get('currentMessage')!.delete().then(
+                (value) => Boxes.getMessage().put('currentMessage', uptdated!));
+
+            copiedLikes--;
+            await removeLike();
+          }
+          copiedDislikes++;
+          await dislikeMessage();
+        } else if (isDislikeSelected == false) {
+          copiedDislikes--;
+          //remove a dislike
+          await removeDislike();
+        }
+        notifyListeners();
 
         break;
       default:
@@ -51,7 +122,13 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool messageExists = false;
+  int likes = 0;
+  int dislikes = 0;
+  late int copiedLikes;
+  late int copiedDislikes;
+  late bool isLikeSelected;
+  late bool isDislikeSelected;
+
   Future<void> HomeBuild() async {
     curMess = await ApiService.instance!.fetchMessageIfExists();
     //notifyListeners();
@@ -153,38 +230,44 @@ class HomeProvider extends ChangeNotifier {
             print(
                 "This is a fresh message with 0 likes, assigning like count to zero;");
             likes = 0;
+            copiedLikes = likes;
           } else {
             print(
                 "this is not a fresh message with 0 likes, assigning like count to as is value");
             likes = spec["Likes"];
+            copiedLikes = likes!;
           }
           if (spec["Dislikes"] == null) {
             print(
                 "This is a fresh message with 0 likes, assigning dislikes count to zero;");
             dislikes = 0;
+            copiedDislikes = dislikes;
           } else {
             print(
                 "this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
             dislikes = spec["Dislikes"];
+            copiedDislikes = dislikes!;
           }
-          print("NIGGERSS");
+          isDislikeSelected =
+              Boxes.getMessage().get('currentMessage')!.disliked;
+          isLikeSelected = Boxes.getMessage().get('currentMessage')!.liked;
+
           final temp = MessageInstance(
-              specz,
-              spec['Badge Index'],
-              spec['Max Views'],
-              spec['Title'],
-              spec['Message'],
-              curView,
-              null,
-              null,
-              likes,
-              dislikes);
+              uidAdmin: specz,
+              iconIndex: spec['Badge Index'],
+              views: spec['Max Views'],
+              title: spec['Title'],
+              message: spec['Message'],
+              currentViews: curView,
+              liked: Boxes.getMessage().get('currentMessage')!.liked,
+              disliked: Boxes.getMessage().get('currentMessage')!.disliked,
+              likes: likes,
+              dislikes: dislikes);
           await Boxes.getMessage().get('currentMessage')!.delete();
           await Boxes.getMessage().put('currentMessage', temp);
           //firstTime ? await ApiService.instance!.incrementRespectedMessage(specz) : null;
           if (spec['Current Views'] == spec['Max Views'] ||
               spec['Current Views'] >= spec['Max Views']) {
-
             print("Just delete it, it is the last view, fell in hell");
             await childNode.remove().then((value) async {
               final count = await ApiService.instance!.database!
@@ -216,4 +299,104 @@ class HomeProvider extends ChangeNotifier {
     metReq = true;
     notifyListeners();
   }
+
+   Future<void> sendChat(String message) async
+  {
+   final messageDbRef = ApiService.instance!.messagesDatabase;
+   final messageNodeChats =  messageDbRef!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin).child('Chats');
+final reference = messageNodeChats.push();
+  DateTime now = DateTime.now();
+  String formattedTime = format12HourTime(now);
+  String formattedDate = formatDate(now);
+  String formattedDateTime = '$formattedTime $formattedDate';
+  print(formattedDateTime);
+String randomKey = reference.key!;
+   //print(randomKey);
+   messageNodeChats.child(randomKey).set(
+    {
+      "chat": message,
+      "time":formattedDateTime,
+      //DateTime: DateTime.now()
+
+    }
+   );
+
+  }
+
+
+
+  String format12HourTime(DateTime dateTime) {
+  int hour = dateTime.hour;
+  int minute = dateTime.minute;
+  String period = hour < 12 ? 'AM' : 'PM';
+
+  hour = hour % 12;
+  hour = hour == 0 ? 12 : hour;
+
+  String hourString = hour.toString().padLeft(2, '0');
+  String minuteString = minute.toString().padLeft(2, '0');
+
+  return '$hourString:$minuteString $period';
+}
+
+String formatDate(DateTime dateTime) {
+  String day = getWeekdayName(dateTime.weekday);
+  String month = getMonthName(dateTime.month);
+  int dayOfMonth = dateTime.day;
+
+  return '$day $month $dayOfMonth';
+}
+
+String getWeekdayName(int weekday) {
+  switch (weekday) {
+    case DateTime.monday:
+      return 'Mon';
+    case DateTime.tuesday:
+      return 'Tue';
+    case DateTime.wednesday:
+      return 'Wed';
+    case DateTime.thursday:
+      return 'Thu';
+    case DateTime.friday:
+      return 'Fri';
+    case DateTime.saturday:
+      return 'Sat';
+    case DateTime.sunday:
+      return 'Sun';
+    default:
+      return '';
+  }
+}
+
+String getMonthName(int month) {
+  switch (month) {
+    case 1:
+      return 'Jan';
+    case 2:
+      return 'Feb';
+    case 3:
+      return 'Mar';
+    case 4:
+      return 'Apr';
+    case 5:
+      return 'May';
+    case 6:
+      return 'Jun';
+    case 7:
+      return 'Jul';
+    case 8:
+      return 'Aug';
+    case 9:
+      return 'Sep';
+    case 10:
+      return 'Oct';
+    case 11:
+      return 'Nov';
+    case 12:
+      return 'Dec';
+    default:
+      return '';
+  }
+}
+
 }
