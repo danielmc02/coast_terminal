@@ -1,17 +1,13 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import '../api_service.dart';
 import '../constants/boxes.dart';
 import '../post_page/post_page.dart';
-import 'const_widgets/post_button.dart';
 
 class RDHOME2 extends StatefulWidget {
   const RDHOME2({super.key});
@@ -44,58 +40,7 @@ class _RDHOME2State extends State<RDHOME2> {
     super.dispose();
   }
 
-/*
-  void incrementLikes() {
-    setState(() {
-      likes++;
-    });
-  }
 
-  void decrementLikes() {
-    setState(() {
-      likes--;
-    });
-  }
-
-  void incrementDislikes() {
-    setState(() {
-      dislikes++;
-    });
-  }
-
-  void decrementDislikes() {
-    setState(() {
-      dislikes--;
-    });
-  }
-
-  void onLikeSelected() {
-    if (!isLikeSelected) {
-      incrementLikes();
-      decrementDislikes();
-    }
-    setState(() {
-      isLikeSelected = !isLikeSelected;
-      isDislikeSelected = false;
-    });
-  }
-
-  void onDislikeSelected() {
-    if (!isDislikeSelected) {
-      incrementDislikes();
-      decrementLikes();
-    }
-    setState(() {
-      isDislikeSelected = !isDislikeSelected;
-      isLikeSelected = false;
-    });
-  }
-
-  int likes = 0;
-  int dislikes = 0;
-  bool isLikeSelected = false;
-  bool isDislikeSelected = false;
-  */
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -174,7 +119,7 @@ class _RDHOME2State extends State<RDHOME2> {
                       // height: 40,
                       //  color: Colors.green,
                       child: SingleChildScrollView(
-                        physics: ClampingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height,
@@ -215,7 +160,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.start,
                                             children: [
                                               Padding(
                                                 padding:
@@ -330,14 +275,14 @@ class _RDHOME2State extends State<RDHOME2> {
                                                               children: [
                                                                 const Icon(color:Colors.white,Icons
                                                                     .remove_red_eye_outlined),
-                                                                Text(style:TextStyle(color:Colors.white),
+                                                                Text(style:const TextStyle(color:Colors.white),
                                                                     "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
                                                                 const Spacer(),
                                                                 ChoiceChip(
                                                                  // backgroundColor: Colors.black,
                                                               //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
                                                                   elevation: algo.isLikeSelected ? 8 :0,
-                                                                  avatar: Icon(
+                                                                  avatar: const Icon(
                                                                       color: Colors
                                                                           .green,
                                                                       Icons
@@ -377,7 +322,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                         "dislike",
                                                                         value);
                                                                   },
-                                                                  avatar: Icon(
+                                                                  avatar: const Icon(
                                                                       color: Colors
                                                                           .red,
                                                                       Icons
@@ -403,7 +348,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                   ),
                                                 ),
                                               ),
-                                            ],
+                                        algo.retrievedChats != null ?   Container(color: Colors.pink,width: 50,height: 50,): const Text("error")   ],
                                           ),
                                         ))
                                       : const Text("data")
@@ -412,11 +357,12 @@ class _RDHOME2State extends State<RDHOME2> {
                         ),
                       ),
                     )),
+                  
                     Container(
                       color: Colors.transparent,
-                      child: Row(
+                      child:    Boxes.getMessage().get('currentMessage') != null ? Row(
                         children: [
-                          Expanded(
+                         Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
@@ -460,7 +406,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                             color: Colors.black)),
                                     filled: true,
                                     suffixIcon: TextButton(
-                                      style: ButtonStyle(),
+                                      style: const ButtonStyle(),
                                       onPressed: () {
                                      
                                           print("continue");
@@ -480,8 +426,8 @@ class _RDHOME2State extends State<RDHOME2> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                     ],
+                      ) : null
                     ),
                   ],
                 ),
@@ -790,7 +736,7 @@ class _TextTimerState extends State<TextTimer> {
   @override
   void dispose() {
     _timer.cancel();
-    super.dispose();
+        super.dispose();
   }
 
   void startTimer() {

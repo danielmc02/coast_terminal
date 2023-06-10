@@ -9,7 +9,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'constants/boxes.dart';
 
 class ApiService {
@@ -238,8 +237,8 @@ await childNode.child('Current Views').runTransaction((value) {
             print(spec['Title']);
             print(spec['Message']);
             int curView = 0;
-            int? likes = null;
-            int? dislikes = null;
+            int? likes;
+            int? dislikes;
             if (spec['Current Views'] == 0.1) {
               print(
                   "This is a new message, assigning the current view to 0 because this function ran before the user sees the message");
@@ -267,6 +266,9 @@ await childNode.child('Current Views').runTransaction((value) {
                   "this is not a fresh message with 0 dislikes, assigning dislike count to as is value");
               dislikes = spec["Dislikes"];
             }
+            print("CHCHCHCHCH");
+            //Before assigning chats we need to filter it
+ //var chatList = await filterChats(spec['Chats']);
             final temp = MessageInstance(
              uidAdmin:    fetchedRandomKey,
               iconIndex:  spec['Badge Index'],
@@ -278,7 +280,7 @@ await childNode.child('Current Views').runTransaction((value) {
                 likes:  likes,
                       dislikes:  dislikes);
             currentFetchedMessage = temp;
-            print(currentFetchedMessage);
+            print(currentFetchedMessage!.title);
             await Boxes.getMessage()
                 .put('currentMessage', currentFetchedMessage!);
                 await incrementRespectedMessage(fetchedRandomKey);
@@ -290,6 +292,7 @@ await childNode.child('Current Views').runTransaction((value) {
       return currentFetchedMessage;
     } catch (e) {
       print("FFFFFFUUUUCCCCKKKK");
+    
       print('error in step 1: $e');
 
       return null;
@@ -412,4 +415,32 @@ await childNode.child('Current Views').runTransaction((value) {
       print("final value is ${value.snapshot.value}");
     });
   }
+
+  Future<List<ChatInstance>?> filterChats(Object chatObject) async
+  {
+    List<ChatInstance> chats = [];
+    Map jsonChats = chatObject as Map;
+    
+    print(jsonChats);
+
+    jsonChats.forEach((key, value) {
+       ChatInstance temp = ChatInstance(chat: value['chat'] ,time: value['time'] );
+        chats.add(temp);
+     });
+   
+return chats;
+  }
+}
+
+class ChatInstance
+{
+
+  ChatInstance({required this.chat,required this.time});
+
+
+  late String? chat;
+
+
+  late String? time;
+
 }

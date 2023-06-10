@@ -5,7 +5,6 @@ import 'package:coast_terminal/consent/consent_page.dart';
 import 'package:coast_terminal/constants/boxes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../api_service.dart';
 
@@ -59,18 +58,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
   int titleIndex = 0;
   @override
   void initState() {
-  //  loadAd();
+    //  loadAd();
     _pageController = PageController();
-    choices = [
-      TyperAnimatedText(
-          "We get it, it gets boring sometimes. That's why we made this app to post incognito posts for and by fellow students",
-          textAlign: TextAlign.center),
-      TyperAnimatedText(
-          "Let people know how you feel. Create a message for a certain amount of people to interact with and see.",
-          textAlign: TextAlign.center),
-      TyperAnimatedText("Some say it's faster than sonic",
-          textAlign: TextAlign.center),
-    ];
+  
     super.initState();
   }
 
@@ -79,6 +69,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     _pageController!.dispose();
     super.dispose();
   }
+
   bool doneanim = false;
   @override
   Widget build(BuildContext context) {
@@ -87,9 +78,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
       bottom: false,
       right: false,
       left: false,
-
-      child: Scaffold(
-     
+      child: Scaffold(appBar: AppBar(
+        shadowColor: Colors.transparent,
+        foregroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
+        toolbarHeight: 0.5,
+        
+      ),
         body: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -97,42 +92,124 @@ class _OnboardingPageState extends State<OnboardingPage> {
               Expanded(
                   flex: 100,
                   child: Container(
-                   // color: Colors.red,
+                    // color: Colors.red,
                     child: Padding(
-                      padding: const EdgeInsets.only(top:40.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                     
                           Flexible(
-                            child: Card(shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),elevation: 4,color: Colors.red,
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 300,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Flexible(child: 
-                                    SingleChildScrollView(
-                                      child: AnimatedTextKit(onFinished: () {
-                                        setState(() {
-                                          doneanim = true;
-                                        });
-                                      },animatedTexts: [
-                                        TyperAnimatedText("Does anyone know where I can get a juul on campus. I will pay extra", textStyle:  const TextStyle(
-                  fontFamily: "Roboto", color: Colors.white, fontSize: 25))
-                                      ]),
-                                    )
-                                    )
-                                  ],
+                            child: Card(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              elevation: 4,
+                              color: Color.fromARGB(255, 10, 10, 10),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 350,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            CircleAvatar(
+                                                backgroundColor: Colors.transparent,
+                                                radius: 30,
+                                                foregroundImage: ApiService
+                                                    .instance!.iconReferences[3]),
+                                                    Text("data")
+                                          ],
+                                        ),
+                                        Flexible(
+                                            flex: 3,
+                                            child: SingleChildScrollView(
+                                              child: AnimatedTextKit(
+                                                  onFinished: () {
+                                                    setState(() {
+                                                      doneanim = true;
+                                                    });
+                                                  },
+                                                  animatedTexts: [
+                                                    TyperAnimatedText(
+                                                        "Does anyone know where I can get a juul on campus. I will pay extra,Does anyone know where I can get a juul on campus. I will pay extra,Does anyone know where I can get a juul on campus. I will pay extra,Does anyone know where I can get a juul on campus. I will pay extra,Does anyone know where I can get a juul on campus. I will pay extra",
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                fontFamily:
+                                                                    "Roboto",
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 25))
+                                                  ]),
+                                            )),
+                                        Flexible(
+                                            child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            const Icon(
+                                                color: Colors.white,
+                                                Icons.remove_red_eye_outlined),
+                                            Text(
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                                "7/10"),
+                                            const Spacer(),
+                                            ChoiceChip(
+                                              // backgroundColor: Colors.black,
+                                              //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
+                                              elevation: 4,
+                                              avatar: const Icon(
+                                                  color: Colors.green,
+                                                  Icons.thumb_up),
+                                              label: Text(
+                                                  '5' /*Boxes
+                                                                              .getMessage()
+                                                                          .get(
+                                                                              'currentMessage')!
+                                                                          .likes
+                                                                          .toString()*/
+                                                  ),
+                                              selected: false,
+                                              onSelected: (value) async {},
+                                              selectedColor: Colors.white,
+                                            ),
+                                            ChoiceChip(
+                                                disabledColor: Colors.red,
+                                                 backgroundColor: Colors.black,
+                                                elevation: 0,
+                                                selectedColor: Colors.transparent,
+                                              onSelected: (value) async {},
+                                             avatar: const Icon(
+                                                    color: Colors.red,
+                                                    Icons.thumb_down),
+                                                label: Text(
+                                                    '1',style: TextStyle(color: Colors.white), /*Boxes
+                                                                              .getMessage()
+                                                                          .get(
+                                                                              'currentMessage')!
+                                                                          .dislikes
+                                                                          .toString()*/
+                                                    ),
+                                                selected: false),
+                                          ],
+                                        ))
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),),
-                          )
-                      ,  
-                   //   AnimatedPositioned(child: Container(width:100,height:100,color: Colors.red,), duration: Duration(seconds: 2),left: doneanim ? 50 : 10 ,)
-         
+                            ),
+                          ),
+                          //   AnimatedPositioned(child: Container(width:100,height:100,color: Colors.red,), duration: Duration(seconds: 2),left: doneanim ? 50 : 10 ,)
                         ],
                       ),
                     ),
@@ -152,7 +229,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        
                         SizedBox(
                             width: MediaQuery.of(context).size.width / 1.2,
                             height: 50,
@@ -169,312 +245,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                     overlayColor:
                                         MaterialStateProperty.all(Colors.grey)),
                                 onPressed: () {
-                                  if(Boxes.getCertificate().get('currentCert') != null)
-                                  {
-      Platform.isAndroid
-                                      ? showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const Text(
-                                                    "To support the maintenance and improvement of the app's quality, users are kindly requested to watch an ad. By doing so, users contribute to the sustainability of the app's development and its ability to provide its services."),
-                                                Row(
-                                                  mainAxisSize: MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    TextButton(
-
-                                                      onPressed: () async {
-                                                                  Navigator.pop(
-                                                                  context);
-                                                              await ApiService
-                                                                  .instance!
-                                                                  .signInAnon();
-                                                        /*
-                                                        await _rewardedAd!.show(
-                                                          onUserEarnedReward:
-                                                              (ad, reward) {
-                                                            print(
-                                                                "here is your award");
-                                                          },
-                                                        );*/
-                                                      },
-                                                      style: ButtonStyle(
-                                                          shape: MaterialStateProperty.all(
-                                                              RoundedRectangleBorder(
-                                                                  side: const BorderSide(
-                                                                      color: Colors
-                                                                          .black),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10))),
-                                                          backgroundColor:
-                                                              MaterialStateProperty.all(
-                                                                  Colors.white),
-                                                          overlayColor:
-                                                              MaterialStateProperty
-                                                                  .all(Colors.grey)),
-                                                      child: const Text(
-                                                          "Understood, take me to terminal"),
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : Platform.isIOS == true
-                                          ? showCupertinoModalPopup(
-                                              context: context,
-                                              builder: (context) {
-                                                return CupertinoAlertDialog(
-                                                  title: const Text("Hold on!"),
-                                                  content: const Text(
-                                                      "To support the maintenance and improvement of the app's quality, users are kindly requested to watch an ad. By doing so, users contribute to the sustainability of the app's development and its ability to provide its services."),
-                                                  actions: <CupertinoDialogAction>[
-                                                    CupertinoDialogAction(
-                                                      /// This parameter indicates this action is the default,
-                                                      /// and turns the action's text to bold text.
-                                                      isDefaultAction: true,
-                                                      isDestructiveAction: true,
-    
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text(
-                                                        'No',
-                                                      ),
-                                                    ),
-                                                    CupertinoDialogAction(
-                                                      /// This parameter indicates the action would perform
-                                                      /// a destructive action such as deletion, and turns
-                                                      /// the action's text color to red.
-                                                      isDestructiveAction: false,
-                                                      isDefaultAction: true,
-                                                      onPressed: () async {
-/*
-                                                        await _rewardedAd!.show(
-                                                          onUserEarnedReward:
-                                                              (ad, reward) {
-                                                            print(
-                                                                "here is your award");
-                                                          },
-                                                        );*/
-                                                        
-                                                              Navigator.pop(
-                                                                  context);
-                                                              await ApiService
-                                                                  .instance!
-                                                                  .signInAnon();
-                                                                
-                                                      },
-                                                      child: const Text('Yes'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            )
-                                          : null;
-                               }
-                               else
-                               {
-                               Platform.isIOS ? Navigator.push(context, CupertinoPageRoute(builder: (context) => ConsentPage(),)) :
-                               Navigator.push(context, MaterialPageRoute(builder: (context) => ConsentPage(),));
-                               }
-                              },
-                                child: const FittedBox(
-                                  child: Text(
-                                    "Get Started",
-                                    style: TextStyle(
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40,
-                                        color: Colors.black),
-                                  ),
-                                ))),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            const Text(
-                              "By tapping Get Started, you agree to your",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, Platform.isIOS ? CupertinoPageRoute(builder: (context) => const TOS(),) : MaterialPageRoute(builder:(context) => const TOS()));
-                              },
-                                child: const Text(
-                              "Terms • Privacy Policy",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ))
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  /*Scaffold(
-
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: 
-      SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        Expanded(
-                            flex: 4,
-                            child: Container(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                    // color: Color.fromARGB(255, 45, 216, 60),
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(50),
-                                        bottomRight: Radius.circular(50))),
-                                child: PageView(
-                                  reverse: false,
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  controller: _pageController,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        width: 400,
-                                        height: 400,
-                                        child: Image.asset(
-                                            "assets/animated_icons/loop_communicate.gif"),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        width: 400,
-                                        height: 400,
-                                        child: Image.asset(
-                                            "assets/animated_icons/eye.gif"),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        width: 400,
-                                        height: 400,
-                                        child: Image.asset(
-                                            "assets/animated_icons/message.gif"),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                        Expanded(
-                            flex: 5,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                SizedBox(
-                                  height: 50,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: AnimatedTextKit(
-                                      onNextBeforePause: (p0, p1) {
-                                        //  print(p0);
-                                        setState(() {
-                                          titleIndex++;
-
-                                          if (titleIndex >= headings.length) {
-                                            titleIndex = 0;
-                                            _pageController!.jumpToPage(0);
-                                          }
-                                        });
-                                      },
-                                      onNext: (p0, p1) {
-                                        setState(() {
-                                          _pageController!.animateToPage(
-                                              titleIndex,
-                                              duration:
-                                                  const Duration(seconds: 1),
-                                              curve: Curves.decelerate);
-                                        });
-                                      },
-                                      pause: const Duration(milliseconds: 500),
-                                      repeatForever: true,
-                                      isRepeatingAnimation: true,
-                                      animatedTexts: <AnimatedText>[
-                                        FadeAnimatedText(
-                                            duration:
-                                                const Duration(seconds: 5),
-                                            textAlign: TextAlign.center,
-                                            headings[titleIndex],
-                                            textStyle: GoogleFonts.poppins(
-                                                fontSize: 35)),
-                                      ]),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                      child: Text(
-                                    subHeading[titleIndex],
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(),
-                                  )),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(40.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                              width: 150,
-                              height: 50,
-                              child: TextButton(
-                                  style: ButtonStyle(
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                              side: const BorderSide(
-                                                  color: Colors.black),
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white),
-                                      overlayColor: MaterialStateProperty.all(
-                                          Colors.grey)),
-                                  onPressed: () {
+                                  if (Boxes.getCertificate()
+                                          .get('currentCert') !=
+                                      null) {
                                     Platform.isAndroid
                                         ? showDialog(
                                             context: context,
@@ -493,14 +266,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                     children: [
                                                       TextButton(
                                                         onPressed: () async {
-                                                          await _rewardedAd!
-                                                              .show(
-                                                            onUserEarnedReward:
-                                                                (ad, reward) {
-                                                              print(
-                                                                  "here is your award");
-                                                            },
-                                                          );
+                                                          Navigator.pop(
+                                                              context);
+                                                          await ApiService
+                                                              .instance!
+                                                              .signInAnon();
+                                                          /*
+                                                        await _rewardedAd!.show(
+                                                          onUserEarnedReward:
+                                                              (ad, reward) {
+                                                            print(
+                                                                "here is your award");
+                                                          },
+                                                        );*/
                                                         },
                                                         style: ButtonStyle(
                                                             shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -560,21 +338,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                             false,
                                                         isDefaultAction: true,
                                                         onPressed: () async {
-                                                          await _rewardedAd!
-                                                              .show(
-                                                            onUserEarnedReward:
-                                                                (ad, reward) {
-                                                              print(
-                                                                  "here is your award");
-                                                            },
-                                                          );
-                                                          /*
+/*
+                                                        await _rewardedAd!.show(
+                                                          onUserEarnedReward:
+                                                              (ad, reward) {
+                                                            print(
+                                                                "here is your award");
+                                                          },
+                                                        );*/
+
                                                           Navigator.pop(
                                                               context);
                                                           await ApiService
                                                               .instance!
                                                               .signInAnon();
-                                                              */
                                                         },
                                                         child:
                                                             const Text('Yes'),
@@ -584,24 +361,73 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                 },
                                               )
                                             : null;
-                                  },
-                                  child: const Text(
-                                    "Explore",
+                                  } else {
+                                    Platform.isIOS
+                                        ? Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  const ConsentPage(),
+                                            ))
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const ConsentPage(),
+                                            ));
+                                  }
+                                },
+                                child: const FittedBox(
+                                  child: Text(
+                                    "Get Started",
                                     style: TextStyle(
                                         fontFamily: "Roboto",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 40,
                                         color: Colors.black),
-                                  ))),
-                        ],
-                      ),
+                                  ),
+                                ))),
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const Text(
+                              "By tapping Get Started, you agree to your",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      Platform.isIOS
+                                          ? CupertinoPageRoute(
+                                              builder: (context) => const TOS(),
+                                            )
+                                          : MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const TOS()));
+                                },
+                                child: const Text(
+                                  "Terms • Privacy Policy",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ))
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    );*/
+    );
+  }
 }
 
 class TOS extends StatelessWidget {
@@ -620,7 +446,7 @@ class TOS extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-               /* const Text(
+                /* const Text(
                   'Terms of Service',
                   style: TextStyle(
                     fontSize: 24.0,
@@ -698,12 +524,11 @@ class TOS extends StatelessWidget {
                   "As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
                 ),
                 const SizedBox(height: 8.0),
-               
               ],
             ),
           ),
         ),
       ),
-   );
+    );
   }
 }

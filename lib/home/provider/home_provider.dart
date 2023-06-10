@@ -2,10 +2,8 @@ import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/message.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import '../../constants/boxes.dart';
-import 'package:geolocator/geolocator.dart';
+
 
 class HomeProvider extends ChangeNotifier {
   bool metReq = false;
@@ -22,7 +20,7 @@ class HomeProvider extends ChangeNotifier {
     print("start of home");
     HomeBuild();
   }
-
+List<ChatInstance>? retrievedChats;
  
 
 
@@ -251,7 +249,15 @@ class HomeProvider extends ChangeNotifier {
           isDislikeSelected =
               Boxes.getMessage().get('currentMessage')!.disliked;
           isLikeSelected = Boxes.getMessage().get('currentMessage')!.liked;
+//Before assigning chats we need to filter it
+//spec['Chats'] == null ? print("CHAT IS NULLLL") : print("CHAT IS NOT NULL");
+if(spec['Chats'] != null )
+{
+List<ChatInstance>? chatList = await ApiService.instance!.filterChats(spec['Chats']);
+retrievedChats = chatList;
 
+
+}
           final temp = MessageInstance(
               uidAdmin: specz,
               iconIndex: spec['Badge Index'],

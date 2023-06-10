@@ -91,6 +91,7 @@ flutter:
    - assets/face_icons/
    - assets/animated_icons/
    - assets/school_logos/
+   - assets/card_images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

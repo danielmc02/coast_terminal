@@ -1,4 +1,4 @@
-
+import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/contract_consent_certificate.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,27 +11,61 @@ class ConsentProvider extends ChangeNotifier {
   bool choseGwc = false;
   bool? optInCCPA = true;
   String school = "";
+bool isOnLastPage = false;
+  var extrovert = ["#Gym", "#Sports", "#Cars", "#Business"];
+  var introvert = ["#Studying","#Active","#Sports","#Health"];
 
-  String  headerTitle = "What school do you go to?";
-  String buttonTitle = "Next";
-  void changeTitle(int i)
+  bool extrovertedCat = false;
+  bool introvertedCat = false;
+ Future<void> pickedCategory(int i) async
+ {
+  switch(i)
   {
-    switch(i)
-    {
-      case 0:
-      headerTitle = "What school do you go to?";
-      buttonTitle = "Next";
 
-      notifyListeners();
-      break;
+    case 1:
+    print("Extroverted chosen");
+    extrovertedCat = true;
+    introvertedCat = false;
+    notifyListeners();
+    break;
+    case 2:
+     print("Introverted chosen");
+    extrovertedCat = false;
+    introvertedCat = true;
+    notifyListeners();
+    break;
+    default:
+    print("error");
+    break;
+  }
+ }
+
+
+  String headerTitle = "What school do you go to?";
+  String buttonTitle = "Next";
+  void changeTitle(int i) {
+    switch (i) {
+      case 0:
+        headerTitle = "What school do you go to?";
+        buttonTitle = "Next";
+
+        notifyListeners();
+        break;
       case 1:
-      headerTitle = "Terms of service";
-buttonTitle = "Finish";
-      notifyListeners();
-      break;
+        headerTitle = "Pick a category";
+//buttonTitle = "Finish";
+        notifyListeners();
+        break;
+
+      case 2:
+        headerTitle = "Terms of service";
+        buttonTitle = "Finish";
+        notifyListeners();
+        break;
       default:
     }
   }
+
   void chooseSchool(String s) {
     switch (s) {
       case "occ":
@@ -51,21 +85,17 @@ buttonTitle = "Finish";
     }
   }
 
-  Future<void> finishConsent() async{
+  Future<void> finishConsent() async {
     print("The user CCPA status is: $optInCCPA , and school is $school");
     final cert = ContractConsentCertificate(optInCCPA!, school);
-    if(Boxes.getCertificate().get('currentCert') == null)
-    {
+    if (Boxes.getCertificate().get('currentCert') == null) {
       print("No certificates exist, creating new one");
-            await Boxes.getCertificate().put('currentCert', cert);
-
-    }
-    else
-    {
-            await Boxes.getCertificate().delete('currentCert');
+      await Boxes.getCertificate().put('currentCert', cert);
+    } else {
+      await Boxes.getCertificate().delete('currentCert');
 
       await Boxes.getCertificate().put('currentCert', cert);
     }
+    await ApiService.instance!.signInAnon();
   }
-
 }

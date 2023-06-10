@@ -1,11 +1,8 @@
 import 'package:coast_terminal/consent/consent_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 class ConsentPage extends StatefulWidget {
   const ConsentPage({Key? key}) : super(key: key);
@@ -33,46 +30,68 @@ class _ConsentPageState extends State<ConsentPage> {
       create: (context) => ConsentProvider(),
       child: Consumer<ConsentProvider>(
         builder: ((context, algo, child) => WillPopScope(
-          onWillPop: () async => false,
-          child: Scaffold(
-                bottomNavigationBar: algo.choseGwc || algo.choseOcc
-                    ? BottomAppBar(
-                        color: Colors.transparent,
-                        shadowColor: const Color.fromARGB(0, 153, 35, 35),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: 250,
-                                height: 50,
-                                child: TextButton(
-                                    onPressed: () async{
-                                     if(algo.pageController.page ==0)
-                                      {algo.pageController.nextPage(
-                                          duration:
-                                              const Duration(milliseconds: 900),
-                                          curve: Curves.linear);}else if (algo.pageController.page! > 0 && algo.buttonTitle == "Finish"){await algo.finishConsent();
-                                          Navigator.pop(context,"");};
-                                    },
-                                    style: const ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(Colors.black),
-                                        foregroundColor:
-                                            MaterialStatePropertyAll(Colors.white)),
-                                    child: Text(
-                                      algo.buttonTitle,
-                                      style: GoogleFonts.openSans(
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                              ),
-                            ),
-                          ],
+              onWillPop: () async => false,
+              child: Scaffold(
+                bottomNavigationBar: BottomAppBar(
+                  color: Colors.transparent,
+                  shadowColor: const Color.fromARGB(0, 153, 35, 35),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 250,
+                          height: 50,
+                          child: TextButton(
+                              onPressed: () async {
+                                if (algo.pageController.page == 0) {
+                                  algo.pageController.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 900),
+                                      curve: Curves.linear);
+                                } else if (algo.pageController.page! == 1 &&
+                                    (algo.choseGwc == true ||
+                                        algo.choseOcc == true)) {
+                                  print("SDFSDF");
+                                  algo.pageController.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 900),
+                                      curve: Curves.linear);
+                                                               print("AHSDHSHDFHS ${algo.pageController.page}");
+
+                                }
+                                else if(algo.pageController.page == 2 && (algo.extrovertedCat != false ||algo.introvertedCat != false))
+                                {
+                                  print("1");
+                                   algo.pageController.nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 900),
+                                      curve: Curves.linear);
+                                }
+                                else if(algo.pageController.page == 3 )
+                                {
+                                  print("SDFSDFSDONNSOSNSIONIONFIOSNFIOFSNISDFN");
+   await algo.finishConsent();
+                                    Navigator.pop(context, "");
+                                }
+                              },
+                              style: const ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(Colors.black),
+                                  foregroundColor:
+                                      MaterialStatePropertyAll(Colors.white)),
+                              child: Text(
+                                algo.buttonTitle,
+                                style: GoogleFonts.openSans(
+                                    fontWeight: FontWeight.bold),
+                              )),
                         ),
-                      )
-                    : null,
+                      ),
+                    ],
+                  ),
+                ),
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
                   shadowColor: const Color.fromARGB(0, 246, 246, 246),
@@ -96,7 +115,7 @@ class _ConsentPageState extends State<ConsentPage> {
                     Container(color: Colors.red,width: MediaQuery.of(context).size.width,)
                             ],
                 ))*/
-        
+
                     Expanded(
                       flex: 1,
                       child: FutureBuilder(
@@ -108,10 +127,13 @@ class _ConsentPageState extends State<ConsentPage> {
                                 builder: (context, child) {
                                   return LinearProgressIndicator(
                                       backgroundColor: Colors.transparent,
-                                      color: algo.choseGwc ? Colors.green : Colors.orange,
+                                      color: algo.choseGwc
+                                          ? Colors.green
+                                          : Colors.orange,
                                       semanticsLabel:
                                           "Sign Up Progress Indicator",
-                                      value: (algo.pageController.page ?? 0) / 1);
+                                      value:
+                                          (algo.pageController.page ?? 0) / 3);
                                 });
                           } else {
                             return Container(
@@ -126,11 +148,21 @@ class _ConsentPageState extends State<ConsentPage> {
                       child: Container(
                         //color: Colors.grey,
                         child: PageView(
+                          physics: NeverScrollableScrollPhysics(),
                           onPageChanged: (value) {
+                            if(value == 3)
+                            {
+                              setState(() {
+                                algo.isOnLastPage = true;
+                                
+                              });
+                            }
+                            print("Page is $value");
                             algo.changeTitle(value);
                           },
                           controller: algo.pageController,
                           children: [
+                            FirstPage(),
                             Container(
                               //color: Colors.red,
                               child: Column(
@@ -143,13 +175,15 @@ class _ConsentPageState extends State<ConsentPage> {
                                     child: Card(
                                       elevation: algo.choseGwc ? 6 : 0,
                                       shape: const RoundedRectangleBorder(
-                                          side: BorderSide(color: Colors.black)),
+                                          side:
+                                              BorderSide(color: Colors.black)),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                          width:
-                                              MediaQuery.of(context).size.width /
-                                                  1.2,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.2,
                                           height: 60,
                                           child: FittedBox(
                                             child: Row(
@@ -168,7 +202,8 @@ class _ConsentPageState extends State<ConsentPage> {
                                                                 ? Colors
                                                                     .transparent
                                                                 : Colors.black,
-                                                            BlendMode.saturation,
+                                                            BlendMode
+                                                                .saturation,
                                                           ),
                                                           child: const CircleAvatar(
                                                               backgroundColor:
@@ -203,13 +238,15 @@ class _ConsentPageState extends State<ConsentPage> {
                                     child: Card(
                                       elevation: algo.choseOcc ? 6 : 0,
                                       shape: const RoundedRectangleBorder(
-                                          side: BorderSide(color: Colors.black)),
+                                          side:
+                                              BorderSide(color: Colors.black)),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                          width:
-                                              MediaQuery.of(context).size.width /
-                                                  1.2,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.2,
                                           height: 60,
                                           child: FittedBox(
                                             child: Row(
@@ -228,7 +265,8 @@ class _ConsentPageState extends State<ConsentPage> {
                                                                 ? Colors
                                                                     .transparent
                                                                 : Colors.black,
-                                                            BlendMode.saturation,
+                                                            BlendMode
+                                                                .saturation,
                                                           ),
                                                           child: const CircleAvatar(
                                                               backgroundColor:
@@ -259,7 +297,8 @@ class _ConsentPageState extends State<ConsentPage> {
                                 ],
                               ),
                             ),
-                            const SecondPage()
+                            SecondPage(),
+                            const ThirdPage()
                             /*
                             FirstPage(),
                             SecondPage(),
@@ -272,21 +311,304 @@ class _ConsentPageState extends State<ConsentPage> {
                   ],
                 ),
               ),
-        )),
+            )),
       ),
     );
   }
 }
 
-class SecondPage extends StatefulWidget {
+class FirstPage extends StatelessWidget {
+  const FirstPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ConsentProvider>(
+      builder: (context, value, child) => Container(
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Welcome to\nEdulink",
+                style: GoogleFonts.openSans(fontSize: 42),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      // color: Colors.red,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                              child: Icon(
+                            Icons.network_cell,
+                            size: 72,
+                            color: Colors.blue,
+                          )),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FittedBox(
+                                    child: Text(
+                                  "Network with students",
+                                  style: GoogleFonts.openSans(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )),
+                                Text(
+                                  "Or not! Send incognito messages if you're board. Idc",
+                                  style: GoogleFonts.openSans(fontSize: 15),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      // color: Colors.red,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                              child: Icon(
+                            Icons.lock,
+                            size: 72,
+                            color: Colors.green,
+                          )),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FittedBox(
+                                    child: Text(
+                                  "Secure Messaging",
+                                  style: GoogleFonts.openSans(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )),
+                                Text(
+                                  "Anonymized chats are encrypted in the backend. It’s the user’sresponsibility to keep relevance",
+                                  style: GoogleFonts.openSans(fontSize: 15),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      // color: Colors.red,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                              child: Icon(
+                            Icons.timer,
+                            size: 72,
+                            color: Colors.red,
+                          )),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FittedBox(
+                                    child: Text(
+                                  "Fast Paced",
+                                  style: GoogleFonts.openSans(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )),
+                                Text(
+                                  "Set caps on how many people can see your post",
+                                  style: GoogleFonts.openSans(fontSize: 15),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ]),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
 
   @override
-  State<SecondPage> createState() => _SecondPageState();
+  Widget build(BuildContext context) {
+    return Consumer<ConsentProvider>(
+      builder: (context, algo, child) => Container(
+        width: MediaQuery.of(context).size.width,
+        //  color: Colors.pink,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+                "This will be used to show you a chat that is in your interest",style: GoogleFonts.openSans(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+            Flexible(
+              child: /*ListView(
+                children: [
+                   cardView("assets/card_images/study.jpg"),cardView("assets/card_images/gym.jpeg"),
+                    cardView("assets/card_images/buisness.jpeg"),cardView("assets/card_images/gaming.jpeg")
+                ],
+              )*/
+
+                  SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Flexible(
+                      child: cardView(
+                          context,
+                          "assets/card_images/study.jpg",
+                          algo.extrovert,
+                          1,
+                          algo.extrovertedCat == true ? true : false),
+                    ),
+                    Flexible(
+                      child: cardView(
+                          context,
+                          "assets/card_images/gym.jpeg",
+                          algo.introvert,
+                          2,
+                          algo.introvertedCat == true ? true : false),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
 
-class _SecondPageState extends State<SecondPage> {
+Widget cardView(BuildContext context, String url, List<String> parameters,
+    int index, bool val) {
+  return Consumer<ConsentProvider>(
+    builder: (context, algo, child) => GestureDetector(
+      onTap: () async {
+        await algo.pickedCategory(index);
+      },
+      child: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          val ? Colors.transparent : Colors.black,
+          BlendMode.saturation,
+        ),
+        child: Card(
+          elevation: val ? 9 : 0,
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: Container(
+            width: 200,
+            height: 200,
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(fit: BoxFit.fill, url),
+                  
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        for (String e in parameters)
+                          Text(e,
+                              style: GoogleFonts.openSans(
+                                  color: Colors.white, fontSize: 24))
 
+                        /*  Flexible(
+                          child: ListView.builder(itemCount: parameters.length,itemBuilder: (context, index) {
+                          return Text(parameters[index]);                  },),
+                        )*/
+                      ],
+                    )
+                    /*        Container(
+                      color: Colors.red,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: ListView.builder( physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: parameters.length,
+                                itemBuilder: (context, index) {
+                                  return Text(parameters[index]);
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )*/
+                  ],
+                )),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class ThirdPage extends StatefulWidget {
+  const ThirdPage({super.key});
+
+  @override
+  State<ThirdPage> createState() => _ThirdPageState();
+}
+
+class _ThirdPageState extends State<ThirdPage> {
   @override
   void initState() {
     print("Second page created");
@@ -306,7 +628,7 @@ class _SecondPageState extends State<SecondPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-               /* const Text(
+                /* const Text(
                   'Terms of Service',
                   style: TextStyle(
                     fontSize: 24.0,
@@ -384,14 +706,15 @@ class _SecondPageState extends State<SecondPage> {
                   "As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
                 ),
                 const SizedBox(height: 8.0),
-                Row(mainAxisAlignment: MainAxisAlignment.start,mainAxisSize: MainAxisSize.max,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Checkbox(
                       value: algo.optInCCPA,
                       onChanged: (value) async {
-                    //  final status = await AppTrackingTransparency.requestTrackingAuthorization();
-    
-                      
+                        //  final status = await AppTrackingTransparency.requestTrackingAuthorization();
+
                         setState(() {
                           algo.optInCCPA = value;
                         });

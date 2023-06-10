@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
+
 part 'message.g.dart';
+
 
 @HiveType(typeId: 1)
 class MessageInstance extends HiveObject
@@ -36,4 +38,19 @@ class MessageInstance extends HiveObject
   late int? dislikes;
 
 
+
 }
+/*
+class ChatInstance extends HiveObject
+{
+
+  ChatInstance({required this.chat,required this.time});
+
+   @HiveField(0)
+  late String? chat;
+
+ @HiveField(1)
+  late String? time;
+
+}
+*/

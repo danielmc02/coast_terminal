@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:coast_terminal/consent/consent_page.dart';
 import 'package:coast_terminal/models/contract_consent_certificate.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,7 +25,8 @@ void main() async {
   await Hive.openBox<ContractConsentCertificate>('cert');
 
   Hive.registerAdapter(MessageInstanceAdapter());
-  await Hive.openBox<MessageInstance>('chats');
+  await Hive.openBox<MessageInstance>('messages');
+
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform,
 
@@ -87,21 +87,21 @@ class _OnboardScreenState extends State<OnboardScreen> {
   Widget build(BuildContext context) {
     //return const ConsentPage();
     // return HomeWrapper();
-      return StreamBuilder(
-                stream: ApiService.instance!.getuser(),
-                builder: (context, snapshot) {
-                  print('${snapshot.data} : Beggining');
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.uid != null) {
-                      return const HomeWrapper();
-                    } else if (snapshot.data!.uid == null) {
-                      return const OnboardingPage();
-                    }
-                  } else if (snapshot.hasData == false) {
-                    return const OnboardingPage();
-                  }
+    return StreamBuilder(
+        stream: ApiService.instance!.getuser(),
+        builder: (context, snapshot) {
+          print('${snapshot.data} : Beggining');
+          if (snapshot.hasData) {
+            if (snapshot.data!.uid != null) {
+              return const HomeWrapper();
+            } else if (snapshot.data!.uid == null) {
+              return const OnboardingPage();
+            }
+          } else if (snapshot.hasData == false) {
+            return const OnboardingPage();
+          }
 
-                  return const Text("errooooooooooor");
-                });
+          return const Text("errooooooooooor");
+        });
   }
 }
