@@ -106,7 +106,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               elevation: 4,
-                              color: Color.fromARGB(255, 10, 10, 10),
+                              color: const Color.fromARGB(255, 10, 10, 10),
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: 350,
@@ -127,7 +127,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                 radius: 30,
                                                 foregroundImage: ApiService
                                                     .instance!.iconReferences[3]),
-                                                    Text("data")
+                                                    const Text("data")
                                           ],
                                         ),
                                         Flexible(
@@ -158,8 +158,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                             const Icon(
                                                 color: Colors.white,
                                                 Icons.remove_red_eye_outlined),
-                                            Text(
-                                                style: const TextStyle(
+                                            const Text(
+                                                style: TextStyle(
                                                     color: Colors.white),
                                                 "7/10"),
                                             const Spacer(),
@@ -170,7 +170,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                               avatar: const Icon(
                                                   color: Colors.green,
                                                   Icons.thumb_up),
-                                              label: Text(
+                                              label: const Text(
                                                   '5' /*Boxes
                                                                               .getMessage()
                                                                           .get(
@@ -191,7 +191,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                              avatar: const Icon(
                                                     color: Colors.red,
                                                     Icons.thumb_down),
-                                                label: Text(
+                                                label: const Text(
                                                     '1',style: TextStyle(color: Colors.white), /*Boxes
                                                                               .getMessage()
                                                                           .get(

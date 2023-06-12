@@ -148,7 +148,7 @@ class _ConsentPageState extends State<ConsentPage> {
                       child: Container(
                         //color: Colors.grey,
                         child: PageView(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           onPageChanged: (value) {
                             if(value == 3)
                             {
@@ -162,7 +162,7 @@ class _ConsentPageState extends State<ConsentPage> {
                           },
                           controller: algo.pageController,
                           children: [
-                            FirstPage(),
+                            const FirstPage(),
                             Container(
                               //color: Colors.red,
                               child: Column(
@@ -297,7 +297,7 @@ class _ConsentPageState extends State<ConsentPage> {
                                 ],
                               ),
                             ),
-                            SecondPage(),
+                            const SecondPage(),
                             const ThirdPage()
                             /*
                             FirstPage(),
@@ -333,7 +333,7 @@ class FirstPage extends StatelessWidget {
                 "Welcome to\nEdulink",
                 style: GoogleFonts.openSans(fontSize: 42),
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -347,13 +347,13 @@ class FirstPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Flexible(
+                          const Flexible(
                               child: Icon(
                             Icons.network_cell,
                             size: 72,
                             color: Colors.blue,
                           )),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Expanded(
@@ -379,7 +379,7 @@ class FirstPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Container(
@@ -389,13 +389,13 @@ class FirstPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Flexible(
+                          const Flexible(
                               child: Icon(
                             Icons.lock,
                             size: 72,
                             color: Colors.green,
                           )),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Expanded(
@@ -421,7 +421,7 @@ class FirstPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Container(
@@ -431,13 +431,13 @@ class FirstPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Flexible(
+                          const Flexible(
                               child: Icon(
                             Icons.timer,
                             size: 72,
                             color: Colors.red,
                           )),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
                           Expanded(
@@ -478,7 +478,7 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ConsentProvider>(
-      builder: (context, algo, child) => Container(
+      builder: (context, algo, child) => SizedBox(
         width: MediaQuery.of(context).size.width,
         //  color: Colors.pink,
         child: Column(
@@ -543,13 +543,13 @@ Widget cardView(BuildContext context, String url, List<String> parameters,
         child: Card(
           elevation: val ? 9 : 0,
           color: Colors.red,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Container(
+          child: SizedBox(
             width: 200,
             height: 200,
             child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
