@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import '../api_service.dart';
@@ -40,7 +41,6 @@ class _RDHOME2State extends State<RDHOME2> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -59,388 +59,453 @@ class _RDHOME2State extends State<RDHOME2> {
           scrollDirection: Axis.vertical,
           children: [
             Scaffold(
-              
-            drawer: Drawer(
-  // Add a ListView to the drawer. This ensures the user can scroll
-  // through the options in the drawer if there isn't enough vertical
-  // space to fit everything.
-  child: ListView(
-    // Important: Remove any padding from the ListView.
-    padding: EdgeInsets.zero,
-    children: [
-      const DrawerHeader(
-        decoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-        child: Text('Drawer Header'),
-      ),
-      ListTile(
-        title: const Text('Item 1'),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
-      ),
-      ListTile(
-        title: const Text('Item 2'),
-        onTap: () {
-          // Update the state of the app.
-          // ...
-        },
-      ),
-    ],
-  ),
-),
-              appBar: AppBar(automaticallyImplyLeading: false,
-                centerTitle: true,
-                title: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextTimer(Colors.grey),
-                    const Text(" until automatic signout",
-                        style: TextStyle(color: Colors.grey)),
-                  ],
+                drawer: Drawer(
+                  // Add a ListView to the drawer. This ensures the user can scroll
+                  // through the options in the drawer if there isn't enough vertical
+                  // space to fit everything.
+                  child: ListView(
+                    // Important: Remove any padding from the ListView.
+                    padding: EdgeInsets.zero,
+                    children: [
+                      const DrawerHeader(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                        ),
+                        child: Text('Drawer Header'),
+                      ),
+                      ListTile(
+                        title: const Text('Item 1'),
+                        onTap: () {
+                          // Update the state of the app.
+                          // ...
+                        },
+                      ),
+                      ListTile(
+                        title: const Text('Item 2'),
+                        onTap: () {
+                          // Update the state of the app.
+                          // ...
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                backgroundColor: const Color.fromARGB(0, 13, 65, 207),
-                shadowColor: const Color.fromARGB(0, 255, 0, 0),
-                foregroundColor: const Color.fromARGB(0, 162, 34, 34),
-                surfaceTintColor: const Color.fromARGB(0, 255, 0, 0),
-              ),
-              body: Consumer<HomeProvider>(
-                builder: (context, algo, child) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      // height: 40,
-                      //  color: Colors.green,
-                      child: SingleChildScrollView(
-                        physics: const ClampingScrollPhysics(),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              //   print("AAAAAA${snapshot.data}");
-                              /*   algo.curMess*/ Boxes.getMessage()
-                                          .get('currentMessage') ==
-                                      null
-                                  ? Expanded(
-                                      child: Container(
-                                        color: Colors.red,
-                                        child: const AlertDialog(
-                                          title: Center(
-                                              child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text("Empty"),
-                                              Icon(
-                                                Icons.warning_amber_outlined,
-                                                color: Colors.redAccent,
-                                              )
-                                            ],
-                                          )),
-                                          content: Text(
-                                              "This is awkward. There are currently no messages to show at this time."),
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  centerTitle: true,
+                  title: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextTimer(Colors.grey),
+                      const Text(" until automatic signout",
+                          style: TextStyle(color: Colors.grey)),
+                    ],
+                  ),
+                  backgroundColor: const Color.fromARGB(0, 13, 65, 207),
+                  shadowColor: const Color.fromARGB(0, 255, 0, 0),
+                  foregroundColor: const Color.fromARGB(0, 162, 34, 34),
+                  surfaceTintColor: const Color.fromARGB(0, 255, 0, 0),
+                ),
+                body: Consumer<HomeProvider>(
+                  builder: (context, algo, child) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        // height: 40,
+                        //  color: Colors.green,
+                        child: SingleChildScrollView(
+                          physics: const ClampingScrollPhysics(),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                //   print("AAAAAA${snapshot.data}");
+                                /*   algo.curMess*/ Boxes.getMessage()
+                                            .get('currentMessage') ==
+                                        null
+                                    ? Expanded(
+                                        child: Container(
+                                          color: Colors.red,
+                                          child: const AlertDialog(
+                                            title: Center(
+                                                child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text("Empty"),
+                                                Icon(
+                                                  Icons.warning_amber_outlined,
+                                                  color: Colors.redAccent,
+                                                )
+                                              ],
+                                            )),
+                                            content: Text(
+                                                "This is awkward. There are currently no messages to show at this time."),
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  : /*algo.curMess*/ Boxes.getMessage()
-                                              .get('currentMessage') !=
-                                          null
-                                      ? Flexible(
-                                          child: Container(
-                                          // ] color: Colors.red,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                child: Material(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  elevation: 20,
-                                                  color: const Color.fromARGB(0, 199, 64, 64),
-                                                  child: Ink(
-                                                    height: 300,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: const Color
-                                                                    .fromARGB(
-                                                                105, 0, 0, 0),
-                                                            width: 1),
+                                      )
+                                    : /*algo.curMess*/ Boxes.getMessage()
+                                                .get('currentMessage') !=
+                                            null
+                                        ? Flexible(
+                                            child: Container(
+                                            // ] color: Colors.red,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  child: Material(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    elevation: 20,
+                                                    color: const Color.fromARGB(
+                                                        0, 199, 64, 64),
+                                                    child: Ink(
+                                                      height: 300,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: const Color
+                                                                      .fromARGB(
+                                                                  105, 0, 0, 0),
+                                                              width: 1),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          color: Colors.black),
+                                                      child: InkWell(
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(20),
-                                                        color: Colors.black),
-                                                    child: InkWell(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      //splashColor: Colors.red,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(16),
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            CircleAvatar(
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                radius: 30,
-                                                                foregroundImage: ApiService
-                                                                    .instance!
-                                                                    .iconReferences[Boxes
-                                                                        .getMessage()
-                                                                    .get(
-                                                                        'currentMessage')!
-                                                                    .iconIndex]),
-                                                            Flexible(
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            8.0),
-                                                                child:
-                                                                    FittedBox(
-                                                                  child: Text(
-                                                                    Boxes.getMessage()
-                                                                        .get(
-                                                                            'currentMessage')!
-                                                                        .title,
-                                                                    style: const TextStyle(color: Colors.white,
-                                                                        fontSize:
-                                                                            40),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        top:
-                                                                            8.0),
-                                                                child: SizedBox(
-                                                                  //color:Colors.green,
-                                                                  width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
+                                                        //splashColor: Colors.red,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(16),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              CircleAvatar(
+                                                                  backgroundColor: Colors
+                                                                      .transparent,
+                                                                  radius: 30,
+                                                                  foregroundImage: ApiService
+                                                                      .instance!
+                                                                      .iconReferences[Boxes
+                                                                          .getMessage()
+                                                                      .get(
+                                                                          'currentMessage')!
+                                                                      .iconIndex]),
+                                                              Flexible(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          8.0),
                                                                   child:
-                                                                      Scrollbar(
-                                                                    thumbVisibility:
-                                                                        false,
-                                                                    child:
-                                                                        SingleChildScrollView(
-                                                                      child: Text(
-                                                                          style: const TextStyle(
-                                                                              color: Colors
-                                                                                  .white,
-                                                                              fontSize:
-                                                                                  18),
-                                                                          Boxes.getMessage()
-                                                                              .get('currentMessage')!
-                                                                              .message),
+                                                                      FittedBox(
+                                                                    child: Text(
+                                                                      Boxes.getMessage()
+                                                                          .get(
+                                                                              'currentMessage')!
+                                                                          .title,
+                                                                      style: const TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              40),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            Flexible(
-                                                                child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                const Icon(color:Colors.white,Icons
-                                                                    .remove_red_eye_outlined),
-                                                                Text(style:const TextStyle(color:Colors.white),
-                                                                    "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
-                                                                const Spacer(),
-                                                                ChoiceChip(
-                                                                 // backgroundColor: Colors.black,
-                                                              //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
-                                                                  elevation: algo.isLikeSelected ? 8 :0,
-                                                                  avatar: const Icon(
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      top: 8.0),
+                                                                  child:
+                                                                      SizedBox(
+                                                                    //color:Colors.green,
+                                                                    width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                    child:
+                                                                        Scrollbar(
+                                                                      thumbVisibility:
+                                                                          false,
+                                                                      child:
+                                                                          SingleChildScrollView(
+                                                                        child: Text(
+                                                                            style:
+                                                                                const TextStyle(color: Colors.white, fontSize: 18),
+                                                                            Boxes.getMessage().get('currentMessage')!.message),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Flexible(
+                                                                  child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  const Icon(
                                                                       color: Colors
-                                                                          .green,
+                                                                          .white,
                                                                       Icons
-                                                                          .thumb_up),
-                                                                  label: Text(
-                                                                      algo.copiedLikes
-                                                                          .toString() /*Boxes
+                                                                          .remove_red_eye_outlined),
+                                                                  Text(
+                                                                      style: const TextStyle(
+                                                                          color:
+                                                                              Colors.white),
+                                                                      "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
+                                                                  const Spacer(),
+                                                                  ChoiceChip(
+                                                                    // backgroundColor: Colors.black,
+                                                                    //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
+                                                                    elevation:
+                                                                        algo.isLikeSelected
+                                                                            ? 8
+                                                                            : 0,
+                                                                    avatar: const Icon(
+                                                                        color: Colors
+                                                                            .green,
+                                                                        Icons
+                                                                            .thumb_up),
+                                                                    label: Text(
+                                                                        algo.copiedLikes
+                                                                            .toString() /*Boxes
                                                                               .getMessage()
                                                                           .get(
                                                                               'currentMessage')!
                                                                           .likes
                                                                           .toString()*/
-                                                                      ),
-                                                                  selected: algo
-                                                                      .isLikeSelected,
-                                                                  onSelected:
-                                                                      (value) async {
-                                                                    await algo.likesOrDislikes(
-                                                                        "like",
-                                                                        value);
-                                                                  },
-                                                                  selectedColor: algo.isLikeSelected ? 
-                                                                      Colors
-                                                                          .white : Colors.transparent,
-                                                                ),
-                                                                ChoiceChip(
-                                                                  //disabledColor: Colors.red,
-                                                                // backgroundColor: Colors.red,
-                                                                                                                                    elevation: algo.isDislikeSelected ? 8 :0,
+                                                                        ),
+                                                                    selected: algo
+                                                                        .isLikeSelected,
+                                                                    onSelected:
+                                                                        (value) async {
+                                                                      await algo.likesOrDislikes(
+                                                                          "like",
+                                                                          value);
+                                                                    },
+                                                                    selectedColor: algo.isLikeSelected
+                                                                        ? Colors
+                                                                            .white
+                                                                        : Colors
+                                                                            .transparent,
+                                                                  ),
+                                                                  ChoiceChip(
+                                                                    //disabledColor: Colors.red,
+                                                                    // backgroundColor: Colors.red,
+                                                                    elevation:
+                                                                        algo.isDislikeSelected
+                                                                            ? 8
+                                                                            : 0,
 
-                                                                  selectedColor:
-                                                                      Colors
-                                                                          .white,
-                                                                  onSelected:
-                                                                      (value) async {
-                                                                    await algo.likesOrDislikes(
-                                                                        "dislike",
-                                                                        value);
-                                                                  },
-                                                                  avatar: const Icon(
-                                                                      color: Colors
-                                                                          .red,
-                                                                      Icons
-                                                                          .thumb_down),
-                                                                  label: Text(
-                                                                      algo.copiedDislikes
-                                                                          .toString() /*Boxes
+                                                                    selectedColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    onSelected:
+                                                                        (value) async {
+                                                                      await algo.likesOrDislikes(
+                                                                          "dislike",
+                                                                          value);
+                                                                    },
+                                                                    avatar: const Icon(
+                                                                        color: Colors
+                                                                            .red,
+                                                                        Icons
+                                                                            .thumb_down),
+                                                                    label: Text(
+                                                                        algo.copiedDislikes
+                                                                            .toString() /*Boxes
                                                                               .getMessage()
                                                                           .get(
                                                                               'currentMessage')!
                                                                           .dislikes
                                                                           .toString()*/
-                                                                      ),
-                                                                  selected: algo
-                                                                      .isDislikeSelected,
-                                                                ),
-                                                              ],
-                                                            ))
-                                                          ],
+                                                                        ),
+                                                                    selected: algo
+                                                                        .isDislikeSelected,
+                                                                  ),
+                                                                ],
+                                                              ))
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                        algo.retrievedChats != null ?   Container(color: Colors.pink,width: 50,height: 50,): const Text("error")   ],
-                                          ),
-                                        ))
-                                      : const Text("data")
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-                  
-                    Container(
-                      color: Colors.transparent,
-                      child:    Boxes.getMessage().get('currentMessage') != null ? Row(
-                        children: [
-                         Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                minLines: null,
-                                validator: (value) {
-                                  return value!.length < 5
-                                      ? "Should be greater than 5"
-                                      : null;
-                                },
-                                controller: _chatController,
-                                maxLines: 1,
-                                    maxLength: 50,
-                                style: const TextStyle(),
-                                decoration: InputDecoration(
-                                  
-                                  fillColor:Colors.transparent,
-                                    border: OutlineInputBorder(
-                                      
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            style: BorderStyle.solid,
-                                            width: .5,
-                                            color: Colors.black)),
-                                    errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            style: BorderStyle.solid,
-                                            width: .5,
-                                            color: Colors.black)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            style: BorderStyle.solid,
-                                            width: .5,
-                                            color: Colors.black)),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            style: BorderStyle.solid,
-                                            width: .5,
-                                            color: Colors.black)),
-                                    filled: true,
-                                    suffixIcon: TextButton(
-                                      style: const ButtonStyle(),
-                                      onPressed: () {
-                                     
-                                          print("continue");
-                                          String message = _chatController.text;
-                                          print(message);
-                                          _chatController.clear();
-                                          algo.sendChat(message);
-                                     
-                                      },
-                                      child: const Icon(
-                                        Icons.send,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    hintText: "Send a chat",
-                                  ),
-                              ),
+                                                
+                                                  
+              algo.retrievedChats != null ?    Container(color: Colors.yellow,
+                child: Expanded(
+                  child: SingleChildScrollView(child: Container(width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                    children: [
+                         for(var e in algo.retrievedChats!)
+                          Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.red),child: 
+                          Row(mainAxisAlignment:  /**Change this when implemented users own message detection */ MainAxisAlignment.start,children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+               Text(maxLines:2,e.chat!,style: GoogleFonts.openSans(fontSize: 42,fontWeight: FontWeight.bold),),
+               Text(e.time!)
+                              ],
+                            )
+                           
+                          ],))
+                    ],
+                    ),
+                  ),),
+                ),
+              ) : Text("Whole lotta empty, send a chat"),                                    
+                             
+/*Expanded(
+                                                      child: ListView.builder(
+                                                        itemCount: algo
+                                                            .retrievedChats!
+                                                            .length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return Container(
+                                                            height: 40,color: Colors.green,
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(algo
+                                                                    .retrievedChats![
+                                                                        index]
+                                                                    .chat
+                                                                    .toString(),style: GoogleFonts.openSans(fontSize: 42,fontWeight: FontWeight.bold))
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                    )*/
+                                                  
+                                              ],
+                                            ),
+                                          ))
+                                        : const Text("data")
+                              ],
                             ),
                           ),
-                     ],
-                      ) : null
-                    ),
-                  ],
+                        ),
+                      )),
+                      Container(
+                          color: Colors.transparent,
+                          child: Boxes.getMessage().get('currentMessage') !=
+                                  null
+                              ? Row(
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          minLines: null,
+                                          validator: (value) {
+                                            return value!.length < 5
+                                                ? "Should be greater than 5"
+                                                : null;
+                                          },
+                                          controller: _chatController,
+                                          maxLines: 1,
+                                          maxLength: 50,
+                                          style: const TextStyle(),
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.transparent,
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: const BorderSide(
+                                                    style: BorderStyle.solid,
+                                                    width: .5,
+                                                    color: Colors.black)),
+                                            errorBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: const BorderSide(
+                                                    style: BorderStyle.solid,
+                                                    width: .5,
+                                                    color: Colors.black)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: const BorderSide(
+                                                    style: BorderStyle.solid,
+                                                    width: .5,
+                                                    color: Colors.black)),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: const BorderSide(
+                                                    style: BorderStyle.solid,
+                                                    width: .5,
+                                                    color: Colors.black)),
+                                            filled: true,
+                                            suffixIcon: TextButton(
+                                              style: const ButtonStyle(),
+                                              onPressed: () {
+                                                print("continue");
+                                                String message =
+                                                    _chatController.text;
+                                                print(message);
+                                                _chatController.clear();
+                                                algo.sendChat(message);
+                                              },
+                                              child: const Icon(
+                                                Icons.send,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            hintText: "Send a chat",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : null),
+                    ],
+                  ),
                 ),
-              ),
-              bottomNavigationBar:  BottomNavigationBar(
-                onTap: (value) {
-                  print(value);
-                  switch(value)
-                  {
-                    case 0:
-                    break;
-                    case 1:
-                    if (Boxes.getuser().get('mainUser')!.hasPostedMessage ==
+                bottomNavigationBar: BottomNavigationBar(
+                  onTap: (value) {
+                    print(value);
+                    switch (value) {
+                      case 0:
+                        break;
+                      case 1:
+                        if (Boxes.getuser().get('mainUser')!.hasPostedMessage ==
                             true) {
                           showDialog(
                             context: context,
@@ -494,9 +559,9 @@ class _RDHOME2State extends State<RDHOME2> {
                             });
                           });
                         }
-                    break;
-                    case 2:
-                      showModalBottomSheet(
+                        break;
+                      case 2:
+                        showModalBottomSheet(
                           context: context,
                           builder: (context) {
                             return Container(
@@ -526,18 +591,21 @@ class _RDHOME2State extends State<RDHOME2> {
                             );
                           },
                         );
-                    break;
-                    default:
-                  }
-                },items: const [
-                BottomNavigationBarItem(label: "Settings",icon: Icon(Icons.settings)),
-                                BottomNavigationBarItem(label: "Post",icon: Icon(Icons.add)),
-                                                                BottomNavigationBarItem(label: "Profile",icon: Icon(Icons.person))
+                        break;
+                      default:
+                    }
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                        label: "Settings", icon: Icon(Icons.settings)),
+                    BottomNavigationBarItem(
+                        label: "Post", icon: Icon(Icons.add)),
+                    BottomNavigationBarItem(
+                        label: "Profile", icon: Icon(Icons.person))
+                  ],
+                )
 
-
-              ],)
-
-            /*   BottomAppBar(
+                /*   BottomAppBar(
                 height: 100,
                 elevation: 0,
                 padding: const EdgeInsets.all(8),
@@ -641,7 +709,7 @@ class _RDHOME2State extends State<RDHOME2> {
                   ],
                 ),
               ),*/
-            ),
+                ),
             const PostPage()
           ],
         ),
@@ -736,7 +804,7 @@ class _TextTimerState extends State<TextTimer> {
   @override
   void dispose() {
     _timer.cancel();
-        super.dispose();
+    super.dispose();
   }
 
   void startTimer() {
@@ -749,23 +817,19 @@ class _TextTimerState extends State<TextTimer> {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, algo, child) {
-        
-           if( remainingTime%30 == 0 ) 
-           {
-            //print("HSADPFHS");
+        if (remainingTime % 30 == 0) {
+          //print("HSADPFHS");
           //  algo.HomeBuild();
+        }
 
-           }
-
-        return  SizedBox(
-        //width: 65,
-        child: Text(
-          '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
-          style: TextStyle(color: widget.color, overflow: TextOverflow.fade),
-        ),
-      );
+        return SizedBox(
+          //width: 65,
+          child: Text(
+            '${remainingTime ~/ 3600}:${(remainingTime % 3600 ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
+            style: TextStyle(color: widget.color, overflow: TextOverflow.fade),
+          ),
+        );
       },
-      
     );
   }
 }

@@ -324,149 +324,152 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ConsentProvider>(
       builder: (context, value, child) => Container(
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Welcome to\nEdulink",
-                style: GoogleFonts.openSans(fontSize: 42),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      // color: Colors.red,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Flexible(
-                              child: Icon(
-                            Icons.network_cell,
-                            size: 72,
-                            color: Colors.blue,
-                          )),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FittedBox(
-                                    child: Text(
-                                  "Network with students",
-                                  style: GoogleFonts.openSans(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                )),
-                                Text(
-                                  "Or not! Send incognito messages if you're board. Idc",
-                                  style: GoogleFonts.openSans(fontSize: 15),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      // color: Colors.red,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Flexible(
-                              child: Icon(
-                            Icons.lock,
-                            size: 72,
-                            color: Colors.green,
-                          )),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FittedBox(
-                                    child: Text(
-                                  "Secure Messaging",
-                                  style: GoogleFonts.openSans(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                )),
-                                Text(
-                                  "Anonymized chats are encrypted in the backend. It’s the user’sresponsibility to keep relevance",
-                                  style: GoogleFonts.openSans(fontSize: 15),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      // color: Colors.red,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Flexible(
-                              child: Icon(
-                            Icons.timer,
-                            size: 72,
-                            color: Colors.red,
-                          )),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FittedBox(
-                                    child: Text(
-                                  "Fast Paced",
-                                  style: GoogleFonts.openSans(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                )),
-                                Text(
-                                  "Set caps on how many people can see your post",
-                                  style: GoogleFonts.openSans(fontSize: 15),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Welcome to\nEdulink",
+                  style: GoogleFonts.openSans(fontSize: 42,fontWeight: FontWeight.bold),
                 ),
-              )
-            ]),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // color: Colors.red,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Flexible(
+                                child: Icon(
+                              Icons.network_cell,
+                              size: 72,
+                              color: Colors.blue,
+                            )),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FittedBox(
+                                      child: Text(
+                                    "Network with students",
+                                    style: GoogleFonts.openSans(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  )),
+                                  Text(
+                                    "Or not! Send incognito messages if you're board. Idc",
+                                    style: GoogleFonts.openSans(fontSize: 15),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        // color: Colors.red,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Flexible(
+                                child: Icon(
+                              Icons.lock,
+                              size: 72,
+                              color: Colors.green,
+                            )),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FittedBox(
+                                      child: Text(
+                                    "Secure Messaging",
+                                    style: GoogleFonts.openSans(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  )),
+                                  Text(
+                                    "Anonymized chats are encrypted in the backend. It’s the user’sresponsibility to keep relevance",
+                                    style: GoogleFonts.openSans(fontSize: 15),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        // color: Colors.red,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Flexible(
+                                child: Icon(
+                              Icons.timer,
+                              size: 72,
+                              color: Colors.red,
+                            )),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FittedBox(
+                                      child: Text(
+                                    "Fast Paced",
+                                    style: GoogleFonts.openSans(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  )),
+                                  Text(
+                                    "Set caps on how many people can see your post",
+                                    style: GoogleFonts.openSans(fontSize: 15),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ]),
+        ),
       ),
     );
   }

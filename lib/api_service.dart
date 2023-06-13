@@ -416,14 +416,14 @@ await childNode.child('Current Views').runTransaction((value) {
     });
   }
 
-  Future<List<ChatInstance>?> filterChats(Object chatObject) async
+  Future<List<ChatInstance>> filterChats(Object chatObject) async
   {
     List<ChatInstance> chats = [];
     Map jsonChats = chatObject as Map;
     
     print(jsonChats);
 
-    jsonChats.forEach((key, value) {
+    jsonChats.forEach((key, value) async{
        ChatInstance temp = ChatInstance(chat: value['chat'] ,time: value['time'] );
         chats.add(temp);
      });
