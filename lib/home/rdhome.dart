@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,7 @@ class _RDHOME2State extends State<RDHOME2> {
   late TextEditingController _chatController;
   late int remainingTime;
   final _formKey = GlobalKey<FormState>();
+  List<Map<dynamic, dynamic>> chats = [];
 
   @override
   void initState() {
@@ -31,7 +34,24 @@ class _RDHOME2State extends State<RDHOME2> {
     //if a current message exists, check it's count
     _chatController = TextEditingController();
     print('home has now been initialized');
+    fetchAndDisplyChats();
     super.initState();
+  }
+
+  void fetchAndDisplyChats() {
+    if (Boxes.getMessage().get('currentMessage') != null) {
+      final chatRef = ApiService.instance!.messagesDatabase!
+          .child(Boxes.getMessage().get('currentMessage')!.uidAdmin)
+          .child('Chats');
+      final query = chatRef.orderByChild('timestamp');
+      query.onValue.listen((event) {
+// print(event.snapshot.toString());
+        //Map messages = event.snapshot.value as Map;
+
+        //print(messages);
+      });
+      print("CHHHHHHHHHHHHHHHHHHHEEEEEEEESSEESSEE");
+    }
   }
 
   @override
@@ -59,7 +79,7 @@ class _RDHOME2State extends State<RDHOME2> {
           scrollDirection: Axis.vertical,
           children: [
             Scaffold(
-                drawer: Drawer(
+                /*   drawer: Drawer(
                   // Add a ListView to the drawer. This ensures the user can scroll
                   // through the options in the drawer if there isn't enough vertical
                   // space to fit everything.
@@ -90,7 +110,12 @@ class _RDHOME2State extends State<RDHOME2> {
                     ],
                   ),
                 ),
+          */
                 appBar: AppBar(
+                  shadowColor: Colors.transparent,
+                  foregroundColor: Colors.transparent,
+                  backgroundColor: Colors.white,
+                  //  toolbarHeight: 0.5,
                   automaticallyImplyLeading: false,
                   centerTitle: true,
                   title: Row(
@@ -102,9 +127,7 @@ class _RDHOME2State extends State<RDHOME2> {
                           style: TextStyle(color: Colors.grey)),
                     ],
                   ),
-                  backgroundColor: const Color.fromARGB(0, 13, 65, 207),
-                  shadowColor: const Color.fromARGB(0, 255, 0, 0),
-                  foregroundColor: const Color.fromARGB(0, 162, 34, 34),
+
                   surfaceTintColor: const Color.fromARGB(0, 255, 0, 0),
                 ),
                 body: Consumer<HomeProvider>(
@@ -359,33 +382,105 @@ class _RDHOME2State extends State<RDHOME2> {
                                                     ),
                                                   ),
                                                 ),
-                                                
-                                                  
-              algo.retrievedChats != null ?    Container(color: Colors.yellow,
-                child: Expanded(
-                  child: SingleChildScrollView(child: Container(width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                    children: [
-                         for(var e in algo.retrievedChats!)
-                          Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.red),child: 
-                          Row(mainAxisAlignment:  /**Change this when implemented users own message detection */ MainAxisAlignment.start,children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-               Text(maxLines:2,e.chat!,style: GoogleFonts.openSans(fontSize: 42,fontWeight: FontWeight.bold),),
-               Text(e.time!)
-                              ],
-                            )
-                           
-                          ],))
-                    ],
-                    ),
-                  ),),
-                ),
-              ) : Text("Whole lotta empty, send a chat"),                                    
-                             
+                                                algo.retrievedChats != null
+                                                    ? Expanded(
+                                                        child: Container(
+                                                          //color: Colors.yellow,
+                                                          child:
+                                                              SingleChildScrollView(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Container(
+                                                                width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    for (var e
+                                                                        in algo
+                                                                            .retrievedChats!)
+                                                                      Card(
+                                                                        elevation:
+                                                                            5,
+                                                                        shape: RoundedRectangleBorder(
+                                                                            borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(20),
+                                                                                topRight: Radius.circular(20),
+                                                                                bottomRight: Radius.circular(20))),
+                                                                        child:
+                                                                            Container(
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(20),
+                                                                                topRight: Radius.circular(20),
+                                                                                bottomRight: Radius.circular(20)),
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+
+                                                                          width:
+                                                                              MediaQuery.of(context).size.width / 2,
+                                                                          //height: 800,
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(8.0),
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
+                                                                                Text(
+                                                                                  e.chat!,
+                                                                                  maxLines: 5,
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  style: GoogleFonts.openSans(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                ),
+                                                                                Text(
+                                                                                  e.time!,
+                                                                                  style: TextStyle(color: Colors.grey),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        "Whole lotta empty, send a chat",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: GoogleFonts
+                                                            .openSans(
+                                                                fontSize: 50,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        71,
+                                                                        0,
+                                                                        0,
+                                                                        0)),
+                                                      ),
+
 /*Expanded(
                                                       child: ListView.builder(
                                                         itemCount: algo
@@ -411,7 +506,6 @@ class _RDHOME2State extends State<RDHOME2> {
                                                         },
                                                       ),
                                                     )*/
-                                                  
                                               ],
                                             ),
                                           ))
@@ -499,10 +593,58 @@ class _RDHOME2State extends State<RDHOME2> {
                   ),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Colors.black,
                   onTap: (value) {
                     print(value);
                     switch (value) {
                       case 0:
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  actionsAlignment: MainAxisAlignment.center,
+                                  actions: [
+                                    Container(
+                                        //   color: Colors.red,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: TextButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll(
+                                                        Colors.red),
+                                                foregroundColor:
+                                                    MaterialStatePropertyAll(
+                                                        Colors.white),
+                                                shape: MaterialStatePropertyAll(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    20)))),
+                                            onPressed: () async {
+                                              Navigator.pop(context);
+
+                                              await ApiService.instance!
+                                                  .signOut();
+                                            },
+                                            child: Text("Sign Out")))
+                                  ],
+                                  //alignment: Alignment.center,
+
+                                  content: Text(
+                                    "Careful! You are about to sign out. This means you will lose access to your current message. You will still be able to see your published message only when it has reached it's max views.",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  title: Text(
+                                    "You are about to leave",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.openSans(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ));
                         break;
                       case 1:
                         if (Boxes.getuser().get('mainUser')!.hasPostedMessage ==
@@ -510,42 +652,47 @@ class _RDHOME2State extends State<RDHOME2> {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Text(
-                                      "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages."),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
+                              actions: [
+                                Container(
+                                    //   color: Colors.red,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: TextButton(
                                         style: ButtonStyle(
-                                            shape: MaterialStateProperty.all(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Colors.black),
+                                            foregroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Colors.white),
+                                            shape: MaterialStatePropertyAll(
                                                 RoundedRectangleBorder(
-                                                    side: const BorderSide(
-                                                        color: Colors.black),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10))),
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    Colors.white),
-                                            overlayColor:
-                                                MaterialStateProperty.all(
-                                                    Colors.grey)),
-                                        child: const Text("Okay, I understand"),
-                                      )
-                                    ],
-                                  )
-                                ],
+                                                            20)))),
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+
+                                          await ApiService.instance!.signOut();
+                                        },
+                                        child: Text("Okay")))
+                              ],
+                              content: Text(
+                                "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages.",
+                                textAlign: TextAlign.center,
                               ),
+                              title: Text(
+                                "Slow down",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
                             ),
                           );
                         } else {
+
+
                           ApiService.instance!.pageController
                               .nextPage(
                                   duration: const Duration(milliseconds: 500),
@@ -557,7 +704,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                 ApiService.instance!.ref = true;
                               });
                             });
-                          });
+                          }); 
                         }
                         break;
                       case 2:
@@ -597,7 +744,7 @@ class _RDHOME2State extends State<RDHOME2> {
                   },
                   items: const [
                     BottomNavigationBarItem(
-                        label: "Settings", icon: Icon(Icons.settings)),
+                        label: "Sign Out", icon: Icon(Icons.exit_to_app)),
                     BottomNavigationBarItem(
                         label: "Post", icon: Icon(Icons.add)),
                     BottomNavigationBarItem(
@@ -773,7 +920,7 @@ class _TextTimerState extends State<TextTimer> {
   @override
   void initState() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      int remainingTimeInSeconds = 24 * 60 * 60 -
+      int remainingTimeInSeconds = 12 * 60 * 60 -
           (DateTime.now().millisecondsSinceEpoch -
                   Boxes.getuser()
                       .get('mainUser')!

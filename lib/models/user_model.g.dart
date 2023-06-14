@@ -17,17 +17,17 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserInstance(
-      fields[0] as String,
-      fields[1] as bool,
-      fields[2] as DateTime,
-      fields[3] as DateTime?,
-    );
+      uid: fields[0] as String,
+      hasPostedMessage: fields[1] as bool,
+      createdAt: fields[2] as DateTime,
+      lastPostedMessageTimestamp: fields[3] as DateTime?,
+    )..messageUids = (fields[4] as List).cast<String>();
   }
 
   @override
   void write(BinaryWriter writer, UserInstance obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.uid)
       ..writeByte(1)
@@ -35,7 +35,9 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       ..writeByte(2)
       ..write(obj.createdAt)
       ..writeByte(3)
-      ..write(obj.lastPostedMessageTimestamp);
+      ..write(obj.lastPostedMessageTimestamp)
+      ..writeByte(4)
+      ..write(obj.messageUids);
   }
 
   @override

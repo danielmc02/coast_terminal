@@ -37,7 +37,7 @@ class PostProvider extends ChangeNotifier {
       'icon': Image.asset('assets/face_icons/dead.png'),
       'selected': false
     },
-    'Demon': {
+    'Demon Time': {
       'icon': Image.asset('assets/face_icons/demon.png'),
       'selected': false
     },

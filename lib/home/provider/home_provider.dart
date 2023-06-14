@@ -254,9 +254,10 @@ List<ChatInstance>? retrievedChats;
 if(spec['Chats'] != null )
 {
   print("Chats is not null");
-List<ChatInstance>? chatList = await ApiService.instance!.filterChats(spec['Chats']);
-retrievedChats = chatList;
-print("Length of chats is ${retrievedChats!.length}");
+
+//List<ChatInstance>? chatList = await ApiService.instance!.filterChats(spec['Chats']);
+//retrievedChats = chatList;
+//print("Length of chats is ${retrievedChats!.length}");
 
 }
           final temp = MessageInstance(
@@ -309,6 +310,7 @@ print("Length of chats is ${retrievedChats!.length}");
 
    Future<void> sendChat(String message) async
   {
+//    print("Here is a server value timestammp: ${ServerValue.timestamp.toString()} vs ${DateTime.now()}");
    final messageDbRef = ApiService.instance!.messagesDatabase;
    final messageNodeChats =  messageDbRef!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin).child('Chats');
 final reference = messageNodeChats.push();
@@ -319,14 +321,16 @@ final reference = messageNodeChats.push();
   print(formattedDateTime);
 String randomKey = reference.key!;
    //print(randomKey);
-   messageNodeChats.child(randomKey).set(
+  await messageNodeChats.child(ServerValue.timestamp.toString()).set(
     {
       "chat": message,
       "time":formattedDateTime,
+    //  "timestamp" : ServerValue.timestamp
       //DateTime: DateTime.now()
 
     }
    );
+ //await HomeBuild();
 
   }
 

@@ -3,7 +3,7 @@ part 'user_model.g.dart';
 @HiveType(typeId: 0)
 class UserInstance extends HiveObject
 {
-  UserInstance(this.uid,this.hasPostedMessage,this.createdAt,this.lastPostedMessageTimestamp/*,this.messageInstances*/);
+  UserInstance( { required this.uid,required this.hasPostedMessage,required this.createdAt,required this.lastPostedMessageTimestamp/*,this.messageInstances*/});
 
     
   @HiveField(0)
@@ -17,6 +17,9 @@ class UserInstance extends HiveObject
 
   @HiveField(3)
   late DateTime? lastPostedMessageTimestamp;
+
+  @HiveField(4)
+   List<String> messageUids = [];
 
 /*
   @HiveField(4)

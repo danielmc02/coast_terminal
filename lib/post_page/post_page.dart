@@ -2,6 +2,7 @@ import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/post_page/post_page_provider/post_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class PostPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _PostPageState extends State<PostPage> {
       create: (context) => PostProvider(),
       child: Consumer<PostProvider>(
         builder: (context, algo, child) => Scaffold(
+          
             onDrawerChanged: (isOpened) {
               setState(() {
                 isOpen = !isOpen;
@@ -37,21 +39,24 @@ class _PostPageState extends State<PostPage> {
                       child: SizedBox(
                           width: 50, height: 50, child: algo.chosen)));
             }),
-            drawer: Drawer(
+            drawer: Drawer(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))),
+              backgroundColor: const Color.fromARGB(255, 12, 12, 12),
               child: DrawerBody(),
             ),
-            backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+           backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 56, 62, 78),
+               shadowColor: Colors.transparent,
+                  foregroundColor: Colors.transparent,
+                  backgroundColor: Colors.white,
               leading: IconButton(
-                icon: const Icon(Icons.close),
+                icon: const Icon(Icons.close,color: Colors.black,),
                 onPressed: () {
                   ApiService.instance!.pageController.animateToPage(0,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.linear);
                 },
               ),
-              title: const Text("Post"),
+              title:  Text("Post",style: GoogleFonts.openSans(color: Colors.black,fontWeight: FontWeight.bold),),
             ),
             body: const PostBody()),
       ),
@@ -88,89 +93,87 @@ class _PostBodyState extends State<PostBody> {
   double _currentValue = 1;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const ClampingScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 0),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
         child: SizedBox(
+          //    color: Colors.green,
           height: MediaQuery.of(context).size.height,
-          child: SizedBox(
-            //    color: Colors.green,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Flexible(
-                    flex: 1,
-                    child: Container(
-                      //   color: Color.fromARGB(192, 194, 13, 13),
-                      child: TextField(
-                        controller: titleController,
-                        inputFormatters: const [
-                          // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z_]'),)
-                        ],
-                        cursorColor: const Color.fromARGB(255, 183, 183, 183),
-                        showCursor: true,
-                        maxLength: 30,
-                        style: const TextStyle(
-                            fontFamily: "Roboto",
-                            color: Colors.black,
-                            fontSize: 35),
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.zero,
-                          ),
-                          hintText: 'Title',
-                          hintStyle: TextStyle(
-                            color: Colors.grey
-                                .withOpacity(0.5), // set the hint text opacity
-                          ),
+          child: Column(
+            children: [
+              Container(
+                //   color: Color.fromARGB(192, 194, 13, 13),
+                child: TextField(
+                  controller: titleController,
+                  inputFormatters: const [
+                    // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z_]'),)
+                  ],
+                  cursorColor: const Color.fromARGB(255, 183, 183, 183),
+                  showCursor: true,
+                  maxLength: 30,
+                  style: const TextStyle(
+                      fontFamily: "Roboto",
+                      color: Colors.black,
+                      fontSize: 35),
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    hintText: 'Title',
+                    hintStyle: TextStyle(
+                      color: Colors.grey
+                          .withOpacity(0.5), // set the hint text opacity
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Flexible(
+                  flex: 2,
+                  child: Container(
+                   //   color: Color.fromARGB(168, 17, 54, 187),
+                    child: TextField(
+                      controller: messageController,
+                      showCursor: true,
+                      cursorColor: const Color.fromARGB(255, 183, 183, 183),
+                      maxLength: 500,
+                      minLines: 22,
+                      maxLines: 22,
+                      style: const TextStyle(
+                          fontFamily: "Roboto",
+                          color: Colors.black,
+                          fontSize: 20),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          //  borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.black),
+                          //  borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintText: 'Message',
+                        hintStyle: TextStyle(
+                          color: Colors.grey
+                              .withOpacity(0.5), // set the hint text opacity
                         ),
                       ),
-                    )),
-                const SizedBox(
-                  height: 8,
-                ),
-                Flexible(
-                    flex: 3,
-                    child: Container(
-                      //  color: Color.fromARGB(168, 17, 54, 187),
-                      child: TextField(
-                        controller: messageController,
-                        showCursor: true,
-                        cursorColor: const Color.fromARGB(255, 183, 183, 183),
-                        maxLength: 500,
-                        minLines: 22,
-                        maxLines: 22,
-                        style: const TextStyle(
-                            fontFamily: "Roboto",
-                            color: Colors.black,
-                            fontSize: 20),
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            //  borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black),
-                            //  borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintText: 'Message',
-                          hintStyle: TextStyle(
-                            color: Colors.grey
-                                .withOpacity(0.5), // set the hint text opacity
-                          ),
-                        ),
-                      ),
-                    )),
-                const SizedBox(
-                  height: 48,
-                ),
-                Flexible(
-                  flex: 1,
-                  //   child: Container(color: Color.fromARGB(153, 255, 193, 7),
+                    ),
+                  )),
+              const SizedBox(
+                height: 48,
+              ),
+              Flexible(
+                flex: 1,
+                //   child: Container(color: Color.fromARGB(153, 255, 193, 7),
+                child: Container(
+                  //color: Colors.red,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -268,8 +271,8 @@ class _PostBodyState extends State<PostBody> {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -295,7 +298,7 @@ Widget DrawerBody() {
                         "Icons",
                         style: TextStyle(
                             fontFamily: "Roboto",
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 50),
                       ),
                     ],
@@ -303,7 +306,7 @@ Widget DrawerBody() {
                 ),
                 Flexible(
                   child: Container(
-                    //color: Colors.red,
+                  //  color: Colors.red,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 24, left: 8, top: 0),
                       child: ListView.builder(
@@ -355,8 +358,8 @@ Widget DrawerBody() {
                                             color: algo.badges[algo.badges.keys
                                                     .elementAt(
                                                         index)]!['selected']
-                                                ? Colors.black
-                                                : const Color.fromARGB(62, 0, 0, 0),
+                                                ? Colors.white
+                                                : Color.fromARGB(61, 240, 240, 240),
                                             fontSize: 25)),
                                   )
                                 ],
@@ -378,7 +381,7 @@ Widget DrawerBody() {
 Widget messageBox() {
   return const SizedBox(
     width: 400,
-    height: 300,
+    //height: 300,
     child: Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,

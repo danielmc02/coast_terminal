@@ -59,6 +59,7 @@ class ApiService {
   Future signInAnon() async {
     try {
       final userCredential = await FirebaseAuth.instance.signInAnonymously();
+      
       var tempUse = userCredential.user;
       final userModel = Boxes.getuser();
       if (userModel != null) {
@@ -66,13 +67,13 @@ class ApiService {
             " An existing UserModel instance exists. There are ${userModel.values.length}. Delete it and create new one.");
 
         var currentUser = UserInstance(
-            tempUse!.uid, false, tempUse.metadata.creationTime!, null);
+         uid:   tempUse!.uid,hasPostedMessage: false,createdAt: tempUse.metadata.creationTime!,lastPostedMessageTimestamp: null);
         Boxes.getuser().put('mainUser', currentUser);
         return userModel;
       } else {
         print("No existing UserModel instance exists. Create a new one.");
-        var currentUser = UserInstance(
-            tempUse!.uid, false, tempUse.metadata.creationTime!, null);
+        var currentUser =  UserInstance(
+         uid:   tempUse!.uid,hasPostedMessage: false,createdAt: tempUse.metadata.creationTime!,lastPostedMessageTimestamp: null);
         Boxes.getuser().put('mainUser', currentUser);
       }
 
@@ -424,7 +425,7 @@ await childNode.child('Current Views').runTransaction((value) {
     print(jsonChats);
 
     jsonChats.forEach((key, value) async{
-       ChatInstance temp = ChatInstance(chat: value['chat'] ,time: value['time'] );
+    ChatInstance temp = ChatInstance(chat: value['chat'] ,time: value['time'] );
         chats.add(temp);
      });
    
