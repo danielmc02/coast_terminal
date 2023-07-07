@@ -22,11 +22,12 @@ class _HomeWrapperState extends State<HomeWrapper>
   @override
   void initState() {
     randomNumber = Random().nextInt(facts.length);
-    super.initState();
     _animationController =
         AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     _animation =
         Tween<double>(begin: null, end: null).animate(_animationController);
+            super.initState();
+
   }
 
   List<String> facts = [
@@ -79,6 +80,7 @@ class _HomeWrapperState extends State<HomeWrapper>
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text("FUN FACT:"),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: AnimatedTextKit(
@@ -102,21 +104,19 @@ class _HomeWrapperState extends State<HomeWrapper>
                             child: Stack(
                               fit: StackFit.expand,
                               children: [
-                                AnimatedBuilder(
+         /*                       AnimatedBuilder(
                                   animation: _animationController,
                                   builder: (context, child) =>
                                       CircularProgressIndicator(
                                     strokeWidth: 15,
                                     color: Colors.black,
-                                    value: algo.progress,
-                                    backgroundColor: Colors.grey,
-                                    valueColor: const AlwaysStoppedAnimation<Color>(
-                                        Colors.green),
+                                  //  value: algo.progress,
+                                //    backgroundColor: Colors.grey,
+                                  //  valueColor: const AlwaysStoppedAnimation<Color>(
+                                  //      Colors.green),
                                   ),
                                 ),
-                                Center(
-                                    child: Text(
-                                        "${(algo.progress * 100).toStringAsFixed(algo.progress % 1 == 0 ? 0 : 1).replaceAll(RegExp(r'\.0+$'), '')}%"))
+     */                         //  Center( child: Text("${(algo.progress * 100).toStringAsFixed(algo.progress % 1 == 0 ? 0 : 1).replaceAll(RegExp(r'\.0+$'), '')}%"))
                               ],
                             ),
                           ),
@@ -124,10 +124,20 @@ class _HomeWrapperState extends State<HomeWrapper>
                         const SizedBox(
                           height: 50,
                         ),
-                        Text(
-                          algo.status,
-                          style: const TextStyle(
-                              color: Color.fromARGB(110, 0, 0, 0)),
+                        Container(
+                          height: 50
+                          ,width: 200,
+                          child: FittedBox(
+                            child: AnimatedTextKit(
+                              repeatForever: true,
+                              animatedTexts: [
+                                FadeAnimatedText(algo.status,textStyle:  TextStyle(
+                                  color: Color.fromARGB(110, 0, 0, 0)),)
+                              ],
+                              
+                              
+                            ),
+                          ),
                         )
                       ],
                     ),

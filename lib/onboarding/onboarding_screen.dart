@@ -415,7 +415,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                             //Navigator.pop(context);
                                                             if(algo2.progLoad != true)
                                                             {
-                                                    //      await        algo2.check2(context);
+                                                         await        algo2.check2(context);
 
                                                             }
                                             

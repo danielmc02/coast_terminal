@@ -4,6 +4,7 @@ import 'package:coast_terminal/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -114,23 +115,57 @@ await Future.delayed(Duration(seconds: 1));
   String campusStatus = "On a verified campus?";
 */
 
+Future<Position> _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
 
+  // Test if location services are enabled.
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    // Location services are not enabled don't continue
+    // accessing the position and request users of the 
+    // App to enable the location services.
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      // Permissions are denied, next time you could try
+      // requesting permissions again (this is also where
+      // Android's shouldShowRequestPermissionRationale 
+      // returned true. According to Android guidelines
+      // your App should show an explanatory UI now.
+      return Future.error('Location permissions are denied');
+    }
+  }
+  
+  if (permission == LocationPermission.deniedForever) {
+    // Permissions are denied forever, handle appropriately. 
+    return Future.error(
+      'Location permissions are permanently denied, we cannot request permissions.');
+  } 
+
+  // When we reach here, permissions are granted and we can
+  // continue accessing the position of the device.
+  Position? p;
+   await Geolocator.getCurrentPosition(timeLimit: Duration(seconds: 15),desiredAccuracy: LocationAccuracy.best).then((value) => p = value);
+   return p!;
+}
 
   bool? locationPass;
   bool? progLoad;
   bool? adPass;
-  /*
+  
   Future<void> check2(BuildContext context) async {
         progLoad = true;
 
     popScope = false;
     notifyListeners();
     await Future.delayed(const Duration(seconds: 1));
-    Location location = Location();
 
     bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
     //
 
     LatLngBounds goldenWestCollegeArea = LatLngBounds(
@@ -144,42 +179,25 @@ await Future.delayed(Duration(seconds: 1));
 
     ///
     try {
-      serviceEnabled = await location.serviceEnabled();
-      if (!serviceEnabled) {
-        serviceEnabled = await location.requestService();
-        serviceEnabled == false ? throw "DENIED" : null;
-        if (!serviceEnabled) {
-          return;
-        }
-      }
+      
+      final Position position = await _determinePosition();
+print("Got loc");
 
-      permissionGranted = await location.hasPermission();
-      if (permissionGranted == PermissionStatus.denied) {
-        permissionGranted = await location.requestPermission();
-        permissionGranted == PermissionStatus.denied ||
-                permissionGranted == PermissionStatus.deniedForever
-            ? throw "denied"
-            : null;
-        if (permissionGranted != PermissionStatus.granted) {
-          return;
-        }
-      }
-
-      locationData = await location.getLocation();
       bool isAtHq = homeDad
-          .contains(LatLng(locationData.latitude!, locationData.longitude!));
+          .contains(LatLng(position.latitude, position.longitude));
 
       bool isAtOcc = orangeCoastCollegeArea
-          .contains(LatLng(locationData.latitude!, locationData.longitude!));
+          .contains(LatLng(position.latitude, position.longitude));
 
       bool isAtGwc = goldenWestCollegeArea
-          .contains(LatLng(locationData.latitude!, locationData.longitude!));
+          .contains(LatLng(position.latitude, position.longitude));
       print("Home: $isAtHq");
       print("OCC: $isAtOcc");
       print("GWC: $isAtGwc");
-      
+      print("Lat: ${position.latitude}\nLong: ${position.longitude}");
       //is at gwc or hq
-      if(isAtGwc /* || isAtHq */)
+    //  if(isAtGwc /* || isAtHq */)
+      if(isAtGwc  || isAtHq )
       {
       locationPass = true;
 
@@ -261,5 +279,5 @@ await Future.delayed(Duration(seconds: 1));
       return;
     }
   } 
-  */
+  
 }

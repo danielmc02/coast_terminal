@@ -128,6 +128,35 @@ List<ChatInstance>? retrievedChats;
   late bool isDislikeSelected;
 
   Future<void> HomeBuild() async {
+   await Future.delayed(Duration(seconds: 5));
+    print("in hoome");
+              if(ApiService.instance!.auth!.currentUser == null)
+              {
+                print("Ran because refresh");
+                   ApiService.instance!.signOut();
+                return;
+              }
+              else if (  Boxes.getuser()
+                      .get('mainUser') != null)
+              {
+     int remainingTimeInSeconds = 12 * 60 * 60 -
+          (DateTime.now().millisecondsSinceEpoch -
+                  Boxes.getuser()
+                      .get('mainUser')!
+                      .createdAt
+                      .millisecondsSinceEpoch) ~/
+              1000;
+              print("Time left: $remainingTimeInSeconds");
+              if(remainingTimeInSeconds <= 0)
+              {
+                print("Ran in here because ran out of time");
+                ApiService.instance!.signOut();
+                return;
+              }
+              }
+
+    
+    //if()
     curMess = await ApiService.instance!.fetchMessageIfExists();
     //notifyListeners();
     print("running home functions---");
