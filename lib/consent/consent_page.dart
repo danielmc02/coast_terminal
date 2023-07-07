@@ -32,6 +32,10 @@ class _ConsentPageState extends State<ConsentPage> {
         builder: ((context, algo, child) => WillPopScope(
               onWillPop: () async => false,
               child: Scaffold(
+                /*   floatingActionButton:  algo.pageController.page! >= 1 == true ? FloatingActionButton(onPressed: (){
+                  
+                },child: Icon(Icons.arrow_back),foregroundColor: Colors.white,backgroundColor: Colors.black,) : null, 
+            */
                 bottomNavigationBar: BottomAppBar(
                   color: Colors.transparent,
                   shadowColor: const Color.fromARGB(0, 153, 35, 35),
@@ -51,30 +55,85 @@ class _ConsentPageState extends State<ConsentPage> {
                                       duration:
                                           const Duration(milliseconds: 900),
                                       curve: Curves.linear);
-                                } else if (algo.pageController.page! == 1 &&
+                                } else if (algo.pageController.page == 1 &&
                                     (algo.choseGwc == true ||
-                                        algo.choseOcc == true)) {
-                                  print("SDFSDF");
+                                        algo.choseOcc == true) &&
+                                    algo.hasConfirmedLocation == false) {
+                                  await algo.getLocation(context);
+/*
                                   algo.pageController.nextPage(
                                       duration:
                                           const Duration(milliseconds: 900),
                                       curve: Curves.linear);
-                                                               print("AHSDHSHDFHS ${algo.pageController.page}");
-
-                                }
-                                else if(algo.pageController.page == 2 && (algo.extrovertedCat != false ||algo.introvertedCat != false))
-                                {
+                                  print(
+                                      "AHSDHSHDFHS ${algo.pageController.page}");
+*/
+                                } else if (algo.pageController.page == 2 &&
+                                    (algo.extrovertedCat != false ||
+                                        algo.introvertedCat != false)) {
                                   print("1");
-                                   algo.pageController.nextPage(
+                                  algo.pageController.nextPage(
                                       duration:
                                           const Duration(milliseconds: 900),
                                       curve: Curves.linear);
-                                }
-                                else if(algo.pageController.page == 3 )
-                                {
-                                  print("SDFSDFSDONNSOSNSIONIONFIOSNFIOFSNISDFN");
-   await algo.finishConsent();
-                                    Navigator.pop(context, "");
+                                } else if (algo.pageController.page == 3) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            actionsAlignment:
+                                                MainAxisAlignment.center,
+                                            actions: [
+                                              SizedBox(
+                                                  //   color: Colors.red,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: TextButton(
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              const MaterialStatePropertyAll(
+                                                                  Colors.green),
+                                                          foregroundColor:
+                                                              const MaterialStatePropertyAll(
+                                                                  Colors.white),
+                                                          shape: MaterialStatePropertyAll(
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)))),
+                                                      onPressed: () async {
+                                                        await algo
+                                                            .finishConsent();
+
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child:
+                                                          const Text("Okay")))
+                                            ],
+                                            //alignment: Alignment.center,
+
+                                            content: const Text(
+                                              "To support the maintenance and improvement of the app's quality, users are kindly requested to watch an ad. By doing so, users contribute to the sustainability of the app's development and its ability to provide its services.",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            title: Text(
+                                              "Almost there",
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.openSans(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ));
+
+/*
+                                  print(
+                                      "SDFSDFSDONNSOSNSIONIONFIOSNFIOFSNISDFN");
+                                  await algo.finishConsent();
+                                  Navigator.pop(context, "");*/
                                 }
                               },
                               style: const ButtonStyle(
@@ -150,155 +209,20 @@ class _ConsentPageState extends State<ConsentPage> {
                         child: PageView(
                           physics: const NeverScrollableScrollPhysics(),
                           onPageChanged: (value) {
-                            if(value == 3)
-                            {
+                            if (value == 3) {
                               setState(() {
                                 algo.isOnLastPage = true;
-                                
                               });
                             }
                             print("Page is $value");
                             algo.changeTitle(value);
                           },
                           controller: algo.pageController,
-                          children: [
-                            const FirstPage(),
-                            Container(
-                              //color: Colors.red,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      algo.chooseSchool("gwc");
-                                    },
-                                    child: Card(
-                                      elevation: algo.choseGwc ? 6 : 0,
-                                      shape: const RoundedRectangleBorder(
-                                          side:
-                                              BorderSide(color: Colors.black)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.2,
-                                          height: 60,
-                                          child: FittedBox(
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                FittedBox(
-                                                    fit: BoxFit.contain,
-                                                    child: Stack(
-                                                      children: [
-                                                        ColorFiltered(
-                                                          colorFilter:
-                                                              ColorFilter.mode(
-                                                            algo.choseGwc
-                                                                ? Colors
-                                                                    .transparent
-                                                                : Colors.black,
-                                                            BlendMode
-                                                                .saturation,
-                                                          ),
-                                                          child: const CircleAvatar(
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              foregroundImage:
-                                                                  AssetImage(
-                                                                      "assets/school_logos/gwc.png")),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                                Text(
-                                                  "Golden West College",
-                                                  style: GoogleFonts.openSans(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      algo.chooseSchool("occ");
-                                    },
-                                    child: Card(
-                                      elevation: algo.choseOcc ? 6 : 0,
-                                      shape: const RoundedRectangleBorder(
-                                          side:
-                                              BorderSide(color: Colors.black)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.2,
-                                          height: 60,
-                                          child: FittedBox(
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                FittedBox(
-                                                    fit: BoxFit.contain,
-                                                    child: Stack(
-                                                      children: [
-                                                        ColorFiltered(
-                                                          colorFilter:
-                                                              ColorFilter.mode(
-                                                            algo.choseOcc
-                                                                ? Colors
-                                                                    .transparent
-                                                                : Colors.black,
-                                                            BlendMode
-                                                                .saturation,
-                                                          ),
-                                                          child: const CircleAvatar(
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              foregroundImage:
-                                                                  AssetImage(
-                                                                      "assets/school_logos/occ.jpg")),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                                Text(
-                                                  "Orange Coast College",
-                                                  style: GoogleFonts.openSans(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SecondPage(),
-                            const ThirdPage()
+                          children: const [
+                            FirstPage(),
+                            CollegePickPage(),
+                            SecondPage(),
+                            ThirdPage()
                             /*
                             FirstPage(),
                             SecondPage(),
@@ -312,6 +236,157 @@ class _ConsentPageState extends State<ConsentPage> {
                 ),
               ),
             )),
+      ),
+    );
+  }
+}
+
+class CollegePickPage extends StatelessWidget {
+  const CollegePickPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ConsentProvider>(
+      builder: (context, algo, child) => Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      algo.chooseSchool("gwc");
+                    },
+                    child: Card(
+                      elevation: algo.choseGwc ? 6 : 0,
+                      shape: const RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.black)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          height: 60,
+                          child: FittedBox(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: Stack(
+                                      children: [
+                                        ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            algo.choseGwc
+                                                ? Colors.transparent
+                                                : Colors.black,
+                                            BlendMode.saturation,
+                                          ),
+                                          child: const CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              foregroundImage: AssetImage(
+                                                  "assets/school_logos/gwc.png")),
+                                        ),
+                                      ],
+                                    )),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  "Golden West College",
+                                  style: GoogleFonts.openSans(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      algo.chooseSchool("occ");
+                    },
+                    child: Card(
+                      elevation: algo.choseOcc ? 6 : 0,
+                      shape: const RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.black)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          height: 60,
+                          child: FittedBox(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: Stack(
+                                      children: [
+                                        ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            algo.choseOcc
+                                                ? Colors.transparent
+                                                : Colors.black,
+                                            BlendMode.saturation,
+                                          ),
+                                          child: const CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              foregroundImage: AssetImage(
+                                                  "assets/school_logos/occ.jpg")),
+                                        ),
+                                      ],
+                                    )),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  "Orange Coast College",
+                                  style: GoogleFonts.openSans(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+                child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    FittedBox(
+                        child: Text(
+                      "School Confirmation",
+                      style: GoogleFonts.openSans(
+                          color: Colors.black,
+                          fontSize: 42,
+                          fontWeight: FontWeight.bold),
+                    )),
+                    const Text(
+                        "Instead of creating an account, we only ask users to confirm their campus to direct them to the relevant channels. Simply select your campus, click \"Confirm,\" and grant temporary location access for verification. Being physically present on campus during confirmation is necessary. We value your privacy and security, and your location data won't be stored or shared beyond verifying your campus affiliation.")
+                  ],
+                ),
+              ),
+            ))
+          ],
+        ),
       ),
     );
   }
@@ -332,8 +407,9 @@ class FirstPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Welcome to\nEdulink",
-                  style: GoogleFonts.openSans(fontSize: 42,fontWeight: FontWeight.bold),
+                  "Welcome to\nEdubored",
+                  style: GoogleFonts.openSans(
+                      fontSize: 42, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -351,7 +427,7 @@ class FirstPage extends StatelessWidget {
                           children: [
                             const Flexible(
                                 child: Icon(
-                              Icons.network_cell,
+                              Icons.face_4_outlined,
                               size: 72,
                               color: Colors.blue,
                             )),
@@ -372,7 +448,7 @@ class FirstPage extends StatelessWidget {
                                         fontSize: 20),
                                   )),
                                   Text(
-                                    "Or not! Send incognito messages if you're board. Idc",
+                                    "Or not! Send incognito messages if you're board.",
                                     style: GoogleFonts.openSans(fontSize: 15),
                                   )
                                 ],
@@ -489,7 +565,10 @@ class SecondPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-                "This will be used to show you a chat that is in your interest",style: GoogleFonts.openSans(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+              "This will be used to show you a chat that is in your interest",
+              style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             Flexible(
               child: /*ListView(
                 children: [
@@ -557,7 +636,6 @@ Widget cardView(BuildContext context, String url, List<String> parameters,
                   fit: StackFit.expand,
                   children: [
                     Image.asset(fit: BoxFit.fill, url),
-                  
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
@@ -648,7 +726,7 @@ class _ThirdPageState extends State<ThirdPage> {
                 ),
                 const SizedBox(height: 8.0),
                 const Text(
-                  "Welcome to Edulink! We're delighted to have you as a user of our mobile application. These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us. Thank you for choosing Edulink!",
+                  "Welcome to Eduboard! We're delighted to have you as a user of our mobile application. These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us. Thank you for choosing Edulink!",
                 ),
                 const SizedBox(height: 16.0),
                 const Text(

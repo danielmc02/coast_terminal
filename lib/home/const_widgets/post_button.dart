@@ -20,10 +20,10 @@ late VoidCallback onPressed;
           style: ButtonStyle(
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   side: const BorderSide(
-                      color: Color.fromARGB(255, 254, 44, 117)),
+                      color: Color.fromARGB(255, 255, 255, 255)),
                   borderRadius: BorderRadius.circular(10))),
               backgroundColor:
-                  MaterialStateProperty.all(const Color.fromARGB(255, 254, 44, 117)),
+                  MaterialStateProperty.all(const Color.fromARGB(255, 0, 0, 0)),
               overlayColor:
                   MaterialStateProperty.all(const Color.fromARGB(255, 255, 34, 111))),
           onPressed:onPressed,

@@ -324,32 +324,7 @@ await childNode.child('Current Views').runTransaction((value) {
     return allKeys[randomIndex];
   }
 
-  Future<RewardedAd?> loadAd() async {
-    RewardedAd? rewardedAd;
-    final adUnitId = Platform.isAndroid
-        ? 'ca-app-pub-3940256099942544/5224354917'
-        : 'ca-app-pub-3940256099942544/1712485313';
-    await RewardedAd.load(
-        adUnitId: adUnitId,
-        request: const AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              print('ad dismissed full screen content.');
-
-              ad.dispose();
-            },
-          );
-          print('$ad loaded');
-          rewardedAd = ad;
-        }, onAdFailedToLoad: (LoadAdError error) {
-          print(error);
-        }));
-    await rewardedAd!.show(
-      onUserEarnedReward: (ad, reward) {},
-    );
-    return null;
-  }
+  
 
   Future<void> likeMessage() async {
     // print(Boxes.getMessage().get('currentMessage')!.uidAdmin);
@@ -431,6 +406,37 @@ await childNode.child('Current Views').runTransaction((value) {
    
 return chats;
   }
+
+  RewardedAd? _rewardedAd;
+  final adUnitId = Platform.isAndroid
+      ? 'ca-app-pub-3940256099942544/5224354917'
+      : 'ca-app-pub-3940256099942544/1712485313';
+  Future<LoadAdError?> loadAd() async {
+    await RewardedAd.load(
+        adUnitId: adUnitId,
+        request: const AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) async {
+              /*
+              print('ad dismissed full screen content.');
+              ad.dispose();
+              Navigator.pop(context);
+              await ApiService.instance!.signInAnon();
+              */
+            },
+          );
+          print('$ad loaded');
+          _rewardedAd = ad;
+        }, onAdFailedToLoad: (LoadAdError error) {
+          print(error);
+        }));
+    return null;
+  }
+
+
+
+
 }
 
 class ChatInstance

@@ -255,9 +255,9 @@ if(spec['Chats'] != null )
 {
   print("Chats is not null");
 
-//List<ChatInstance>? chatList = await ApiService.instance!.filterChats(spec['Chats']);
-//retrievedChats = chatList;
-//print("Length of chats is ${retrievedChats!.length}");
+List<ChatInstance>? chatList = await ApiService.instance!.filterChats(spec['Chats']);
+retrievedChats = chatList;
+print("Length of chats is ${retrievedChats!.length}");
 
 }
           final temp = MessageInstance(

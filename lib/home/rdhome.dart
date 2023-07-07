@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -392,7 +390,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                               padding:
                                                                   const EdgeInsets
                                                                       .all(8.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -411,7 +409,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                       Card(
                                                                         elevation:
                                                                             5,
-                                                                        shape: RoundedRectangleBorder(
+                                                                        shape: const RoundedRectangleBorder(
                                                                             borderRadius: BorderRadius.only(
                                                                                 topLeft: Radius.circular(20),
                                                                                 topRight: Radius.circular(20),
@@ -419,7 +417,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                         child:
                                                                             Container(
                                                                           decoration:
-                                                                              BoxDecoration(
+                                                                              const BoxDecoration(
                                                                             borderRadius: BorderRadius.only(
                                                                                 topLeft: Radius.circular(20),
                                                                                 topRight: Radius.circular(20),
@@ -449,7 +447,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                                 ),
                                                                                 Text(
                                                                                   e.time!,
-                                                                                  style: TextStyle(color: Colors.grey),
+                                                                                  style: const TextStyle(color: Colors.grey),
                                                                                 )
                                                                               ],
                                                                             ),
@@ -473,7 +471,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                color: Color
+                                                                color: const Color
                                                                     .fromARGB(
                                                                         71,
                                                                         0,
@@ -604,17 +602,17 @@ class _RDHOME2State extends State<RDHOME2> {
                             builder: (context) => AlertDialog(
                                   actionsAlignment: MainAxisAlignment.center,
                                   actions: [
-                                    Container(
+                                    SizedBox(
                                         //   color: Colors.red,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         child: TextButton(
                                             style: ButtonStyle(
                                                 backgroundColor:
-                                                    MaterialStatePropertyAll(
+                                                    const MaterialStatePropertyAll(
                                                         Colors.red),
                                                 foregroundColor:
-                                                    MaterialStatePropertyAll(
+                                                    const MaterialStatePropertyAll(
                                                         Colors.white),
                                                 shape: MaterialStatePropertyAll(
                                                     RoundedRectangleBorder(
@@ -628,11 +626,11 @@ class _RDHOME2State extends State<RDHOME2> {
                                               await ApiService.instance!
                                                   .signOut();
                                             },
-                                            child: Text("Sign Out")))
+                                            child: const Text("Sign Out")))
                                   ],
                                   //alignment: Alignment.center,
 
-                                  content: Text(
+                                  content: const Text(
                                     "Careful! You are about to sign out. This means you will lose access to your current message. You will still be able to see your published message only when it has reached it's max views.",
                                     textAlign: TextAlign.center,
                                   ),
@@ -653,16 +651,16 @@ class _RDHOME2State extends State<RDHOME2> {
                             context: context,
                             builder: (context) => AlertDialog(
                               actions: [
-                                Container(
+                                SizedBox(
                                     //   color: Colors.red,
                                     width: MediaQuery.of(context).size.width,
                                     child: TextButton(
                                         style: ButtonStyle(
                                             backgroundColor:
-                                                MaterialStatePropertyAll(
+                                                const MaterialStatePropertyAll(
                                                     Colors.black),
                                             foregroundColor:
-                                                MaterialStatePropertyAll(
+                                                const MaterialStatePropertyAll(
                                                     Colors.white),
                                             shape: MaterialStatePropertyAll(
                                                 RoundedRectangleBorder(
@@ -674,9 +672,9 @@ class _RDHOME2State extends State<RDHOME2> {
 
                                           await ApiService.instance!.signOut();
                                         },
-                                        child: Text("Okay")))
+                                        child: const Text("Okay")))
                               ],
-                              content: Text(
+                              content: const Text(
                                 "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages.",
                                 textAlign: TextAlign.center,
                               ),

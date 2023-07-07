@@ -61,6 +61,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.example.coast_terminal'
 }
 
 flutter {

@@ -39,7 +39,7 @@ class _PostPageState extends State<PostPage> {
                       child: SizedBox(
                           width: 50, height: 50, child: algo.chosen)));
             }),
-            drawer: Drawer(shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))),
+            drawer: Drawer(shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))),
               backgroundColor: const Color.fromARGB(255, 12, 12, 12),
               child: DrawerBody(),
             ),
@@ -58,7 +58,7 @@ class _PostPageState extends State<PostPage> {
               ),
               title:  Text("Post",style: GoogleFonts.openSans(color: Colors.black,fontWeight: FontWeight.bold),),
             ),
-            body: const PostBody()),
+            body: const SingleChildScrollView(child: PostBody())),
       ),
     );
   }
@@ -359,7 +359,7 @@ Widget DrawerBody() {
                                                     .elementAt(
                                                         index)]!['selected']
                                                 ? Colors.white
-                                                : Color.fromARGB(61, 240, 240, 240),
+                                                : const Color.fromARGB(61, 240, 240, 240),
                                             fontSize: 25)),
                                   )
                                 ],
