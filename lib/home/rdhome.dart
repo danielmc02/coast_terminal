@@ -139,7 +139,9 @@ class _RDHOME2State extends State<RDHOME2> {
                         width: MediaQuery.of(context).size.width,
                         // height: 40,
                         //  color: Colors.green,
-                        child: SingleChildScrollView(
+                        child:Boxes.getMessage()
+                                                .get('currentMessage') !=
+                                            null ? SingleChildScrollView(
                           physics: const ClampingScrollPhysics(),
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width,
@@ -148,34 +150,7 @@ class _RDHOME2State extends State<RDHOME2> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 //   print("AAAAAA${snapshot.data}");
-                                /*   algo.curMess*/ Boxes.getMessage()
-                                            .get('currentMessage') ==
-                                        null
-                                    ? Expanded(
-                                        child: Container(
-                                          color: Colors.red,
-                                          child: const AlertDialog(
-                                            title: Center(
-                                                child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text("Empty"),
-                                                Icon(
-                                                  Icons.warning_amber_outlined,
-                                                  color: Colors.redAccent,
-                                                )
-                                              ],
-                                            )),
-                                            content: Text(
-                                                "This is awkward. There are currently no messages to show at this time."),
-                                          ),
-                                        ),
-                                      )
-                                    : /*algo.curMess*/ Boxes.getMessage()
-                                                .get('currentMessage') !=
-                                            null
-                                        ? Flexible(
+                                /*   algo.curMess*/Flexible(
                                             child: Container(
                                             // ] color: Colors.red,
                                             child: Column(
@@ -479,39 +454,34 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                         0)),
                                                       ),
 
-/*Expanded(
-                                                      child: ListView.builder(
-                                                        itemCount: algo
-                                                            .retrievedChats!
-                                                            .length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          return Container(
-                                                            height: 40,color: Colors.green,
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Text(algo
-                                                                    .retrievedChats![
-                                                                        index]
-                                                                    .chat
-                                                                    .toString(),style: GoogleFonts.openSans(fontSize: 42,fontWeight: FontWeight.bold))
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    )*/
+
                                               ],
                                             ),
                                           ))
-                                        : const Text("data")
+                                       
                               ],
                             ),
                           ),
-                        ),
+                        ) : Container(
+                          color: Colors.red,
+                          child: const AlertDialog(
+                            title: Center(
+                                child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                              children: [
+                                Text("Empty"),
+                                Icon(
+                                  Icons.warning_amber_outlined,
+                                  color: Colors.redAccent,
+                                )
+                              ],
+                            )),
+                            content: Text(
+                                "This is awkward. There are currently no messages to show at this time."),
+                          ),
+                        )
+    
                       )),
                       Container(
                           color: Colors.transparent,
