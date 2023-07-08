@@ -139,127 +139,133 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             children: [
                               Flexible(
                                 child: algo.currentMes != null ? Card(
+                                  
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
                                   elevation: 4,
                                   color: const Color.fromARGB(255, 10, 10, 10),
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                   // height: 350,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                children: [
-                                                  CircleAvatar(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      radius: 30,
-                                                      foregroundImage: ApiService
-                                                          .instance!
-                                                          .iconReferences[algo.currentMes!["Icon"]]),
-                                            
-                                                   FittedBox(child: Text(algo.currentMes!["Title"].toString(),style: TextStyle(fontFamily: "OpenSans",color:Colors.white,fontSize: 42),maxLines: 2,))
-                                                ],
-                                              ),
-                                            ),
-                                            Flexible(
-                                                flex: 3,
-                                                child: SingleChildScrollView(
-                                                  child: AnimatedTextKit(totalRepeatCount: 1,
-                                                      onFinished: () {
-                                                        setState(() {
-                                                          doneanim = true;
-                                                        });
-                                                      },
-                                                      animatedTexts: [
-                                                        TyperAnimatedText(
-                                                            algo.currentMes!["Message"],
-                                                            textStyle: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontFamily:
-                                                                    "OpenSans",
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 32),
-                                                            textAlign:
-                                                                TextAlign.left)
-                                                      ]),
-                                                )),
-                                            Flexible(
-                                                child: Row(
-                                              mainAxisSize: MainAxisSize.max,
+                                  child: Stack(
+                                    children: [
+                                    //  Image.asset("assets/Wallpaper.png",fit: BoxFit.fitHeight,),
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width,
+                                      //  height: 350,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                const Icon(
-                                                    color: Colors.white,
-                                                    Icons
-                                                        .remove_red_eye_outlined),
-                                                 Text(
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                   algo.currentMes!["Views"].toString()),
-                                                const Spacer(),
-                                                ChoiceChip(
-                                                  // backgroundColor: Colors.black,
-                                                  //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
-                                                  elevation: 4,
-                                                  avatar: const Icon(
-                                                      color: Colors.green,
-                                                      Icons.thumb_up),
-                                                  label:  Text(
-                                                      algo.currentMes!["Likes"].toString()/*Boxes
-                                                                                  .getMessage()
-                                                                              .get(
-                                                                                  'currentMessage')!
-                                                                              .likes
-                                                                              .toString()*/
-                                                      ),
-                                                  selected: false,
-                                                  onSelected: (value) async {},
-                                                  selectedColor: Colors.white,
+                                                SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                          backgroundColor:
+                                                              Colors.transparent,
+                                                          radius: 30,
+                                                          foregroundImage: ApiService
+                                                              .instance!
+                                                              .iconReferences[algo.currentMes!["Icon"]]),
+                                                
+                                                       FittedBox(child: Text(algo.currentMes!["Title"].toString(),style: TextStyle(fontFamily: "OpenSans",color:Colors.white,fontSize: 42),maxLines: 2,))
+                                                    ],
+                                                  ),
                                                 ),
-                                                ChoiceChip(
-                                                    disabledColor: Colors.red,
-                                                    backgroundColor:
-                                                        Colors.black,
-                                                    elevation: 0,
-                                                    selectedColor:
-                                                        Colors.transparent,
-                                                    onSelected:
-                                                        (value) async {},
-                                                    avatar: const Icon(
-                                                        color: Colors.red,
-                                                        Icons.thumb_down),
-                                                    label:  Text(
-                                                      algo.currentMes!["Dislikes"].toString(),
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .white), /*Boxes
-                                                                                  .getMessage()
-                                                                              .get(
-                                                                                  'currentMessage')!
-                                                                              .dislikes
-                                                                              .toString()*/
+                                                Flexible(
+                                                    flex: 3,
+                                                    child: SingleChildScrollView(
+                                                      child: AnimatedTextKit(totalRepeatCount: 1,
+                                                          onFinished: () {
+                                                            setState(() {
+                                                              doneanim = true;
+                                                            });
+                                                          },
+                                                          animatedTexts: [
+                                                            TyperAnimatedText(
+                                                                algo.currentMes!["Message"],
+                                                                textStyle: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontFamily:
+                                                                        "OpenSans",
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize: 32),
+                                                                textAlign:
+                                                                    TextAlign.left)
+                                                          ]),
+                                                    )),
+                                                Flexible(
+                                                    child: Row(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  children: [
+                                                    const Icon(
+                                                        color: Colors.white,
+                                                        Icons
+                                                            .remove_red_eye_outlined),
+                                                     Text(
+                                                        style: TextStyle(
+                                                            color: Colors.white),
+                                                       algo.currentMes!["Views"].toString()),
+                                                    const Spacer(),
+                                                    ChoiceChip(
+                                                      // backgroundColor: Colors.black,
+                                                      //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
+                                                      elevation: 4,
+                                                      avatar: const Icon(
+                                                          color: Colors.green,
+                                                          Icons.thumb_up),
+                                                      label:  Text(
+                                                          algo.currentMes!["Likes"].toString()/*Boxes
+                                                                                      .getMessage()
+                                                                                  .get(
+                                                                                      'currentMessage')!
+                                                                                  .likes
+                                                                                  .toString()*/
+                                                          ),
+                                                      selected: false,
+                                                      onSelected: (value) async {},
+                                                      selectedColor: Colors.white,
                                                     ),
-                                                    selected: false),
+                                                    ChoiceChip(
+                                                        disabledColor: Colors.red,
+                                                        backgroundColor:
+                                                            Colors.black,
+                                                        elevation: 0,
+                                                        selectedColor:
+                                                            Colors.transparent,
+                                                        onSelected:
+                                                            (value) async {},
+                                                        avatar: const Icon(
+                                                            color: Colors.red,
+                                                            Icons.thumb_down),
+                                                        label:  Text(
+                                                          algo.currentMes!["Dislikes"].toString(),
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white), /*Boxes
+                                                                                      .getMessage()
+                                                                                  .get(
+                                                                                      'currentMessage')!
+                                                                                  .dislikes
+                                                                                  .toString()*/
+                                                        ),
+                                                        selected: false),
+                                                  ],
+                                                ))
                                               ],
-                                            ))
-                                          ],
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 )
                          : CircularProgressIndicator()     ),

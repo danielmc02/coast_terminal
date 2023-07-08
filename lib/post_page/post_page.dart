@@ -74,7 +74,7 @@ class PostBody extends StatefulWidget {
 class _PostBodyState extends State<PostBody> {
   late TextEditingController titleController;
   late TextEditingController messageController;
-
+final _fromKey = GlobalKey<FormState>();
   @override
   void initState() {
     titleController = TextEditingController();
@@ -102,29 +102,73 @@ class _PostBodyState extends State<PostBody> {
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
-              Container(
-                //   color: Color.fromARGB(192, 194, 13, 13),
-                child: TextField(
-                  controller: titleController,
-                  inputFormatters: const [
-                    // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z_]'),)
-                  ],
-                  cursorColor: const Color.fromARGB(255, 183, 183, 183),
-                  showCursor: true,
-                  maxLength: 30,
-                  style: const TextStyle(
-                      fontFamily: "Roboto",
-                      color: Colors.black,
-                      fontSize: 35),
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    hintText: 'Title',
-                    hintStyle: TextStyle(
-                      color: Colors.grey
-                          .withOpacity(0.5), // set the hint text opacity
+              Form(
+                key: _fromKey,
+               // autovalidateMode: AutovalidateMode.always,
+                child: Container(
+                  //   color: Color.fromARGB(192, 194, 13, 13),
+                  child: TextFormField(
+                    validator: (val) {
+                     String value = val!.toLowerCase();
+                     if(value.length < 10 )
+                     {
+                      return "Title is to short";
+                     }
+                     else if (value.contains("fuck") ||
+value.contains("shit") ||
+value.contains("ass") ||
+value.contains("bitch") ||
+value.contains("cunt") ||
+value.contains("dick") ||
+value.contains("pussy") ||
+value.contains("cock") ||
+value.contains("bastard") ||
+value.contains("whore") ||
+value.contains("slut") ||
+value.contains("motherfucker") ||
+value.contains("asshole") ||
+value.contains("douchebag") ||
+value.contains("wanker") ||
+value.contains("piss") ||
+value.contains("fag") ||
+value.contains("twat") ||
+value.contains("bollocks") ||
+value.contains("arse") ||
+value.contains("cocksucker") ||
+value.contains("blowjob") ||
+value.contains("tits") ||
+value.contains("nigger") ||
+value.contains("chink") ||
+value.contains("spic") ||
+value.contains("retard") ||
+value.contains("crap") ||
+value.contains("dumbass") ||
+value.contains("jackass"))
+{
+  return "Can't use this title at this time";
+}
+                    },
+                    controller: titleController,
+                    inputFormatters: const [
+                      // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z_]'),)
+                    ],
+                    cursorColor: const Color.fromARGB(255, 183, 183, 183),
+                    showCursor: true,
+                    maxLength: 30,
+                    style: const TextStyle(
+                        fontFamily: "Roboto",
+                        color: Colors.black,
+                        fontSize: 35),
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      hintText: 'Title',
+                      hintStyle: TextStyle(
+                        color: Colors.grey
+                            .withOpacity(0.5), // set the hint text opacity
+                      ),
                     ),
                   ),
                 ),
@@ -136,7 +180,47 @@ class _PostBodyState extends State<PostBody> {
                   flex: 2,
                   child: Container(
                    //   color: Color.fromARGB(168, 17, 54, 187),
-                    child: TextField(
+                    child: TextFormField(
+                                     validator: (val) {
+                     String value = val!.toLowerCase();
+                     if(value.length < 10 )
+                     {
+                      return "Title is to short";
+                     }
+                     else if (value.contains("fuck") ||
+value.contains("shit") ||
+value.contains("ass") ||
+value.contains("bitch") ||
+value.contains("cunt") ||
+value.contains("dick") ||
+value.contains("pussy") ||
+value.contains("cock") ||
+value.contains("bastard") ||
+value.contains("whore") ||
+value.contains("slut") ||
+value.contains("motherfucker") ||
+value.contains("asshole") ||
+value.contains("douchebag") ||
+value.contains("wanker") ||
+value.contains("piss") ||
+value.contains("fag") ||
+value.contains("twat") ||
+value.contains("bollocks") ||
+value.contains("arse") ||
+value.contains("cocksucker") ||
+value.contains("blowjob") ||
+value.contains("tits") ||
+value.contains("nigger") ||
+value.contains("chink") ||
+value.contains("spic") ||
+value.contains("retard") ||
+value.contains("crap") ||
+value.contains("dumbass") ||
+value.contains("jackass"))
+{
+  return "Can't process this message at this time";
+}
+                    },
                       controller: messageController,
                       showCursor: true,
                       cursorColor: const Color.fromARGB(255, 183, 183, 183),
@@ -210,7 +294,9 @@ class _PostBodyState extends State<PostBody> {
                       Consumer<PostProvider>(
                         builder: (context, algo, child) => PostButton(
                           onPressed: () async {
-                            ApiService.instance!.currentMessageSucessresult =
+                           if(_fromKey.currentState!.validate()) 
+                           {
+ApiService.instance!.currentMessageSucessresult =
                                 await algo.postMessage(
                                     _currentValue.toInt(),
                                     titleController.text.toString(),
@@ -265,6 +351,8 @@ class _PostBodyState extends State<PostBody> {
                                       ),
                                     ),
                                   );
+                           }
+                            
                           },
                         ),
                       )
