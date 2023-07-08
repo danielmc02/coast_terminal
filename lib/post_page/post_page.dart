@@ -2,7 +2,6 @@ import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/post_page/post_page_provider/post_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class PostPage extends StatefulWidget {
@@ -56,7 +55,7 @@ class _PostPageState extends State<PostPage> {
                       curve: Curves.linear);
                 },
               ),
-              title:  Text("Post",style: GoogleFonts.openSans(color: Colors.black,fontWeight: FontWeight.bold),),
+              title:  Text("Post",style: TextStyle(fontFamily: "OpanSans",color: Colors.black,fontWeight: FontWeight.bold),),
             ),
             body: const SingleChildScrollView(child: PostBody())),
       ),

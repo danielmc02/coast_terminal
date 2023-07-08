@@ -1,7 +1,6 @@
 import 'package:coast_terminal/consent/consent_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ConsentPage extends StatefulWidget {
@@ -124,7 +123,7 @@ class _ConsentPageState extends State<ConsentPage> {
                                             title: Text(
                                               "Almost there",
                                               textAlign: TextAlign.center,
-                                              style: GoogleFonts.openSans(
+                                              style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ));
@@ -143,7 +142,7 @@ class _ConsentPageState extends State<ConsentPage> {
                                       MaterialStatePropertyAll(Colors.white)),
                               child: Text(
                                 algo.buttonTitle,
-                                style: GoogleFonts.openSans(
+                                style: TextStyle(fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold),
                               )),
                         ),
@@ -160,7 +159,7 @@ class _ConsentPageState extends State<ConsentPage> {
                   title: FittedBox(
                       child: Text(
                     algo.headerTitle,
-                    style: GoogleFonts.openSans(
+                    style: TextStyle(fontFamily: "OpenSans",
                         color: Colors.black, fontWeight: FontWeight.bold),
                   )),
                 ),
@@ -297,7 +296,7 @@ class CollegePickPage extends StatelessWidget {
                                 ),
                                 Text(
                                   "Golden West College",
-                                  style: GoogleFonts.openSans(
+                                  style: TextStyle(fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -350,7 +349,7 @@ class CollegePickPage extends StatelessWidget {
                                 ),
                                 Text(
                                   "Orange Coast College",
-                                  style: GoogleFonts.openSans(
+                                  style: TextStyle(fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -374,7 +373,7 @@ class CollegePickPage extends StatelessWidget {
                     FittedBox(
                         child: Text(
                       "School Confirmation",
-                      style: GoogleFonts.openSans(
+                      style: TextStyle(fontFamily: "OpenSans",
                           color: Colors.black,
                           fontSize: 42,
                           fontWeight: FontWeight.bold),
@@ -408,7 +407,7 @@ class FirstPage extends StatelessWidget {
               children: [
                 Text(
                   "Welcome to\nEdubored",
-                  style: GoogleFonts.openSans(
+                  style: TextStyle(fontFamily: "OpenSans",
                       fontSize: 42, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -443,13 +442,13 @@ class FirstPage extends StatelessWidget {
                                   FittedBox(
                                       child: Text(
                                     "Network with students",
-                                    style: GoogleFonts.openSans(
+                                    style: TextStyle(fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   )),
                                   Text(
                                     "Or not! Send incognito messages if you're board.",
-                                    style: GoogleFonts.openSans(fontSize: 15),
+                                    style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
                                   )
                                 ],
                               ),
@@ -485,13 +484,13 @@ class FirstPage extends StatelessWidget {
                                   FittedBox(
                                       child: Text(
                                     "Secure Messaging",
-                                    style: GoogleFonts.openSans(
+                                    style: TextStyle(fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   )),
                                   Text(
                                     "Anonymized chats are encrypted in the backend. It’s the user’sresponsibility to keep relevance",
-                                    style: GoogleFonts.openSans(fontSize: 15),
+                                    style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
                                   )
                                 ],
                               ),
@@ -527,13 +526,13 @@ class FirstPage extends StatelessWidget {
                                   FittedBox(
                                       child: Text(
                                     "Fast Paced",
-                                    style: GoogleFonts.openSans(
+                                    style: TextStyle(fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   )),
                                   Text(
                                     "Set caps on how many people can see your post",
-                                    style: GoogleFonts.openSans(fontSize: 15),
+                                    style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
                                   )
                                 ],
                               ),
@@ -566,7 +565,7 @@ class SecondPage extends StatelessWidget {
           children: [
             Text(
               "This will be used to show you a chat that is in your interest",
-              style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
+              style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Flexible(
@@ -642,7 +641,7 @@ Widget cardView(BuildContext context, String url, List<String> parameters,
                       children: [
                         for (String e in parameters)
                           Text(e,
-                              style: GoogleFonts.openSans(
+                              style: TextStyle(fontFamily: "OpenSans",
                                   color: Colors.white, fontSize: 24))
 
                         /*  Flexible(

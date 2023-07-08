@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import '../api_service.dart';
@@ -418,7 +417,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                                   e.chat!,
                                                                                   maxLines: 5,
                                                                                   overflow: TextOverflow.ellipsis,
-                                                                                  style: GoogleFonts.openSans(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                  style: TextStyle(fontFamily: "OpenSans",fontSize: 15, fontWeight: FontWeight.bold),
                                                                                 ),
                                                                                 Text(
                                                                                   e.time!,
@@ -440,8 +439,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                         "Whole lotta empty, send a chat",
                                                         textAlign:
                                                             TextAlign.center,
-                                                        style: GoogleFonts
-                                                            .openSans(
+                                                        style: TextStyle(fontFamily: "OpenSans",
                                                                 fontSize: 50,
                                                                 fontWeight:
                                                                     FontWeight
@@ -609,7 +607,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                   title: Text(
                                     "You are about to leave",
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.openSans(
+                                    style: TextStyle(fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ));
@@ -651,7 +649,7 @@ class _RDHOME2State extends State<RDHOME2> {
                               title: Text(
                                 "Slow down",
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.openSans(
+                                style: TextStyle(fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold),
                               ),
                               shape: RoundedRectangleBorder(
