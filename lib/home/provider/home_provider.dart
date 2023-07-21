@@ -139,7 +139,7 @@ List<ChatInstance>? retrievedChats;
               else if (  Boxes.getuser()
                       .get('mainUser') != null)
               {
-     int remainingTimeInSeconds = 12 * 60 * 60 -
+     int remainingTimeInSeconds = 600 -
           (DateTime.now().millisecondsSinceEpoch -
                   Boxes.getuser()
                       .get('mainUser')!
@@ -306,19 +306,7 @@ print("Length of chats is ${retrievedChats!.length}");
           if (spec['Current Views'] == spec['Max Views'] ||
               spec['Current Views'] >= spec['Max Views']) {
             print("Just delete it, it is the last view, fell in hell");
-            await childNode.remove().then((value) async {
-              final count = await ApiService.instance!.database!
-                  .ref('/count')
-                  .runTransaction((currentCount) {
-                int count = currentCount == null ? 0 : currentCount as int;
-                print(count);
-
-                print("running transaction");
-                return Transaction.success(count - 1);
-              }).then((value) {
-                keyNode!.child(specz).remove();
-              });
-            });
+            await childNode.remove();
           }
         });
       } catch (e) {

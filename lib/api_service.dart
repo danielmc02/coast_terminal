@@ -17,7 +17,7 @@ class ApiService {
   static User? _user;
   static FirebaseDatabase? _database;
   static DatabaseReference? _messagesDatabase;
-  static DatabaseReference? _messageCount;
+  static DatabaseReference? _keyCount;
   static DatabaseReference? _keys;
 
   ApiService._internal() {
@@ -25,7 +25,7 @@ class ApiService {
     _user = _auth!.currentUser;
     _database = FirebaseDatabase.instance;
     _messagesDatabase = _database!.ref('messages');
-    _messageCount = _database!.ref('count');
+    _keyCount = _database!.ref('keys');
     _keys = _database!.ref('keys');
   }
   DatabaseReference? get messagesDatabase {
@@ -40,8 +40,8 @@ class ApiService {
     return _database;
   }
 
-  DatabaseReference? get messageCount {
-    return _messageCount;
+  DatabaseReference? get keyCount {
+    return _keyCount;
   }
 
   static ApiService? get instance {
@@ -114,7 +114,7 @@ class ApiService {
   }
 
   Future<int> getMessageCount() async {
-    final snapshot = await _messageCount!.get();
+    final snapshot = await _keyCount!.get();
 
     // _messageCount.child(path)
     print(snapshot.value);
@@ -218,14 +218,21 @@ await childNode.child('Current Views').runTransaction((value) {
     try {
       DatabaseReference? messageDBref = ApiService.instance!.messagesDatabase;
       //Run a transaction to get the current count
-      await ApiService.instance!.messageCount!.runTransaction((currentCount) {
-        int count = currentCount == null ? 0 : currentCount as int;
+      print("CHEESE");
+      await ApiService.instance!.keyCount!.runTransaction((currentCount) {
+        Map count = currentCount == null ? {} : currentCount as Map;
+              print("CHEESE3");
+
         print("THE COUNT IS $count");
         return Transaction.success(count);
       }).then((value) async {
-        int returnedCountValue = value.snapshot.value as int;
+                      print("CHEESE4");
+        print("THE VALUE IS : ${value.snapshot.value}");
+        Map? returnedCountValue = value.snapshot.value == null ? {} : value.snapshot.value as Map;
+              print("CHEESE5");
+
         print('The final ran value is $returnedCountValue');
-        if (returnedCountValue > 0) {
+        if (returnedCountValue.keys.isEmpty == false ) {
           String? fetchedRandomKey = await returnRandomMessageKey();
 
           await messageDBref!
@@ -269,7 +276,7 @@ await childNode.child('Current Views').runTransaction((value) {
             }
             print("CHCHCHCHCH");
             //Before assigning chats we need to filter it
- //var chatList = await filterChats(spec['Chats']);
+         //var chatList = await filterChats(spec['Chats']);
             final temp = MessageInstance(
              uidAdmin:    fetchedRandomKey,
               iconIndex:  spec['Badge Index'],
@@ -304,9 +311,9 @@ await childNode.child('Current Views').runTransaction((value) {
     DatabaseReference? keysRef = ApiService.instance!.keys;
     List<String> allKeys = [];
 
-    await keysRef!.once().then((value) async {
-      final MapResults = value.snapshot.value as Map;
-
+    await keysRef!.get().then((value) async {
+      final MapResults = value.value as Map;
+  print("THEM MAPS IS ${MapResults}");
       MapResults.forEach(
         (key, value) {
           // print(key);

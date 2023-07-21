@@ -197,7 +197,7 @@ print("Got loc");
       print("Lat: ${position.latitude}\nLong: ${position.longitude}");
       //is at gwc or hq
     //  if(isAtGwc /* || isAtHq */)
-      if(isAtGwc  || isAtHq )
+      if(isAtGwc  || isAtHq == false )
       {
       locationPass = true;
 

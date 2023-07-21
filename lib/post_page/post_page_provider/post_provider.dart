@@ -116,7 +116,11 @@ class PostProvider extends ChangeNotifier {
 //Solved: This new implementaion works around this because we will be fetching a list of keys, I will then narrow and filter what uid I will pick
 
   Future<bool> postMessage(
-      int sliderValue, String title, String message) async {
+   
+      int sliderValue, String title, String message)
+      
+       async {
+         print("POSTING MES");
     bool result = false;
     try {
       await ApiService.instance!.messagesDatabase!
@@ -134,7 +138,7 @@ class PostProvider extends ChangeNotifier {
         await ApiService.instance!.keys!
             .child(ApiService.instance!.auth!.currentUser!.uid)
             .set("");
-
+  print("CHEESE 2");
        /*
         MessageInstance usersOwnMessage = MessageInstance(
             ApiService.instance!.auth!.currentUser!.uid,
@@ -143,19 +147,25 @@ class PostProvider extends ChangeNotifier {
             title.toString(),
             message.toString(),);*/
         UserInstance? newest = Boxes.getuser().get('mainUser');
+  print("CHEESE 3");
 
         newest!.hasPostedMessage = true;
-        await Boxes.getuser().put('mainUser', newest);
+          print("CHEESE 4");
 
-        result = await incrementCounter();
+        await Boxes.getuser().put('mainUser', newest);
+  print("CHEESE 5");
+
+       // result = await incrementCounter();
       }).then((value) => null);
-      return result;
+        print("CHEESE 6");
+      return true;
     } catch (e) {
       print("there was an error in step 1 of publishing message : $e");
       return false;
     }
   }
 
+/*
   Future<bool> incrementCounter() async {
     try {
       final count = await ApiService.instance!.database!
@@ -172,6 +182,6 @@ class PostProvider extends ChangeNotifier {
       print("There was an error in step 2 of publishing message (Increment)");
       return false;
     }
-    //final result =
   }
+  */
 }

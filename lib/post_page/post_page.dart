@@ -182,9 +182,9 @@ value.contains("jackass"))
                     child: TextFormField(
                                      validator: (val) {
                      String value = val!.toLowerCase();
-                     if(value.length < 10 )
+                     if(value.length < 200 )
                      {
-                      return "Title is to short";
+                      return "Message is to short";
                      }
                      else if (value.contains("fuck") ||
 value.contains("shit") ||
@@ -223,7 +223,7 @@ value.contains("jackass"))
                       controller: messageController,
                       showCursor: true,
                       cursorColor: const Color.fromARGB(255, 183, 183, 183),
-                      maxLength: 500,
+                    //  maxLength: 500,
                       minLines: 22,
                       maxLines: 22,
                       style: const TextStyle(
@@ -314,7 +314,7 @@ ApiService.instance!.currentMessageSucessresult =
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           const Text(
-                                              "There was an error in uploading your message. Try again."),
+                                              "There was an error in uploading your message. Try again later or update the app if possible."),
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
