@@ -532,7 +532,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   ))),
                           const SizedBox(
                             height: 40,
-                          )
+                          ),
+                          Text("Beta: 0.0.2"),
+                          const SizedBox(
+                            height: 40,
+                          ),
                         ],
                       ))
                       /*Container(
