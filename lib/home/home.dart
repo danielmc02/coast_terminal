@@ -80,7 +80,7 @@ class _HomeWrapperState extends State<HomeWrapper>
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("FUN FACT:"),
+                        const Text("FUN FACT:"),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: AnimatedTextKit(
@@ -98,7 +98,7 @@ class _HomeWrapperState extends State<HomeWrapper>
                         ),
                         Container(
                           //color: Color.fromARGB(159, 158, 158, 158),
-                          child: SizedBox(
+                          child: const SizedBox(
                             width: 200,
                             height: 200,
                             child: Stack(
@@ -124,14 +124,14 @@ class _HomeWrapperState extends State<HomeWrapper>
                         const SizedBox(
                           height: 50,
                         ),
-                        Container(
+                        SizedBox(
                           height: 50
                           ,width: 200,
                           child: FittedBox(
                             child: AnimatedTextKit(
                               repeatForever: true,
                               animatedTexts: [
-                                FadeAnimatedText(algo.status,textStyle:  TextStyle(
+                                FadeAnimatedText(algo.status,textStyle:  const TextStyle(
                                   color: Color.fromARGB(110, 0, 0, 0)),)
                               ],
                               

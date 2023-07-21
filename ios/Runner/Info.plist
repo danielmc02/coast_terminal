@@ -48,5 +48,7 @@
     <string>This app usessss tracking data to show you personalized ads</string>
     <key>CFBundleIconName</key>
     <string>AppIcon</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Required in order for you to pick an image from your photos</string>
 </dict>
 </plist>

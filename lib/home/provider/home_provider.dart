@@ -128,7 +128,7 @@ List<ChatInstance>? retrievedChats;
   late bool isDislikeSelected;
 
   Future<void> HomeBuild() async {
-   await Future.delayed(Duration(seconds: 5));
+   await Future.delayed(const Duration(seconds: 5));
     print("in hoome");
               if(ApiService.instance!.auth!.currentUser == null)
               {
@@ -139,7 +139,9 @@ List<ChatInstance>? retrievedChats;
               else if (  Boxes.getuser()
                       .get('mainUser') != null)
               {
-     int remainingTimeInSeconds = 600 -
+     int remainingTimeInSeconds = 6000
+     //600 (10 mins)
+      -
           (DateTime.now().millisecondsSinceEpoch -
                   Boxes.getuser()
                       .get('mainUser')!

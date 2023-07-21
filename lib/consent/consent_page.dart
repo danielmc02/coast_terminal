@@ -120,7 +120,7 @@ class _ConsentPageState extends State<ConsentPage> {
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(20)),
-                                            title: Text(
+                                            title: const Text(
                                               "Almost there",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
@@ -142,7 +142,7 @@ class _ConsentPageState extends State<ConsentPage> {
                                       MaterialStatePropertyAll(Colors.white)),
                               child: Text(
                                 algo.buttonTitle,
-                                style: TextStyle(fontFamily: "OpenSans",
+                                style: const TextStyle(fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold),
                               )),
                         ),
@@ -159,7 +159,7 @@ class _ConsentPageState extends State<ConsentPage> {
                   title: FittedBox(
                       child: Text(
                     algo.headerTitle,
-                    style: TextStyle(fontFamily: "OpenSans",
+                    style: const TextStyle(fontFamily: "OpenSans",
                         color: Colors.black, fontWeight: FontWeight.bold),
                   )),
                 ),
@@ -294,7 +294,7 @@ class CollegePickPage extends StatelessWidget {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(
+                                const Text(
                                   "Golden West College",
                                   style: TextStyle(fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold,
@@ -347,7 +347,7 @@ class CollegePickPage extends StatelessWidget {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(
+                                const Text(
                                   "Orange Coast College",
                                   style: TextStyle(fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold,
@@ -366,8 +366,8 @@ class CollegePickPage extends StatelessWidget {
             Expanded(
                 child: Container(
               color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
                     FittedBox(
@@ -378,7 +378,7 @@ class CollegePickPage extends StatelessWidget {
                           fontSize: 42,
                           fontWeight: FontWeight.bold),
                     )),
-                    const Text(
+                    Text(
                         "Instead of creating an account, we only ask users to confirm their campus to direct them to the relevant channels. Simply select your campus, click \"Confirm,\" and grant temporary location access for verification. Being physically present on campus during confirmation is necessary. We value your privacy and security, and your location data won't be stored or shared beyond verifying your campus affiliation.")
                   ],
                 ),
@@ -405,7 +405,7 @@ class FirstPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Welcome to\nEdubored",
                   style: TextStyle(fontFamily: "OpenSans",
                       fontSize: 42, fontWeight: FontWeight.bold),
@@ -419,18 +419,18 @@ class FirstPage extends StatelessWidget {
                     children: [
                       Container(
                         // color: Colors.red,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Flexible(
+                            Flexible(
                                 child: Icon(
                               Icons.face_4_outlined,
                               size: 72,
                               color: Colors.blue,
                             )),
-                            const SizedBox(
+                            SizedBox(
                               width: 8,
                             ),
                             Expanded(
@@ -461,18 +461,18 @@ class FirstPage extends StatelessWidget {
                       ),
                       Container(
                         // color: Colors.red,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Flexible(
+                            Flexible(
                                 child: Icon(
                               Icons.lock,
                               size: 72,
                               color: Colors.green,
                             )),
-                            const SizedBox(
+                            SizedBox(
                               width: 8,
                             ),
                             Expanded(
@@ -503,18 +503,18 @@ class FirstPage extends StatelessWidget {
                       ),
                       Container(
                         // color: Colors.red,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Flexible(
+                            Flexible(
                                 child: Icon(
                               Icons.timer,
                               size: 72,
                               color: Colors.red,
                             )),
-                            const SizedBox(
+                            SizedBox(
                               width: 8,
                             ),
                             Expanded(
@@ -563,7 +563,7 @@ class SecondPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
+            const Text(
               "This will be used to show you a chat that is in your interest",
               style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
@@ -641,7 +641,7 @@ Widget cardView(BuildContext context, String url, List<String> parameters,
                       children: [
                         for (String e in parameters)
                           Text(e,
-                              style: TextStyle(fontFamily: "OpenSans",
+                              style: const TextStyle(fontFamily: "OpenSans",
                                   color: Colors.white, fontSize: 24))
 
                         /*  Flexible(

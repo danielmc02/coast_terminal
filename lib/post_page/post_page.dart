@@ -19,7 +19,6 @@ class _PostPageState extends State<PostPage> {
       create: (context) => PostProvider(),
       child: Consumer<PostProvider>(
         builder: (context, algo, child) => Scaffold(
-          
             onDrawerChanged: (isOpened) {
               setState(() {
                 isOpen = !isOpen;
@@ -35,27 +34,40 @@ class _PostPageState extends State<PostPage> {
                     Scaffold.of(context).openDrawer();
                   },
                   child: ClipOval(
-                      child: SizedBox(
-                          width: 50, height: 50, child: algo.chosen)));
+                      child:
+                          SizedBox(width: 50, height: 50, child: algo.chosen)));
             }),
-            drawer: Drawer(shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20))),
+            drawer: Drawer(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      bottomRight: Radius.circular(20))),
               backgroundColor: const Color.fromARGB(255, 12, 12, 12),
               child: DrawerBody(),
             ),
-           backgroundColor: Colors.white,
+            backgroundColor: Colors.white,
             appBar: AppBar(
-               shadowColor: Colors.transparent,
-                  foregroundColor: Colors.transparent,
-                  backgroundColor: Colors.white,
+              shadowColor: Colors.transparent,
+              foregroundColor: Colors.transparent,
+              backgroundColor: Colors.white,
               leading: IconButton(
-                icon: const Icon(Icons.close,color: Colors.black,),
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.black,
+                ),
                 onPressed: () {
                   ApiService.instance!.pageController.animateToPage(0,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.linear);
                 },
               ),
-              title:  Text("Post",style: TextStyle(fontFamily: "OpanSans",color: Colors.black,fontWeight: FontWeight.bold),),
+              title: const Text(
+                "Post",
+                style: TextStyle(
+                    fontFamily: "OpanSans",
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
             body: const SingleChildScrollView(child: PostBody())),
       ),
@@ -73,7 +85,7 @@ class PostBody extends StatefulWidget {
 class _PostBodyState extends State<PostBody> {
   late TextEditingController titleController;
   late TextEditingController messageController;
-final _fromKey = GlobalKey<FormState>();
+  final _fromKey = GlobalKey<FormState>();
   @override
   void initState() {
     titleController = TextEditingController();
@@ -103,49 +115,47 @@ final _fromKey = GlobalKey<FormState>();
             children: [
               Form(
                 key: _fromKey,
-               // autovalidateMode: AutovalidateMode.always,
+                // autovalidateMode: AutovalidateMode.always,
                 child: Container(
                   //   color: Color.fromARGB(192, 194, 13, 13),
                   child: TextFormField(
                     validator: (val) {
-                     String value = val!.toLowerCase();
-                     if(value.length < 10 )
-                     {
-                      return "Title is to short";
-                     }
-                     else if (value.contains("fuck") ||
-value.contains("shit") ||
-value.contains("ass") ||
-value.contains("bitch") ||
-value.contains("cunt") ||
-value.contains("dick") ||
-value.contains("pussy") ||
-value.contains("cock") ||
-value.contains("bastard") ||
-value.contains("whore") ||
-value.contains("slut") ||
-value.contains("motherfucker") ||
-value.contains("asshole") ||
-value.contains("douchebag") ||
-value.contains("wanker") ||
-value.contains("piss") ||
-value.contains("fag") ||
-value.contains("twat") ||
-value.contains("bollocks") ||
-value.contains("arse") ||
-value.contains("cocksucker") ||
-value.contains("blowjob") ||
-value.contains("tits") ||
-value.contains("nigger") ||
-value.contains("chink") ||
-value.contains("spic") ||
-value.contains("retard") ||
-value.contains("crap") ||
-value.contains("dumbass") ||
-value.contains("jackass"))
-{
-  return "Can't use this title at this time";
-}
+                      String value = val!.toLowerCase();
+                      if (value.length < 10) {
+                        return "Title is to short";
+                      } else if (value.contains("fuck") ||
+                          value.contains("shit") ||
+                          value.contains("ass") ||
+                          value.contains("bitch") ||
+                          value.contains("cunt") ||
+                          value.contains("dick") ||
+                          value.contains("pussy") ||
+                          value.contains("cock") ||
+                          value.contains("bastard") ||
+                          value.contains("whore") ||
+                          value.contains("slut") ||
+                          value.contains("motherfucker") ||
+                          value.contains("asshole") ||
+                          value.contains("douchebag") ||
+                          value.contains("wanker") ||
+                          value.contains("piss") ||
+                          value.contains("fag") ||
+                          value.contains("twat") ||
+                          value.contains("bollocks") ||
+                          value.contains("arse") ||
+                          value.contains("cocksucker") ||
+                          value.contains("blowjob") ||
+                          value.contains("tits") ||
+                          value.contains("nigger") ||
+                          value.contains("chink") ||
+                          value.contains("spic") ||
+                          value.contains("retard") ||
+                          value.contains("crap") ||
+                          value.contains("dumbass") ||
+                          value.contains("jackass")) {
+                        return "Can't use this title at this time";
+                      }
+                      return null;
                     },
                     controller: titleController,
                     inputFormatters: const [
@@ -178,52 +188,50 @@ value.contains("jackass"))
               Flexible(
                   flex: 2,
                   child: Container(
-                   //   color: Color.fromARGB(168, 17, 54, 187),
+                    //   color: Color.fromARGB(168, 17, 54, 187),
                     child: TextFormField(
-                                     validator: (val) {
-                     String value = val!.toLowerCase();
-                     if(value.length < 200 )
-                     {
-                      return "Message is to short";
-                     }
-                     else if (value.contains("fuck") ||
-value.contains("shit") ||
-value.contains("ass") ||
-value.contains("bitch") ||
-value.contains("cunt") ||
-value.contains("dick") ||
-value.contains("pussy") ||
-value.contains("cock") ||
-value.contains("bastard") ||
-value.contains("whore") ||
-value.contains("slut") ||
-value.contains("motherfucker") ||
-value.contains("asshole") ||
-value.contains("douchebag") ||
-value.contains("wanker") ||
-value.contains("piss") ||
-value.contains("fag") ||
-value.contains("twat") ||
-value.contains("bollocks") ||
-value.contains("arse") ||
-value.contains("cocksucker") ||
-value.contains("blowjob") ||
-value.contains("tits") ||
-value.contains("nigger") ||
-value.contains("chink") ||
-value.contains("spic") ||
-value.contains("retard") ||
-value.contains("crap") ||
-value.contains("dumbass") ||
-value.contains("jackass"))
-{
-  return "Can't process this message at this time";
-}
-                    },
+                      validator: (val) {
+                        String value = val!.toLowerCase();
+                        if (value.length < 200) {
+                          return "Message is to short";
+                        } else if (value.contains("fuck") ||
+                            value.contains("shit") ||
+                            value.contains("ass") ||
+                            value.contains("bitch") ||
+                            value.contains("cunt") ||
+                            value.contains("dick") ||
+                            value.contains("pussy") ||
+                            value.contains("cock") ||
+                            value.contains("bastard") ||
+                            value.contains("whore") ||
+                            value.contains("slut") ||
+                            value.contains("motherfucker") ||
+                            value.contains("asshole") ||
+                            value.contains("douchebag") ||
+                            value.contains("wanker") ||
+                            value.contains("piss") ||
+                            value.contains("fag") ||
+                            value.contains("twat") ||
+                            value.contains("bollocks") ||
+                            value.contains("arse") ||
+                            value.contains("cocksucker") ||
+                            value.contains("blowjob") ||
+                            value.contains("tits") ||
+                            value.contains("nigger") ||
+                            value.contains("chink") ||
+                            value.contains("spic") ||
+                            value.contains("retard") ||
+                            value.contains("crap") ||
+                            value.contains("dumbass") ||
+                            value.contains("jackass")) {
+                          return "Can't process this message at this time";
+                        }
+                        return null;
+                      },
                       controller: messageController,
                       showCursor: true,
                       cursorColor: const Color.fromARGB(255, 183, 183, 183),
-                    //  maxLength: 500,
+                      //  maxLength: 500,
                       minLines: 22,
                       maxLines: 22,
                       style: const TextStyle(
@@ -293,65 +301,63 @@ value.contains("jackass"))
                       Consumer<PostProvider>(
                         builder: (context, algo, child) => PostButton(
                           onPressed: () async {
-                           if(_fromKey.currentState!.validate()) 
-                           {
-ApiService.instance!.currentMessageSucessresult =
-                                await algo.postMessage(
-                                    _currentValue.toInt(),
-                                    titleController.text.toString(),
-                                    messageController.text.toString());
-                            print(
-                                "status report: value is ${ApiService.instance!.currentMessageSucessresult}");
-                            ApiService.instance!.currentMessageSucessresult
-                                ? ApiService.instance!.pageController
-                                    .animateToPage(0,
-                                        duration: const Duration(milliseconds: 500),
-                                        curve: Curves.linear)
-                                : showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Text(
-                                              "There was an error in uploading your message. Try again later or update the app if possible."),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                style: ButtonStyle(
-                                                    shape: MaterialStateProperty.all(
-                                                        RoundedRectangleBorder(
-                                                            side:
-                                                                const BorderSide(
-                                                                    color: Colors
-                                                                        .black),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10))),
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(Colors.white),
-                                                    overlayColor:
-                                                        MaterialStateProperty
-                                                            .all(Colors.grey)),
-                                                child: const Text(
-                                                    "Okay, I understand"),
-                                              )
-                                            ],
-                                          )
-                                        ],
+                            if (_fromKey.currentState!.validate()) {
+                              ApiService.instance!.currentMessageSucessresult =
+                                  await algo.postMessage(
+                                      _currentValue.toInt(),
+                                      titleController.text.toString(),
+                                      messageController.text.toString());
+                              print(
+                                  "status report: value is ${ApiService.instance!.currentMessageSucessresult}");
+                              ApiService.instance!.currentMessageSucessresult
+                                  ? ApiService.instance!.pageController
+                                      .animateToPage(0,
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          curve: Curves.linear)
+                                  : showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Text(
+                                                "There was an error in uploading your message. Try again later or update the app if possible."),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  style: ButtonStyle(
+                                                      shape: MaterialStateProperty.all(
+                                                          RoundedRectangleBorder(
+                                                              side: const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10))),
+                                                      backgroundColor:
+                                                          MaterialStateProperty.all(
+                                                              Colors.white),
+                                                      overlayColor:
+                                                          MaterialStateProperty
+                                                              .all(Colors.grey)),
+                                                  child: const Text(
+                                                      "Okay, I understand"),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                           }
-                            
+                                    );
+                            }
                           },
                         ),
                       )
@@ -393,9 +399,10 @@ Widget DrawerBody() {
                 ),
                 Flexible(
                   child: Container(
-                  //  color: Colors.red,
+                    //  color: Colors.red,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 24, left: 8, top: 0),
+                      padding:
+                          const EdgeInsets.only(bottom: 24, left: 8, top: 0),
                       child: ListView.builder(
                         padding: const EdgeInsets.only(top: 0),
                         physics: const ClampingScrollPhysics(),
@@ -446,7 +453,8 @@ Widget DrawerBody() {
                                                     .elementAt(
                                                         index)]!['selected']
                                                 ? Colors.white
-                                                : const Color.fromARGB(61, 240, 240, 240),
+                                                : const Color.fromARGB(
+                                                    61, 240, 240, 240),
                                             fontSize: 25)),
                                   )
                                 ],

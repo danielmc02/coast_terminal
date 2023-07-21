@@ -132,14 +132,14 @@ class ConsentProvider extends ChangeNotifier {
         double longitude = position.longitude;
         print("current location is:\nLat:$latitude\nLong:$longitude");
       LatLngBounds goldenWestCollegeArea = LatLngBounds(
-            LatLng(33.737299, -118.006907), LatLng(33.73008, -117.997999));
+            const LatLng(33.737299, -118.006907), const LatLng(33.73008, -117.997999));
         bool isAtGwc = goldenWestCollegeArea.contains(LatLng(latitude, longitude));
 
         LatLngBounds orangeCoastCollegeArea = LatLngBounds(
-            LatLng(33.675449, -117.918283), LatLng(33.667382, -117.907604));
+            const LatLng(33.675449, -117.918283), const LatLng(33.667382, -117.907604));
 
         LatLngBounds homeDad = LatLngBounds(
-            LatLng(33.67774, -117.951247), LatLng(33.677386, -117.951004));
+            const LatLng(33.67774, -117.951247), const LatLng(33.677386, -117.951004));
         bool isAtHome = homeDad.contains(LatLng(latitude, longitude));
         bool isAtOcc =
             orangeCoastCollegeArea.contains(LatLng(latitude, longitude));
@@ -198,7 +198,7 @@ class ConsentProvider extends ChangeNotifier {
                                   ),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
-                                  title: Text(
+                                  title: const Text(
                                     "Uh oh",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -223,14 +223,14 @@ class ConsentProvider extends ChangeNotifier {
 
 
         LatLngBounds goldenWestCollegeArea = LatLngBounds(
-            LatLng(33.737299, -118.006907), LatLng(33.73008, -117.997999));
+            const LatLng(33.737299, -118.006907), const LatLng(33.73008, -117.997999));
         bool isAtGwc = goldenWestCollegeArea.contains(LatLng(latitude, longitude));
 
         LatLngBounds orangeCoastCollegeArea = LatLngBounds(
-            LatLng(33.675449, -117.918283), LatLng(33.667382, -117.907604));
+            const LatLng(33.675449, -117.918283), const LatLng(33.667382, -117.907604));
 
         LatLngBounds homeDad = LatLngBounds(
-            LatLng(33.67774, -117.951247), LatLng(33.677386, -117.951004));
+            const LatLng(33.67774, -117.951247), const LatLng(33.677386, -117.951004));
         bool isAtHome = homeDad.contains(LatLng(latitude, longitude));
         bool isAtOcc =
             orangeCoastCollegeArea.contains(LatLng(latitude, longitude));
@@ -289,7 +289,7 @@ class ConsentProvider extends ChangeNotifier {
                                   ),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
-                                  title: Text(
+                                  title: const Text(
                                     "Uh oh",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(

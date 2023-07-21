@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:coast_terminal/home/private_page/private_post_page.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rive/rive.dart';
 import 'dart:math';
 import '../api_service.dart';
 import '../constants/boxes.dart';
@@ -615,7 +615,11 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                 .circular(
                                                                     20)))),
                                             onPressed: () async {
-                                              Navigator.pop(context);
+                                               Navigator.pop(context);
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                                return const PrivatePostPage();
+                                              },));
+                                             
 
                                             },
                                             child: const Text("Post Private Message")))
@@ -623,13 +627,13 @@ class _RDHOME2State extends State<RDHOME2> {
                                   //alignment: Alignment.center,
 
                                   content: const Text(
-                                    "Private posts can only be seen by one person and must be scanned physically via qr code.",
+                                    "VIP posts can only be seen by one person and must be scanned physically via qr code.",
                                     textAlign: TextAlign.center,
                                   ),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
-                                  title: Text(
-                                    "Private Posts",
+                                  title: const Text(
+                                    "VIP Posts",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontFamily: "OpenSans",
@@ -671,7 +675,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                 "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages.",
                                 textAlign: TextAlign.center,
                               ),
-                              title: Text(
+                              title: const Text(
                                 "Slow down",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -754,7 +758,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                   ),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
-                                  title: Text(
+                                  title: const Text(
                                     "You are about to leave",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -954,7 +958,9 @@ class _TextTimerState extends State<TextTimer> {
   @override
   void initState() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      int remainingTimeInSeconds = 600 -
+      int remainingTimeInSeconds = 6000
+     //  600 (10 mins)
+        -
           (DateTime.now().millisecondsSinceEpoch -
                   Boxes.getuser()
                       .get('mainUser')!

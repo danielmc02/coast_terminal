@@ -127,8 +127,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
-                  Expanded(
-                      flex: 100,
+                  Flexible(
+                     flex: 50,
                       child: Container(
                         //     color: Colors.red,
                         child: Padding(
@@ -173,7 +173,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                               .instance!
                                                               .iconReferences[algo.currentMes!["Icon"]]),
                                                 
-                                                       FittedBox(child: Text(algo.currentMes!["Title"].toString(),style: TextStyle(fontFamily: "OpenSans",color:Colors.white,fontSize: 42),maxLines: 2,))
+                                                       FittedBox(child: Text(algo.currentMes!["Title"].toString(),style: const TextStyle(fontFamily: "OpenSans",color:Colors.white,fontSize: 42),maxLines: 2,))
                                                     ],
                                                   ),
                                                 ),
@@ -211,7 +211,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                         Icons
                                                             .remove_red_eye_outlined),
                                                      Text(
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color: Colors.white),
                                                        algo.currentMes!["Views"].toString()),
                                                     const Spacer(),
@@ -248,7 +248,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                             Icons.thumb_down),
                                                         label:  Text(
                                                           algo.currentMes!["Dislikes"].toString(),
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color: Colors
                                                                   .white), /*Boxes
                                                                                       .getMessage()
@@ -268,13 +268,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                     ],
                                   ),
                                 )
-                         : CircularProgressIndicator()     ),
+                         : const CircularProgressIndicator()     ),
                               //   AnimatedPositioned(child: Container(width:100,height:100,color: Colors.red,), duration: Duration(seconds: 2),left: doneanim ? 50 : 10 ,)
                             ],
                           ),
                         ),
                       )),
-                  Expanded(
+                  Flexible(
                       flex: 70,
                       child: Container(
                           //  color: Colors.green,width: MediaQuery.of(context).size.width,
@@ -533,7 +533,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           const SizedBox(
                             height: 40,
                           ),
-                          Text("Beta: 0.0.2"),
+                          const Text("Beta: 0.0.2"),
                           const SizedBox(
                             height: 40,
                           ),

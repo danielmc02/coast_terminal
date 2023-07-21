@@ -6,6 +6,7 @@ import 'package:coast_terminal/models/message.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -19,6 +20,7 @@ class ApiService {
   static DatabaseReference? _messagesDatabase;
   static DatabaseReference? _keyCount;
   static DatabaseReference? _keys;
+  static FirebaseStorage? _fileStorage;
 
   ApiService._internal() {
     _auth = FirebaseAuth.instance;
@@ -27,7 +29,14 @@ class ApiService {
     _messagesDatabase = _database!.ref('messages');
     _keyCount = _database!.ref('keys');
     _keys = _database!.ref('keys');
+    _fileStorage = FirebaseStorage.instance;
   }
+
+  FirebaseStorage? get fileStorage
+  {
+    return _fileStorage;
+  }
+
   DatabaseReference? get messagesDatabase {
     return _messagesDatabase;
   }
@@ -313,7 +322,7 @@ await childNode.child('Current Views').runTransaction((value) {
 
     await keysRef!.get().then((value) async {
       final MapResults = value.value as Map;
-  print("THEM MAPS IS ${MapResults}");
+  print("THEM MAPS IS $MapResults");
       MapResults.forEach(
         (key, value) {
           // print(key);

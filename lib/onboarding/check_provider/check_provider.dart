@@ -150,7 +150,7 @@ Future<Position> _determinePosition() async {
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   Position? p;
-   await Geolocator.getCurrentPosition(timeLimit: Duration(seconds: 15),desiredAccuracy: LocationAccuracy.best).then((value) => p = value);
+   await Geolocator.getCurrentPosition(timeLimit: const Duration(seconds: 15),desiredAccuracy: LocationAccuracy.best).then((value) => p = value);
    return p!;
 }
 
@@ -169,13 +169,13 @@ Future<Position> _determinePosition() async {
     //
 
     LatLngBounds goldenWestCollegeArea = LatLngBounds(
-        LatLng(33.737299, -118.006907), LatLng(33.73008, -117.997999));
+        const LatLng(33.737299, -118.006907), const LatLng(33.73008, -117.997999));
 
     LatLngBounds orangeCoastCollegeArea = LatLngBounds(
-        LatLng(33.675449, -117.918283), LatLng(33.667382, -117.907604));
+        const LatLng(33.675449, -117.918283), const LatLng(33.667382, -117.907604));
 
     LatLngBounds homeDad = LatLngBounds(
-        LatLng(33.67774, -117.951247), LatLng(33.677386, -117.951004));
+        const LatLng(33.67774, -117.951247), const LatLng(33.677386, -117.951004));
 
     ///
     try {
