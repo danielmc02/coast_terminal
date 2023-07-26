@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import '../../constants/boxes.dart';
+import '../../models/root_user.dart';
 class OnboardingProvider extends ChangeNotifier {
+    bool? optInCCPA = true;
+
   late bool hasCertificate;
  int? index;
  Map? currentMes;
@@ -17,10 +20,15 @@ class OnboardingProvider extends ChangeNotifier {
   };
 OnboardingProvider()
 {
+  hasCertificate = false;
   if(Boxes.getRootUser().get('CurrentRootUser') == null)
   {
     print("NO ROOOT USER EXISTS");
     hasCertificate = false;
+  }
+  else
+  {
+    hasCertificate = true;
   }
  
   int messageLength = messages.length;
@@ -91,6 +99,33 @@ OnboardingProvider()
       currentIndexMessage = 0;
       notifyListeners();
         break;
+    }
+  }
+    PageController pageController = PageController();
+
+   void createRootUser() async{
+    print("Opted in for ccpa: $optInCCPA");
+    RootUser tU = RootUser(optInCCPA!, DateTime.now().toString(), 50);
+    await Boxes.getRootUser().put("CurrentRootUser", tU);
+    hasCertificate = true;
+    notifyListeners();
+
+  }
+  String buttonTitle = "Next";
+  void changeTitle(int i) {
+    switch (i) {
+      case 0:
+        buttonTitle = "Next";
+
+        notifyListeners();
+        break;
+      case 1:
+        buttonTitle = "Confirm";
+//buttonTitle = "Finish";
+        notifyListeners();
+        break;
+
+      default:
     }
   }
 }

@@ -1,9 +1,12 @@
 import 'dart:io';
 
-import 'package:coast_terminal/consent/consent_provider.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coast_terminal/main.dart';
+import 'package:coast_terminal/onboarding/onboarding_provider/onboarding_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ConsentPage extends StatefulWidget {
   const ConsentPage({Key? key}) : super(key: key);
@@ -27,155 +30,74 @@ class _ConsentPageState extends State<ConsentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ConsentProvider(),
-      child: Consumer<ConsentProvider>(
-        builder: ((context, algo, child) => WillPopScope(
-              onWillPop: () async => false,
-              child: Scaffold(
-                /*   floatingActionButton:  algo.pageController.page! >= 1 == true ? FloatingActionButton(onPressed: (){
-                  
-                },child: Icon(Icons.arrow_back),foregroundColor: Colors.white,backgroundColor: Colors.black,) : null, 
-            */
-                bottomNavigationBar: BottomAppBar(
-                  color: Colors.transparent,
-                  shadowColor: const Color.fromARGB(0, 153, 35, 35),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 250,
-                          height: 50,
-                          child: TextButton(
-                              onPressed: () async {
-                                if (algo.pageController.page == 0) {
-                                  algo.pageController.nextPage(
-                                      duration:
-                                          const Duration(milliseconds: 900),
-                                      curve: Curves.linear);
-                                } else if (algo.pageController.page == 1 &&
-                                    (algo.choseGwc == true ||
-                                        algo.choseOcc == true) &&
-                                    algo.hasConfirmedLocation == false) {
-                                  await algo.getLocation(context);
-/*
-                                  algo.pageController.nextPage(
-                                      duration:
-                                          const Duration(milliseconds: 900),
-                                      curve: Curves.linear);
-                                  print(
-                                      "AHSDHSHDFHS ${algo.pageController.page}");
-*/
-                                } else if (algo.pageController.page == 2 &&
-                                    (algo.extrovertedCat != false ||
-                                        algo.introvertedCat != false)) {
-                                  print("1");
-                                  algo.pageController.nextPage(
-                                      duration:
-                                          const Duration(milliseconds: 900),
-                                      curve: Curves.linear);
-                                } else if (algo.pageController.page == 3) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                            actionsAlignment:
-                                                MainAxisAlignment.center,
-                                            actions: [
-                                              SizedBox(
-                                                  //   color: Colors.red,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  child: TextButton(
-                                                      style: ButtonStyle(
-                                                          backgroundColor:
-                                                              const MaterialStatePropertyAll(
-                                                                  Colors.green),
-                                                          foregroundColor:
-                                                              const MaterialStatePropertyAll(
-                                                                  Colors.white),
-                                                          shape: MaterialStatePropertyAll(
-                                                              RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20)))),
-                                                      onPressed: () async {
-                                                        await algo
-                                                            .finishConsent();
-
-                                                        Navigator.pop(context);
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child:
-                                                          const Text("Okay")))
-                                            ],
-                                            //alignment: Alignment.center,
-
-                                            content: const Text(
-                                              "To support the maintenance and improvement of the app's quality, users are kindly requested to watch an ad. By doing so, users contribute to the sustainability of the app's development and its ability to provide its services.",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            title: const Text(
-                                              "Almost there",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ));
-
-/*
-                                  print(
-                                      "SDFSDFSDONNSOSNSIONIONFIOSNFIOFSNISDFN");
-                                  await algo.finishConsent();
-                                  Navigator.pop(context, "");*/
-                                }
-                              },
-                              style: const ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.black),
-                                  foregroundColor:
-                                      MaterialStatePropertyAll(Colors.white)),
-                              child: Text(
-                                algo.buttonTitle,
-                                style: const TextStyle(fontFamily: "OpenSans",
-                                    fontWeight: FontWeight.bold),
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                appBar: AppBar(
-                  automaticallyImplyLeading: false,
-                  shadowColor: const Color.fromARGB(0, 246, 246, 246),
-                  backgroundColor: const Color.fromARGB(0, 255, 255, 255),
-                  foregroundColor: Colors.transparent,
-                  surfaceTintColor: Colors.transparent,
-                  title: FittedBox(
-                      child: Text("on",
-         //        algo.pageController.page == 1 ?   "TOS" : " ", //algo.headerTitle,
-                    style: const TextStyle(fontFamily: "OpenSans",
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  )),
-                ),
-                body: Column(
-                  children: [
-                    /* Expanded(
-                  flex: 3,child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+    return Consumer<OnboardingProvider>(
+      builder: ((context, algo, child) => WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              /*   floatingActionButton:  algo.pageController.page! >= 1 == true ? FloatingActionButton(onPressed: (){
+                
+              },child: Icon(Icons.arrow_back),foregroundColor: Colors.white,backgroundColor: Colors.black,) : null, 
+          */
+              bottomNavigationBar: BottomAppBar(
+              //  color: Colors.greenAccent,
+                shadowColor: const Color.fromARGB(0, 153, 35, 35),
+                child: Row(
                   mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(color: Colors.red,width: MediaQuery.of(context).size.width,)
-                            ],
-                ))*/
-
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 250,
+                        height: 50,
+                        child: TextButton(
+                            onPressed: () async {
+                              if (algo.pageController.page == 0) {
+                                algo.pageController.nextPage(
+                                    duration:
+                                        const Duration(milliseconds: 900),
+                                    curve: Curves.easeInSine);
+                              } else if (algo.pageController.page == 1 ) {
+                                print("AT TOS");
+                                algo.createRootUser();
+                              } 
+                            },
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.black),
+                                foregroundColor:
+                                    MaterialStatePropertyAll(Colors.white)),
+                            child: Text(
+                              algo.buttonTitle,
+                              style: const TextStyle(
+                                  fontFamily: "OpenSans",
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+       /*       appBar: AppBar(
+                automaticallyImplyLeading: false,
+                shadowColor: const Color.fromARGB(0, 246, 246, 246),
+                backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+                foregroundColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                title: FittedBox(
+                    child: Text(
+                  "on",
+                  //        algo.pageController.page == 1 ?   "TOS" : " ", //algo.headerTitle,
+                  style: const TextStyle(
+                      fontFamily: "OpenSans",
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                )),
+              ),*/
+              body: Padding(
+                padding: const EdgeInsets.only(top:40),
+                child: Column(
+                  children: [
                     Expanded(
                       flex: 1,
                       child: FutureBuilder(
@@ -187,9 +109,7 @@ class _ConsentPageState extends State<ConsentPage> {
                                 builder: (context, child) {
                                   return LinearProgressIndicator(
                                       backgroundColor: Colors.transparent,
-                                      color: algo.choseGwc
-                                          ? Colors.green
-                                          : Colors.orange,
+                                      color: Colors.black,
                                       semanticsLabel:
                                           "Sign Up Progress Indicator",
                                       value:
@@ -206,201 +126,35 @@ class _ConsentPageState extends State<ConsentPage> {
                     Expanded(
                       flex: 100,
                       child: Container(
-                        //color: Colors.grey,
+                        //color: Colors.purple,
                         child: PageView(
-                        //  physics: const NeverScrollableScrollPhysics(),
+                          //  physics: const NeverScrollableScrollPhysics(),
                           onPageChanged: (value) {
-                            if (value == 3) {
-                              setState(() {
-                                algo.isOnLastPage = true;
-                              });
-                            }
+                           
                             print("Page is $value");
-                            algo.changeTitle(value);
                           },
                           controller: algo.pageController,
-                          children: const [
-                            FirstPage(),
-                         CollegePickPage(),
-                        //    SecondPage(),
-                            ThirdPage()
-                            /*
-                            FirstPage(),
-                            SecondPage(),
-                            ThirdPage(),
-                            ForthPage()*/
-                          ],
+                          children: const [FirstPage(), ThirdPage()],
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            )),
-      ),
-    );
-  }
-}
-
-class CollegePickPage extends StatelessWidget {
-  const CollegePickPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ConsentProvider>(
-      builder: (context, algo, child) => Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      algo.chooseSchool("gwc");
-                    },
-                    child: Card(
-                      elevation: algo.choseGwc ? 6 : 0,
-                      shape: const RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 60,
-                          child: FittedBox(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                FittedBox(
-                                    fit: BoxFit.contain,
-                                    child: Stack(
-                                      children: [
-                                        ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                            algo.choseGwc
-                                                ? Colors.transparent
-                                                : Colors.black,
-                                            BlendMode.saturation,
-                                          ),
-                                          child: const CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              foregroundImage: AssetImage(
-                                                  "assets/school_logos/gwc.png")),
-                                        ),
-                                      ],
-                                    )),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                const Text(
-                                  "Golden West College",
-                                  style: TextStyle(fontFamily: "OpenSans",
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      algo.chooseSchool("occ");
-                    },
-                    child: Card(
-                      elevation: algo.choseOcc ? 6 : 0,
-                      shape: const RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 60,
-                          child: FittedBox(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                FittedBox(
-                                    fit: BoxFit.contain,
-                                    child: Stack(
-                                      children: [
-                                        ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                            algo.choseOcc
-                                                ? Colors.transparent
-                                                : Colors.black,
-                                            BlendMode.saturation,
-                                          ),
-                                          child: const CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              foregroundImage: AssetImage(
-                                                  "assets/school_logos/occ.jpg")),
-                                        ),
-                                      ],
-                                    )),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                const Text(
-                                  "Orange Coast College",
-                                  style: TextStyle(fontFamily: "OpenSans",
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
               ),
             ),
-            Expanded(
-                child: Container(
-              color: Colors.white,
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    FittedBox(
-                        child: Text(
-                      "School Confirmation",
-                      style: TextStyle(fontFamily: "OpenSans",
-                          color: Colors.black,
-                          fontSize: 42,
-                          fontWeight: FontWeight.bold),
-                    )),
-                    Text(
-                        "Instead of creating an account, we only ask users to confirm their campus to direct them to the relevant channels. Simply select your campus, click \"Confirm,\" and grant temporary location access for verification. Being physically present on campus during confirmation is necessary. We value your privacy and security, and your location data won't be stored or shared beyond verifying your campus affiliation.")
-                  ],
-                ),
-              ),
-            ))
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
+
 
 class FirstPage extends StatelessWidget {
   const FirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ConsentProvider>(
-      builder: (context, value, child) => Container(
-       // color: Colors.red,
+    return Container(
+        // color: Colors.red,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -410,11 +164,14 @@ class FirstPage extends StatelessWidget {
               children: [
                 const Text(
                   "Welcome to\nEdubored",
-                  style: TextStyle(fontFamily: "OpenSans",
-                      fontSize: 42, fontWeight: FontWeight.bold),
-                ),  const SizedBox(
-                        height: 40,
-                      ),
+                  style: TextStyle(
+                      fontFamily: "OpenSans",
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
@@ -446,14 +203,16 @@ class FirstPage extends StatelessWidget {
                                 children: [
                                   FittedBox(
                                       child: Text(
-                                    "Network with students",
-                                    style: TextStyle(fontFamily: "OpenSans",
+                                    "Interact with students",
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   )),
                                   Text(
                                     "Exclusively for students at Orange Coast and Golden West College",
-                                    style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans", fontSize: 15),
                                   )
                                 ],
                               ),
@@ -489,13 +248,15 @@ class FirstPage extends StatelessWidget {
                                   FittedBox(
                                       child: Text(
                                     "Interactive Posts",
-                                    style: TextStyle(fontFamily: "OpenSans",
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   )),
                                   Text(
                                     "Made for when you get bored",
-                                    style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans", fontSize: 15),
                                   )
                                 ],
                               ),
@@ -506,114 +267,92 @@ class FirstPage extends StatelessWidget {
                       const SizedBox(
                         height: 40,
                       ),
-                      Container(
-                        // color: Colors.red,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                                child: Icon(
-                              Icons.discord,
-                              size: 72,
-                              color: Color.fromARGB(255, 84, 99, 235),
-                            )),
-                            SizedBox(
-                              width: 8,
+                      GestureDetector(
+                        onTap: () async {
+                          print("TAPED");
+                          final Uri _url =
+                              Uri.parse('https://discord.gg/VQhRTK6V');
+                          if (!await launchUrl(_url)) {
+                            throw Exception('Could not launch $_url');
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 2,
+                                  color: const Color.fromARGB(255, 44, 44, 44)),
+                              borderRadius: BorderRadius.circular(20)),
+                          // color: Colors.red,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Flexible(
+                                    child: Icon(
+                                  Icons.discord,
+                                  size: 72,
+                                  color: Color.fromARGB(255, 84, 99, 235),
+                                )),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      FittedBox(
+                                          child: Text(
+                                        "Join the community",
+                                        style: TextStyle(
+                                            fontFamily: "OpenSans",
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      )),
+                                      Text(
+                                        "For students, by students. Join the discord to show your support",
+                                        style: TextStyle(
+                                            fontFamily: "OpenSans",
+                                            fontSize: 15),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FittedBox(
-                                      child: Text(
-                                    "Join the community",
-                                    style: TextStyle(fontFamily: "OpenSans",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  )),
-                                  Text(
-                                    "For students, by students. Join the discord to show your support",
-                                    style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       ),
+                      AnimatedTextKit(
+                          repeatForever: true,
+                          animatedTexts: <FadeAnimatedText>[
+                            FadeAnimatedText(
+                                "Before you can start using the app we need to do a few things",
+                                textStyle: TextStyle(
+                                  fontFamily: "OpenSans",
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                                duration: Duration(seconds: 10))
+                          ])
                     ],
                   ),
                 )
               ]),
         ),
-      ),
+      
     );
   }
 }
 
-class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ConsentProvider>(
-      builder: (context, algo, child) => SizedBox(
-        width: MediaQuery.of(context).size.width,
-        //  color: Colors.pink,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Text(
-              "This will be used to show you a chat that is in your interest",
-              style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            Flexible(
-              child: /*ListView(
-                children: [
-                   cardView("assets/card_images/study.jpg"),cardView("assets/card_images/gym.jpeg"),
-                    cardView("assets/card_images/buisness.jpeg"),cardView("assets/card_images/gaming.jpeg")
-                ],
-              )*/
-
-                  SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Flexible(
-                      child: cardView(
-                          context,
-                          "assets/card_images/study.jpg",
-                          algo.extrovert,
-                          1,
-                          algo.extrovertedCat == true ? true : false),
-                    ),
-                    Flexible(
-                      child: cardView(
-                          context,
-                          "assets/card_images/gym.jpeg",
-                          algo.introvert,
-                          2,
-                          algo.introvertedCat == true ? true : false),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
+/*
 Widget cardView(BuildContext context, String url, List<String> parameters,
     int index, bool val) {
   return Consumer<ConsentProvider>(
@@ -646,8 +385,10 @@ Widget cardView(BuildContext context, String url, List<String> parameters,
                       children: [
                         for (String e in parameters)
                           Text(e,
-                              style: const TextStyle(fontFamily: "OpenSans",
-                                  color: Colors.white, fontSize: 24))
+                              style: const TextStyle(
+                                  fontFamily: "OpenSans",
+                                  color: Colors.white,
+                                  fontSize: 24))
 
                         /*  Flexible(
                           child: ListView.builder(itemCount: parameters.length,itemBuilder: (context, index) {
@@ -685,7 +426,7 @@ Widget cardView(BuildContext context, String url, List<String> parameters,
     ),
   );
 }
-
+*/
 class ThirdPage extends StatefulWidget {
   const ThirdPage({super.key});
 
@@ -705,14 +446,48 @@ class _ThirdPageState extends State<ThirdPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ConsentProvider>(
+    return Consumer<OnboardingProvider>(
       builder: (context, algo, child) => Scrollbar(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:  EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                   const Text(
+                "Terms of service",
+                style: TextStyle(
+                    fontFamily: "OpenSans",
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                     Text(
+                        style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 32),
+                             "Summary:"         )                 ,
+                    Text(
+                        style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16),
+                        "At this time (Beta: 0.0.2), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find both present and future features fun to use by students")
+                  ],
+                ),
+              )
                 /* const Text(
                   'Terms of Service',
                   style: TextStyle(
@@ -720,7 +495,7 @@ class _ThirdPageState extends State<ThirdPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),*/
-                const SizedBox(height: 16.0),
+                , SizedBox(height: 16.0),
                 const Text(
                   'Introduction',
                   style: TextStyle(
@@ -788,7 +563,7 @@ class _ThirdPageState extends State<ThirdPage> {
                 ),
                 const SizedBox(height: 8.0),
                 const Text(
-                  "As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
+                  "In order for us to do what we do we have implemented ads.\nBecause of this, users (by defualt) opt in for CPRA (California Privacy Rights Act). Basicaly this allows us to make the maximum return off the ads displayed when using this app. As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
                 ),
                 const SizedBox(height: 8.0),
                 Row(

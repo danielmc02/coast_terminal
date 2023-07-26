@@ -87,7 +87,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           bottom: false,
           right: false,
           left: false,
-          child: /*algo.hasCertificate ? */Scaffold(
+          child: algo.hasCertificate ? Scaffold(
             appBar: AppBar(
               shadowColor: Colors.transparent,
               foregroundColor: Colors.transparent,
@@ -105,8 +105,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
-                  GestureDetector(
+                  Row(
+                    children: [
+                      Icon(Icons.generating_tokens,color: const Color.fromARGB(255, 177, 159, 0),),
+                      Text("Coins: ${Boxes.getRootUser().get('CurrentRootUser')!.coins}",style: TextStyle(fontFamily: "OpenSans",color: Colors.black,fontWeight: FontWeight.bold),),
+                    ],
+                  )
+                /*  GestureDetector(
                     onTap: (){
                       Platform.isAndroid ? Navigator.push(context, MaterialPageRoute(builder: (context) {
                         return const TOS();
@@ -122,7 +127,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         fontWeight: FontWeight.w100,
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -752,7 +757,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ],
               ),
             ),
-          )//: ConsentPage()
+          ): ConsentPage()
         
         ),
       ),

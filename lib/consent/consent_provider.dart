@@ -1,5 +1,6 @@
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/contract_consent_certificate.dart';
+import 'package:coast_terminal/models/root_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,6 +22,9 @@ class ConsentProvider extends ChangeNotifier {
 
   bool extrovertedCat = false;
   bool introvertedCat = false;
+
+
+
   Future<void> pickedCategory(int i) async {
     switch (i) {
       case 1:
@@ -58,47 +62,12 @@ class ConsentProvider extends ChangeNotifier {
         notifyListeners();
         break;
 
-      case 2:
-        headerTitle = "Terms of service";
-        buttonTitle = "Finish";
-        notifyListeners();
-        break;
       default:
     }
   }
 
-  void chooseSchool(String s) {
-    switch (s) {
-      case "occ":
-        debugPrint("Occ was chosen");
-        choseGwc = false;
-        choseOcc = true;
-        school = "Orange Coast College";
-        notifyListeners();
-        break;
-      case "gwc":
-        debugPrint("Gwc was chosen");
-        choseOcc = false;
-        choseGwc = true;
-        school = "Golden West College";
-        notifyListeners();
-        break;
-    }
-  }
+ 
 
-  Future<void> finishConsent() async {
-    print("The user CCPA status is: $optInCCPA , and school is $school");
-    final cert = ContractConsentCertificate(optInCCPA!, school);
-    if (Boxes.getCertificate().get('currentCert') == null) {
-      print("No certificates exist, creating new one");
-      await Boxes.getCertificate().put('currentCert', cert);
-    } else {
-      await Boxes.getCertificate().delete('currentCert');
-
-      await Boxes.getCertificate().put('currentCert', cert);
-    }
-    await ApiService.instance!.signInAnon();
-  }
 
   Future<void> getLocation(BuildContext context) async {
     bool serviceEnabled;
@@ -301,4 +270,5 @@ class ConsentProvider extends ChangeNotifier {
      
     }
   }
+
 }
