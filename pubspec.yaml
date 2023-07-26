@@ -98,6 +98,7 @@ flutter:
    - assets/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.ttf
    - assets/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.ttf
    - assets/Wallpaper.png
+   - assets/lol.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

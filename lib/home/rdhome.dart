@@ -78,6 +78,7 @@ class _RDHOME2State extends State<RDHOME2> {
           scrollDirection: Axis.vertical,
           children: [
             Scaffold(
+              backgroundColor: Colors.white,
                 /*   drawer: Drawer(
                   // Add a ListView to the drawer. This ensures the user can scroll
                   // through the options in the drawer if there isn't enough vertical
@@ -449,9 +450,10 @@ class _RDHOME2State extends State<RDHOME2> {
                                       ),
                                     )
                                   : Column(
+
                                       children: [
                                         Container(
-                                          color: Colors.white,
+                                      //    color: Colors.white,
                                           child: const AlertDialog(
                                             title: Center(
                                                 child: Row(
@@ -470,7 +472,8 @@ class _RDHOME2State extends State<RDHOME2> {
                                           ),
                                         ),
                                         //   RiveAnimation.asset('assets/rive_assets/plane.riv'),
-                                      ],
+                                                                         Image.asset("assets/lol.png"),
+     ],
                                     ))),
                       /*         Container(
                           color: Colors.transparent,
