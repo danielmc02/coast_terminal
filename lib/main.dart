@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:coast_terminal/models/contract_consent_certificate.dart';
+import 'package:coast_terminal/models/root_user.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -18,6 +19,9 @@ import 'onboarding/onboarding_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(RootUserAdapter());
+  await Hive.openBox<RootUser>('rootUser');
+
   Hive.registerAdapter(UserInstanceAdapter());
   await Hive.openBox<UserInstance>('user');
 
@@ -84,6 +88,12 @@ class OnboardScreen extends StatefulWidget {
 }
 
 class _OnboardScreenState extends State<OnboardScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    ApiService.instance!.createRootUserIfNeeded();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     //return const ConsentPage();

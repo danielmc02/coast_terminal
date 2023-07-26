@@ -1,10 +1,19 @@
+import 'dart:io';
+
 import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/home/private_page/provider/private_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PrivatePostPage extends StatelessWidget {
+class PrivatePostPage extends StatefulWidget {
   const PrivatePostPage({super.key});
+
+  @override
+  State<PrivatePostPage> createState() => _PrivatePostPageState();
+}
+
+class _PrivatePostPageState extends State<PrivatePostPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +22,8 @@ class PrivatePostPage extends StatelessWidget {
       builder: (context, child) => Consumer<PrivPostProvider>(
         builder: (context, algo, child) => Scaffold(
           appBar: AppBar(
+            
+           // toolbarHeight: 80,
             shadowColor: Colors.transparent,
             foregroundColor: Colors.transparent,
             backgroundColor: Colors.white,
@@ -37,7 +48,7 @@ class PrivatePostPage extends StatelessWidget {
             color: Colors.white, width: MediaQuery.of(context).size.width,
             //color: Colors.red
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 TextFormField(
                   validator: (val) {
@@ -105,61 +116,81 @@ class PrivatePostPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
+      Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+              InkWell(
+                  onTap: () async{print("TAPPED");
+                 await algo.processPictureUpload();
+                  },
+                  child: algo.image != null ? Column(children: [
+                    
+                    Image.file(algo.image!,fit: BoxFit.fill,)]) : Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                        width: 300,height: 200,
+                    child: FittedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child:  Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [Icon(size: 40, Icons.photo,color: Colors.white,),
+                          
+                          Text("Post a picture from your ${Platform.isAndroid ? "gallery" : "photos"}",textAlign: TextAlign.center,style: TextStyle(fontFamily: "OpenSans",color: Colors.white),)],
+                                
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                     
+        Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                       height: 80,
                       decoration: BoxDecoration(
-                          border: Border.all(style: BorderStyle.solid),
-                          color: Colors.white,
+                     //     border: Border.all(style: BorderStyle.solid),
+                          color: Colors.red,
                           borderRadius: const BorderRadius.all(Radius.circular(20))),
           
                       //   color: Colors.red,
-                      child: const Row(
+                      child:  Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Flexible(
-                              child:
-                                  Icon(size: 50, color: Colors.green, Icons.link)),
-                          Expanded(
-                            //     width: MediaQuery.of(context).size.width,
-                            child: TextField(
-                              style: TextStyle(),
-                              decoration: InputDecoration(hintText: "Post a link"),
-                            ),
-                          )
+                         
+                          Container(
+                            
+                            decoration:BoxDecoration(
+
+                          border: Border.all(style: BorderStyle.solid),
+                          color: Colors.black,
+                          
+                          borderRadius: const BorderRadius.all(Radius.circular(30))), 
+                            child: Transform.rotate(angle: 45,child: Icon(size: 60, color: Colors.white, Icons.link))),
                         ],
                       ),
                       ),
                 ),
-                     InkWell(
-                  onTap: () async{print("TAPPED");
-                 await algo.processPrivatePost();
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    width: 200,
-                    height: 200,
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [Icon(size: 40, Icons.photo_camera),
-                      Text("Post a picture from your gallery",textAlign: TextAlign.center,)],
-          
-                    ),
-                  ),
-                ),
-                PostButton(onPressed: (){
+                    PostButton(onPressed: (){
 
-                })
-                ,SizedBox(height: 8,)
+                }),
+                          SizedBox(height: 8,)
+        ],
+       )
+                   
+               
+       
+      
            
               ],
             ),
+      
           ),
         ),
       ),

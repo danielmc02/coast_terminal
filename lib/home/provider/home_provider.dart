@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../../constants/boxes.dart';
 
-
 class HomeProvider extends ChangeNotifier {
   bool metReq = false;
   double progress = 0;
@@ -20,9 +19,8 @@ class HomeProvider extends ChangeNotifier {
     print("start of home");
     HomeBuild();
   }
-List<ChatInstance>? retrievedChats;
- 
 
+  List<ChatInstance>? retrievedChats;
 
   Future<void> dislikeMessage() async {
     await ApiService.instance!.dislikeMessage();
@@ -127,37 +125,34 @@ List<ChatInstance>? retrievedChats;
   late bool isLikeSelected;
   late bool isDislikeSelected;
 
+
+  bool canInteractWithMessage = true;
+
   Future<void> HomeBuild() async {
-   await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     print("in hoome");
-              if(ApiService.instance!.auth!.currentUser == null)
-              {
-                print("Ran because refresh");
-                   ApiService.instance!.signOut();
-                return;
-              }
-              else if (  Boxes.getuser()
-                      .get('mainUser') != null)
-              {
-     int remainingTimeInSeconds = 6000
-     //600 (10 mins)
-      -
+    if (ApiService.instance!.auth!.currentUser == null) {
+      print("Ran because refresh");
+      ApiService.instance!.signOut();
+      return;
+    } else if (Boxes.getuser().get('mainUser') != null) {
+      int remainingTimeInSeconds = 6000
+          //600 (10 mins)
+          -
           (DateTime.now().millisecondsSinceEpoch -
                   Boxes.getuser()
                       .get('mainUser')!
                       .createdAt
                       .millisecondsSinceEpoch) ~/
               1000;
-              print("Time left: $remainingTimeInSeconds");
-              if(remainingTimeInSeconds <= 0)
-              {
-                print("Ran in here because ran out of time");
-                ApiService.instance!.signOut();
-                return;
-              }
-              }
+      print("Time left: $remainingTimeInSeconds");
+      if (remainingTimeInSeconds <= 0) {
+        print("Ran in here because ran out of time");
+        ApiService.instance!.signOut();
+        return;
+      }
+    }
 
-    
     //if()
     curMess = await ApiService.instance!.fetchMessageIfExists();
     //notifyListeners();
@@ -239,9 +234,9 @@ List<ChatInstance>? retrievedChats;
           final keyNode = ApiService.instance!.keys;
 
           final es = await childNode.get();
-
+          print("es is: ${es.key}");
           Map spec = es.value as Map;
-          print(spec);
+          print("Spec is: ${spec}");
           int curView = 0;
           int? likes;
           int? dislikes;
@@ -282,15 +277,14 @@ List<ChatInstance>? retrievedChats;
           isLikeSelected = Boxes.getMessage().get('currentMessage')!.liked;
 //Before assigning chats we need to filter it
 //spec['Chats'] == null ? print("CHAT IS NULLLL") : print("CHAT IS NOT NULL");
-if(spec['Chats'] != null )
-{
-  print("Chats is not null");
+          if (spec['Chats'] != null) {
+            print("Chats is not null");
 
-List<ChatInstance>? chatList = await ApiService.instance!.filterChats(spec['Chats']);
-retrievedChats = chatList;
-print("Length of chats is ${retrievedChats!.length}");
-
-}
+            List<ChatInstance>? chatList =
+                await ApiService.instance!.filterChats(spec['Chats']);
+            retrievedChats = chatList;
+            print("Length of chats is ${retrievedChats!.length}");
+          }
           final temp = MessageInstance(
               uidAdmin: specz,
               iconIndex: spec['Badge Index'],
@@ -308,6 +302,10 @@ print("Length of chats is ${retrievedChats!.length}");
           if (spec['Current Views'] == spec['Max Views'] ||
               spec['Current Views'] >= spec['Max Views']) {
             print("Just delete it, it is the last view, fell in hell");
+            //remove key first
+            canInteractWithMessage = false;
+            ApiService.instance!.rewardLastSeenUser();
+            ApiService.instance!.keys!.child(es.key!).remove();
             await childNode.remove();
           }
         });
@@ -327,106 +325,100 @@ print("Length of chats is ${retrievedChats!.length}");
     notifyListeners();
   }
 
-   Future<void> sendChat(String message) async
-  {
+  Future<void> sendChat(String message) async {
 //    print("Here is a server value timestammp: ${ServerValue.timestamp.toString()} vs ${DateTime.now()}");
-   final messageDbRef = ApiService.instance!.messagesDatabase;
-   final messageNodeChats =  messageDbRef!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin).child('Chats');
-final reference = messageNodeChats.push();
-  DateTime now = DateTime.now();
-  String formattedTime = format12HourTime(now);
-  String formattedDate = formatDate(now);
-  String formattedDateTime = '$formattedTime $formattedDate';
-  print(formattedDateTime);
-String randomKey = reference.key!;
-   //print(randomKey);
-  await messageNodeChats.child(ServerValue.timestamp.toString()).set(
-    {
+    final messageDbRef = ApiService.instance!.messagesDatabase;
+    final messageNodeChats = messageDbRef!
+        .child(Boxes.getMessage().get('currentMessage')!.uidAdmin)
+        .child('Chats');
+    final reference = messageNodeChats.push();
+    DateTime now = DateTime.now();
+    String formattedTime = format12HourTime(now);
+    String formattedDate = formatDate(now);
+    String formattedDateTime = '$formattedTime $formattedDate';
+    print(formattedDateTime);
+    String randomKey = reference.key!;
+    //print(randomKey);
+    await messageNodeChats.child(ServerValue.timestamp.toString()).set({
       "chat": message,
-      "time":formattedDateTime,
-    //  "timestamp" : ServerValue.timestamp
+      "time": formattedDateTime,
+      //  "timestamp" : ServerValue.timestamp
       //DateTime: DateTime.now()
-
-    }
-   );
- //await HomeBuild();
-
+    });
+    //await HomeBuild();
   }
-
-
 
   String format12HourTime(DateTime dateTime) {
-  int hour = dateTime.hour;
-  int minute = dateTime.minute;
-  String period = hour < 12 ? 'AM' : 'PM';
+    int hour = dateTime.hour;
+    int minute = dateTime.minute;
+    String period = hour < 12 ? 'AM' : 'PM';
 
-  hour = hour % 12;
-  hour = hour == 0 ? 12 : hour;
+    hour = hour % 12;
+    hour = hour == 0 ? 12 : hour;
 
-  String hourString = hour.toString().padLeft(2, '0');
-  String minuteString = minute.toString().padLeft(2, '0');
+    String hourString = hour.toString().padLeft(2, '0');
+    String minuteString = minute.toString().padLeft(2, '0');
 
-  return '$hourString:$minuteString $period';
-}
-
-String formatDate(DateTime dateTime) {
-  String day = getWeekdayName(dateTime.weekday);
-  String month = getMonthName(dateTime.month);
-  int dayOfMonth = dateTime.day;
-
-  return '$day $month $dayOfMonth';
-}
-
-String getWeekdayName(int weekday) {
-  switch (weekday) {
-    case DateTime.monday:
-      return 'Mon';
-    case DateTime.tuesday:
-      return 'Tue';
-    case DateTime.wednesday:
-      return 'Wed';
-    case DateTime.thursday:
-      return 'Thu';
-    case DateTime.friday:
-      return 'Fri';
-    case DateTime.saturday:
-      return 'Sat';
-    case DateTime.sunday:
-      return 'Sun';
-    default:
-      return '';
+    return '$hourString:$minuteString $period';
   }
-}
 
-String getMonthName(int month) {
-  switch (month) {
-    case 1:
-      return 'Jan';
-    case 2:
-      return 'Feb';
-    case 3:
-      return 'Mar';
-    case 4:
-      return 'Apr';
-    case 5:
-      return 'May';
-    case 6:
-      return 'Jun';
-    case 7:
-      return 'Jul';
-    case 8:
-      return 'Aug';
-    case 9:
-      return 'Sep';
-    case 10:
-      return 'Oct';
-    case 11:
-      return 'Nov';
-    case 12:
-      return 'Dec';
-    default:
-      return '';
+  String formatDate(DateTime dateTime) {
+    String day = getWeekdayName(dateTime.weekday);
+    String month = getMonthName(dateTime.month);
+    int dayOfMonth = dateTime.day;
+
+    return '$day $month $dayOfMonth';
   }
-}
 
+  String getWeekdayName(int weekday) {
+    switch (weekday) {
+      case DateTime.monday:
+        return 'Mon';
+      case DateTime.tuesday:
+        return 'Tue';
+      case DateTime.wednesday:
+        return 'Wed';
+      case DateTime.thursday:
+        return 'Thu';
+      case DateTime.friday:
+        return 'Fri';
+      case DateTime.saturday:
+        return 'Sat';
+      case DateTime.sunday:
+        return 'Sun';
+      default:
+        return '';
+    }
+  }
+
+  String getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'Jan';
+      case 2:
+        return 'Feb';
+      case 3:
+        return 'Mar';
+      case 4:
+        return 'Apr';
+      case 5:
+        return 'May';
+      case 6:
+        return 'Jun';
+      case 7:
+        return 'Jul';
+      case 8:
+        return 'Aug';
+      case 9:
+        return 'Sep';
+      case 10:
+        return 'Oct';
+      case 11:
+        return 'Nov';
+      case 12:
+        return 'Dec';
+      default:
+        return '';
+    }
+  }
 }

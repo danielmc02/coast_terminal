@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coast_terminal/consent/consent_page.dart';
+import 'package:coast_terminal/constants/boxes.dart';
 import 'package:coast_terminal/onboarding/check_provider/check_provider.dart';
 import 'package:coast_terminal/onboarding/onboarding_provider/onboarding_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,11 +82,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
       create: (context) => OnboardingProvider(),
       builder: (context, child) => Consumer<OnboardingProvider>(
         builder: (context, algo, child) => SafeArea(
+
           top: false,
           bottom: false,
           right: false,
           left: false,
-          child: Scaffold(
+          child: /*algo.hasCertificate ? */Scaffold(
             appBar: AppBar(
               shadowColor: Colors.transparent,
               foregroundColor: Colors.transparent,
@@ -749,7 +752,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ],
               ),
             ),
-          ),
+          )//: ConsentPage()
+        
         ),
       ),
     );

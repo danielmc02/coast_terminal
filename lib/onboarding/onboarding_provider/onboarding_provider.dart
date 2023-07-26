@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import '../../constants/boxes.dart';
 class OnboardingProvider extends ChangeNotifier {
+  late bool hasCertificate;
  int? index;
  Map? currentMes;
    Map messages = {
@@ -14,6 +17,12 @@ class OnboardingProvider extends ChangeNotifier {
   };
 OnboardingProvider()
 {
+  if(Boxes.getRootUser().get('CurrentRootUser') == null)
+  {
+    print("NO ROOOT USER EXISTS");
+    hasCertificate = false;
+  }
+ 
   int messageLength = messages.length;
   int randomIndex = Random().nextInt(messageLength);
   print(randomIndex);
@@ -21,7 +30,9 @@ OnboardingProvider()
       print(messages.values.elementAt(randomIndex));
 
      currentMes = messages.values.elementAt(randomIndex);
-notifyListeners();
+  
+
+//notifyListeners();
 }
 
 

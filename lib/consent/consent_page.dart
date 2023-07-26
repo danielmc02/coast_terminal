@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:coast_terminal/consent/consent_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -157,8 +159,8 @@ class _ConsentPageState extends State<ConsentPage> {
                   foregroundColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
                   title: FittedBox(
-                      child: Text(
-                    algo.headerTitle,
+                      child: Text("on",
+         //        algo.pageController.page == 1 ?   "TOS" : " ", //algo.headerTitle,
                     style: const TextStyle(fontFamily: "OpenSans",
                         color: Colors.black, fontWeight: FontWeight.bold),
                   )),
@@ -206,7 +208,7 @@ class _ConsentPageState extends State<ConsentPage> {
                       child: Container(
                         //color: Colors.grey,
                         child: PageView(
-                          physics: const NeverScrollableScrollPhysics(),
+                        //  physics: const NeverScrollableScrollPhysics(),
                           onPageChanged: (value) {
                             if (value == 3) {
                               setState(() {
@@ -219,8 +221,8 @@ class _ConsentPageState extends State<ConsentPage> {
                           controller: algo.pageController,
                           children: const [
                             FirstPage(),
-                            CollegePickPage(),
-                            SecondPage(),
+                         CollegePickPage(),
+                        //    SecondPage(),
                             ThirdPage()
                             /*
                             FirstPage(),
@@ -398,6 +400,7 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ConsentProvider>(
       builder: (context, value, child) => Container(
+       // color: Colors.red,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -409,7 +412,9 @@ class FirstPage extends StatelessWidget {
                   "Welcome to\nEdubored",
                   style: TextStyle(fontFamily: "OpenSans",
                       fontSize: 42, fontWeight: FontWeight.bold),
-                ),
+                ),  const SizedBox(
+                        height: 40,
+                      ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
@@ -426,7 +431,7 @@ class FirstPage extends StatelessWidget {
                           children: [
                             Flexible(
                                 child: Icon(
-                              Icons.face_4_outlined,
+                              Icons.school,
                               size: 72,
                               color: Colors.blue,
                             )),
@@ -435,9 +440,9 @@ class FirstPage extends StatelessWidget {
                             ),
                             Expanded(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   FittedBox(
                                       child: Text(
@@ -447,7 +452,7 @@ class FirstPage extends StatelessWidget {
                                         fontSize: 20),
                                   )),
                                   Text(
-                                    "Or not! Send incognito messages if you're board.",
+                                    "Exclusively for students at Orange Coast and Golden West College",
                                     style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
                                   )
                                 ],
@@ -457,7 +462,7 @@ class FirstPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 8,
+                        height: 40,
                       ),
                       Container(
                         // color: Colors.red,
@@ -468,7 +473,7 @@ class FirstPage extends StatelessWidget {
                           children: [
                             Flexible(
                                 child: Icon(
-                              Icons.lock,
+                              Icons.chat_sharp,
                               size: 72,
                               color: Colors.green,
                             )),
@@ -483,13 +488,13 @@ class FirstPage extends StatelessWidget {
                                 children: [
                                   FittedBox(
                                       child: Text(
-                                    "Secure Messaging",
+                                    "Interactive Posts",
                                     style: TextStyle(fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   )),
                                   Text(
-                                    "Anonymized chats are encrypted in the backend. It’s the user’sresponsibility to keep relevance",
+                                    "Made for when you get bored",
                                     style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
                                   )
                                 ],
@@ -499,7 +504,7 @@ class FirstPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 8,
+                        height: 40,
                       ),
                       Container(
                         // color: Colors.red,
@@ -510,9 +515,9 @@ class FirstPage extends StatelessWidget {
                           children: [
                             Flexible(
                                 child: Icon(
-                              Icons.timer,
+                              Icons.discord,
                               size: 72,
-                              color: Colors.red,
+                              color: Color.fromARGB(255, 84, 99, 235),
                             )),
                             SizedBox(
                               width: 8,
@@ -525,13 +530,13 @@ class FirstPage extends StatelessWidget {
                                 children: [
                                   FittedBox(
                                       child: Text(
-                                    "Fast Paced",
+                                    "Join the community",
                                     style: TextStyle(fontFamily: "OpenSans",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),
                                   )),
                                   Text(
-                                    "Set caps on how many people can see your post",
+                                    "For students, by students. Join the discord to show your support",
                                     style: TextStyle(fontFamily: "OpenSans",fontSize: 15),
                                   )
                                 ],

@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'constants/boxes.dart';
+import 'models/root_user.dart';
 
 class ApiService {
   static ApiService? _instance;
@@ -449,6 +450,23 @@ return chats;
         }));
     return null;
   }
+
+  void rewardLastSeenUser() {
+    //Give user 10 coins
+  }
+
+  void createRootUserIfNeeded() {
+    Boxes.getRootUser().values.isEmpty ? print("NO ROOT USER DETECTED, creating one now") : null;
+/*
+    if(Boxes.getRootUser().get('CurrentRootUser').values.isEmpty)
+    {
+      RootUser rU = RootUser(true, DateTime.now().toString(), 50);
+
+      Boxes.getRootUser().put('CurrentRootUser', rU);
+    }
+    */
+  }
+
 
 
 

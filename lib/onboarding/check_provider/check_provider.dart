@@ -197,12 +197,12 @@ print("Got loc");
       print("Lat: ${position.latitude}\nLong: ${position.longitude}");
       //is at gwc or hq
     //  if(isAtGwc /* || isAtHq */)
-      if(isAtGwc  || isAtHq == false )
+      if(isAtGwc  || isAtHq )
       {
       locationPass = true;
 
       }
-      else if(isAtOcc /* || isAtHq */)
+      else if(isAtOcc /* || isAtHq */|| isAtHq == false) //remove isathq = false because this is only to access when not on valid location
       {
       locationPass = true;
 
@@ -268,6 +268,9 @@ print("Got loc");
             );
           }, onAdFailedToLoad: (LoadAdError error) {
             print(error);
+                  adPass = false;
+      notifyListeners();
+
             throw error;
           }));
 
