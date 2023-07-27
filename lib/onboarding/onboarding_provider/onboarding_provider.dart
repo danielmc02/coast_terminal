@@ -5,7 +5,7 @@ import '../../constants/boxes.dart';
 import '../../models/root_user.dart';
 class OnboardingProvider extends ChangeNotifier {
     bool? optInCCPA = true;
-
+late PageController pageController;
   late bool hasCertificate;
  int? index;
  Map? currentMes;
@@ -20,6 +20,8 @@ class OnboardingProvider extends ChangeNotifier {
   };
 OnboardingProvider()
 {
+       pageController = PageController();
+
   hasCertificate = false;
   if(Boxes.getRootUser().get('CurrentRootUser') == null)
   {
@@ -101,7 +103,6 @@ OnboardingProvider()
         break;
     }
   }
-    PageController pageController = PageController();
 
    void createRootUser() async{
     print("Opted in for ccpa: $optInCCPA");
@@ -111,21 +112,27 @@ OnboardingProvider()
     notifyListeners();
 
   }
-  String buttonTitle = "Next";
+  String buttonTitle = "Continue";
   void changeTitle(int i) {
     switch (i) {
       case 0:
-        buttonTitle = "Next";
+        buttonTitle = "Continue";
 
         notifyListeners();
         break;
       case 1:
-        buttonTitle = "Confirm";
+        buttonTitle = "Back";
 //buttonTitle = "Finish";
         notifyListeners();
         break;
 
       default:
     }
+  }
+  bool hasConsented = false;
+
+  void passConsentCorrection(bool value) {
+    hasConsented = value;
+    notifyListeners();
   }
 }

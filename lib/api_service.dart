@@ -467,6 +467,14 @@ return chats;
     */
   }
 
+  Future<void> giveCoins(int coins) async
+  {
+   RootUser curRootUser = Boxes.getRootUser().get('CurrentRootUser')!;
+  int newCoinValue = curRootUser.coins + coins;
+   RootUser newRootUser = RootUser(curRootUser.ccpaCompliant, curRootUser.dateDownloaded, newCoinValue);
+   await Boxes.getRootUser().put('CurrentRootUser', newRootUser);
+  }
+
 
 
 

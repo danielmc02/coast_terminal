@@ -702,6 +702,12 @@ class _RDHOME2State extends State<RDHOME2> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
+                                  Row(
+                    children: [
+                      Icon(Icons.generating_tokens,color: const Color.fromARGB(255, 177, 159, 0),),
+                      Text("Coins: ${Boxes.getRootUser().get('CurrentRootUser')!.coins}",style: TextStyle(fontFamily: "OpenSans",color: Colors.black,fontWeight: FontWeight.bold),),
+                    ],
+                  ),
                                   //const Text('Modal BottomSheet'),
                                   ElevatedButton(
                                     style: const ButtonStyle(

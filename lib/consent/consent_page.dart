@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:coast_terminal/main.dart';
 import 'package:coast_terminal/onboarding/onboarding_provider/onboarding_provider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -53,18 +54,24 @@ class _ConsentPageState extends State<ConsentPage> {
                         child: TextButton(
                             onPressed: () async {
                               if (algo.pageController.page == 0) {
-                                algo.pageController.nextPage(
-                                    duration:
-                                        const Duration(milliseconds: 900),
-                                    curve: Curves.easeInSine);
+                                   if(algo.hasConsented)
+                                {
+                                  algo.createRootUser();
+                                }
+                                else
+                                {
+                                  
+                                }
+                               
                               } else if (algo.pageController.page == 1 ) {
                                 print("AT TOS");
-                                algo.createRootUser();
+                               await algo.pageController.previousPage(duration: Duration(seconds: 1), curve: Curves.easeOutSine);
+                            algo.changeTitle(0);
                               } 
                             },
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.black),
+                            style:  ButtonStyle(
+                              
+                               backgroundColor: algo.hasConsented == true ?  MaterialStatePropertyAll(Colors.black) : MaterialStatePropertyAll(Colors.grey)  ,
                                 foregroundColor:
                                     MaterialStatePropertyAll(Colors.white)),
                             child: Text(
@@ -95,7 +102,7 @@ class _ConsentPageState extends State<ConsentPage> {
                 )),
               ),*/
               body: Padding(
-                padding: const EdgeInsets.only(top:40),
+                padding: const EdgeInsets.only(top:56),
                 child: Column(
                   children: [
                     Expanded(
@@ -113,7 +120,7 @@ class _ConsentPageState extends State<ConsentPage> {
                                       semanticsLabel:
                                           "Sign Up Progress Indicator",
                                       value:
-                                          (algo.pageController.page ?? 0) / 3);
+                                          (algo.pageController.page ?? 0) / 1);
                                 });
                           } else {
                             return Container(
@@ -128,9 +135,9 @@ class _ConsentPageState extends State<ConsentPage> {
                       child: Container(
                         //color: Colors.purple,
                         child: PageView(
-                          //  physics: const NeverScrollableScrollPhysics(),
-                          onPageChanged: (value) {
-                           
+                           physics: const NeverScrollableScrollPhysics(),
+                          onPageChanged: (value)  {
+                           algo.changeTitle(value);
                             print("Page is $value");
                           },
                           controller: algo.pageController,
@@ -148,205 +155,249 @@ class _ConsentPageState extends State<ConsentPage> {
 }
 
 
-class FirstPage extends StatelessWidget {
+class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
 
   @override
+  State<FirstPage> createState() => _FirstPageState();
+}
+
+class _FirstPageState extends State<FirstPage> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-        // color: Colors.red,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Welcome to\nEdubored",
-                  style: TextStyle(
-                      fontFamily: "OpenSans",
-                      fontSize: 42,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // color: Colors.red,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                                child: Icon(
-                              Icons.school,
-                              size: 72,
-                              color: Colors.blue,
-                            )),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FittedBox(
-                                      child: Text(
-                                    "Interact with students",
-                                    style: TextStyle(
-                                        fontFamily: "OpenSans",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  )),
-                                  Text(
-                                    "Exclusively for students at Orange Coast and Golden West College",
-                                    style: TextStyle(
-                                        fontFamily: "OpenSans", fontSize: 15),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Container(
-                        // color: Colors.red,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                                child: Icon(
-                              Icons.chat_sharp,
-                              size: 72,
-                              color: Colors.green,
-                            )),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  FittedBox(
-                                      child: Text(
-                                    "Interactive Posts",
-                                    style: TextStyle(
-                                        fontFamily: "OpenSans",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  )),
-                                  Text(
-                                    "Made for when you get bored",
-                                    style: TextStyle(
-                                        fontFamily: "OpenSans", fontSize: 15),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          print("TAPED");
-                          final Uri _url =
-                              Uri.parse('https://discord.gg/VQhRTK6V');
-                          if (!await launchUrl(_url)) {
-                            throw Exception('Could not launch $_url');
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 2,
-                                  color: const Color.fromARGB(255, 44, 44, 44)),
-                              borderRadius: BorderRadius.circular(20)),
+    return Consumer<OnboardingProvider>(
+      builder: (context, algo, child) =>  Container(
+          // color: Colors.red,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Welcome to\nEdubored",
+                    style: TextStyle(
+                        fontFamily: "OpenSans",
+                        fontSize: 42,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
                           // color: Colors.red,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flexible(
-                                    child: Icon(
-                                  Icons.discord,
-                                  size: 72,
-                                  color: Color.fromARGB(255, 84, 99, 235),
-                                )),
-                                SizedBox(
-                                  width: 8,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                  child: Icon(
+                                Icons.school,
+                                size: 72,
+                                color: Colors.blue,
+                              )),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    FittedBox(
+                                        child: Text(
+                                      "Interact with students",
+                                      style: TextStyle(
+                                          fontFamily: "OpenSans",
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    )),
+                                    Text(
+                                      "Exclusively for students at Orange Coast and Golden West College",
+                                      style: TextStyle(
+                                          fontFamily: "OpenSans", fontSize: 15),
+                                    )
+                                  ],
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      FittedBox(
-                                          child: Text(
-                                        "Join the community",
-                                        style: TextStyle(
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      )),
-                                      Text(
-                                        "For students, by students. Join the discord to show your support",
-                                        style: TextStyle(
-                                            fontFamily: "OpenSans",
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                      AnimatedTextKit(
-                          repeatForever: true,
-                          animatedTexts: <FadeAnimatedText>[
-                            FadeAnimatedText(
-                                "Before you can start using the app we need to do a few things",
-                                textStyle: TextStyle(
-                                  fontFamily: "OpenSans",
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        Container(
+                          // color: Colors.red,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                  child: Icon(
+                                Icons.chat_sharp,
+                                size: 72,
+                                color: Colors.green,
+                              )),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FittedBox(
+                                        child: Text(
+                                      "Interactive Posts",
+                                      style: TextStyle(
+                                          fontFamily: "OpenSans",
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    )),
+                                    Text(
+                                      "Made for when you get bored",
+                                      style: TextStyle(
+                                          fontFamily: "OpenSans", fontSize: 15),
+                                    )
+                                  ],
                                 ),
-                                textAlign: TextAlign.center,
-                                duration: Duration(seconds: 10))
-                          ])
-                    ],
-                  ),
-                )
-              ]),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            print("TAPED");
+                            final Uri _url =
+                                Uri.parse('https://discord.gg/VQhRTK6V');
+                            if (!await launchUrl(_url)) {
+                              throw Exception('Could not launch $_url');
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 2,
+                                    color: const Color.fromARGB(255, 44, 44, 44)),
+                                borderRadius: BorderRadius.circular(20)),
+                            // color: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                      child: Icon(
+                                    Icons.discord,
+                                    size: 72,
+                                    color: Color.fromARGB(255, 84, 99, 235),
+                                  )),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        FittedBox(
+                                            child: Text(
+                                          "Join the community",
+                                          style: TextStyle(
+                                              fontFamily: "OpenSans",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
+                                        )),
+                                        Text(
+                                          "For students, by students. Join the discord to show your support",
+                                          style: TextStyle(
+                                              fontFamily: "OpenSans",
+                                              fontSize: 15),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),SizedBox(height: 160,),
+                       Card(elevation: 9,
+                       shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20),)
+                       ),
+                        child: Container(
+                          decoration: BoxDecoration( borderRadius: BorderRadius.all(Radius.circular(20),),color:Colors.black,
+    ),
+                          width: MediaQuery.of(context).size.width/1.2,
+                          height: 60,
+                          child:Row(
+      children: [
+      Checkbox(
+        side:BorderSide(color: Colors.white,width: 2),
+        value: algo.hasConsented,
+        onChanged: (value) {
+          setState(() {
+            print(value);
+            algo.hasConsented = value!;
+            algo.passConsentCorrection(value);
+          });
+        },
+      ),
+      RichText(
+        text: TextSpan(
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          children: [
+            TextSpan(
+              text: "I have read and agree to the ",
+            ),
+            TextSpan(
+              text: "Terms & Service",
+              style: TextStyle(
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+              ),
+              recognizer: TapGestureRecognizer()..onTap =()async {
+                print("TAPPED");
+               await algo.pageController.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.easeInSine);
+              }
+            ),
+          ],
         ),
-      
+      ),
+      ],
+    )
+    
+                        ),
+                       )
+               ,       ],
+                    ),
+                  )
+                ]),
+          ),
+        
+      ),
     );
   }
 }

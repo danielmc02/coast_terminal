@@ -305,6 +305,7 @@ class HomeProvider extends ChangeNotifier {
             //remove key first
             canInteractWithMessage = false;
             ApiService.instance!.rewardLastSeenUser();
+            await ApiService.instance!.giveCoins(25);
             ApiService.instance!.keys!.child(es.key!).remove();
             await childNode.remove();
           }
