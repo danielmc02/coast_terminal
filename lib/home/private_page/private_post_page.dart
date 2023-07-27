@@ -116,76 +116,123 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                     ),
                   ),
                 ),
-      Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-              InkWell(
-                  onTap: () async{print("TAPPED");
-                 await algo.processPictureUpload();
-                  },
-                  child: algo.image != null ? Column(children: [
-                    
-                    Image.file(algo.image!,fit: BoxFit.fill,)]) : Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                        width: 300,height: 200,
-                    child: FittedBox(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:  Column(
+      Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [Icon(size: 40, Icons.photo,color: Colors.white,),
-                          
-                          Text("Post a picture from your ${Platform.isAndroid ? "gallery" : "photos"}",textAlign: TextAlign.center,style: TextStyle(fontFamily: "OpenSans",color: Colors.white),)],
-                                
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                     
-        Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      height: 80,
-                      decoration: BoxDecoration(
-                     //     border: Border.all(style: BorderStyle.solid),
-                          color: Colors.red,
-                          borderRadius: const BorderRadius.all(Radius.circular(20))),
-          
-                      //   color: Colors.red,
-                      child:  Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                         
-                          Container(
-                            
-                            decoration:BoxDecoration(
 
-                          border: Border.all(style: BorderStyle.solid),
-                          color: Colors.black,
-                          
-                          borderRadius: const BorderRadius.all(Radius.circular(30))), 
-                            child: Transform.rotate(angle: 45,child: Icon(size: 60, color: Colors.white, Icons.link))),
-                        ],
-                      ),
-                      ),
-                ),
-                    PostButton(onPressed: (){
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          GestureDetector(
+             onTap: () async{print("TAPPED");
+                   await algo.processPictureUpload();
+                    },
+            child: CircleAvatar(
+              backgroundColor: Colors.black,
+              backgroundImage: algo.image != null ? FileImage(algo.image!) : null,
+              minRadius: 65,
+              //radius: 70,
+              maxRadius: 70,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: algo.image == null ? Column(
+                  children: [
+                    Icon(Icons.photo,size: 50,),
+                                              Text("Post a picture from your ${Platform.isAndroid ? "gallery" : "photos"}",textAlign: TextAlign.center,style: TextStyle(fontFamily: "OpenSans",color: Colors.white,fontWeight: FontWeight.bold),)
+              
+                  ],
+                ) : null,
+              ),
+            ),
+          ),
+                         SizedBox(width: 24,),  GestureDetector(
+             onTap: () async{print("TAPPED");
+                  showDialog(context: context, builder: (context) {
+                    
+                return   AlertDialog(
+                                          actionsAlignment:
+                                              MainAxisAlignment.center,
+                                          actions: [
+                                            SizedBox(
+                                                //   color: Colors.red,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: TextButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            const MaterialStatePropertyAll(
+                                                                Colors.blueAccent),
+                                                        foregroundColor:
+                                                            const MaterialStatePropertyAll(
+                                                                Colors.white),
+                                                        shape: MaterialStatePropertyAll(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20)))),
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
 
-                }),
+                                                   
+                                                    },
+                                                    child:
+                                                        const Text("Done")))
+                                          ],
+                                          //alignment: Alignment.center,
+
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text(
+                                                "Make sure the url is valid",
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              URLValidationTextField()
+                                            ],
+                                          ),
+
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          title: const Text(
+                                            "Post a link",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontFamily: "OpenSans",
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        );
+                                     
+                  },);
+                    },
+            child: CircleAvatar(
+              backgroundColor: Colors.black,
+              backgroundImage: algo.image != null ? FileImage(algo.image!) : null,
+              minRadius: 65,
+              //radius: 70,
+              maxRadius: 70,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: algo.image == null ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.link,size: 50,),
+                                              Text("Post a link",textAlign: TextAlign.center,style: TextStyle(fontFamily: "OpenSans",color: Colors.white,fontWeight: FontWeight.bold),)
+              
+                  ],
+                ) : null,
+              ),
+            ),
+          ),
+                
                           SizedBox(height: 8,)
         ],
        )
                    
                
-       
+        , PostButton(onPressed: (){
+
+                }),
       
            
               ],
@@ -194,6 +241,57 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+
+class URLValidationTextField extends StatefulWidget {
+  @override
+  _URLValidationTextFieldState createState() => _URLValidationTextFieldState();
+}
+
+class _URLValidationTextFieldState extends State<URLValidationTextField> {
+  TextEditingController _urlController = TextEditingController();
+  bool _isValidUrl = true;
+
+  // Regular expression to check if the input is a valid URL
+  RegExp _urlRegex = RegExp(
+    r'^(https?://)?([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+.*)$',
+    caseSensitive: false,
+    multiLine: false,
+  );
+
+  // Function to validate the URL
+  bool _validateUrl(String value) {
+    return _urlRegex.hasMatch(value);
+  }
+
+  // Function to handle the onChanged event of the TextField
+  void _onTextChanged(String value) {
+    setState(() {
+      _isValidUrl = _validateUrl(value);
+    });
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextField(
+          controller: _urlController,
+          onChanged: _onTextChanged,
+          decoration: InputDecoration(
+            labelText: 'Enter a URL',
+            errorText: !_isValidUrl ? 'Invalid URL' : null,
+          ),
+        ),
+       
+      ],
     );
   }
 }
