@@ -554,7 +554,10 @@ class _RDHOME2State extends State<RDHOME2> {
                   ),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
-                  selectedItemColor: Colors.black,
+                 // fixedColor: Colors.red,
+               
+                  elevation: 9,
+                 selectedItemColor: Colors.black,
                   unselectedItemColor: Colors.black,
                   onTap: (value) {
                     print(value);
@@ -614,7 +617,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                           const Text("Post Private Message")))
                             ],
                             //alignment: Alignment.center,
-
+                
                             content: const Text(
                               "VIP posts can only be seen by one person and must be scanned physically via qr code.",
                               textAlign: TextAlign.center,
@@ -656,7 +659,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                             20)))),
                                         onPressed: () async {
                                           Navigator.pop(context);
-
+                
                                           await ApiService.instance!.signOut();
                                         },
                                         child: const Text("Okay")))
@@ -744,7 +747,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                             20)))),
                                                     onPressed: () async {
                                                       Navigator.pop(context);
-
+                
                                                       await ApiService.instance!
                                                           .signOut();
                                                     },
@@ -752,7 +755,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                         const Text("Sign Out")))
                                           ],
                                           //alignment: Alignment.center,
-
+                
                                           content: const Text(
                                             "Careful! You are about to sign out. This means you will lose access to your current message. You will still be able to see your published message only when it has reached it's max views.",
                                             textAlign: TextAlign.center,
@@ -779,13 +782,13 @@ class _RDHOME2State extends State<RDHOME2> {
                           },
                         );
                         break;
-
+                
                       default:
                     }
                   },
                   items: const [
                     BottomNavigationBarItem(
-                        label: "Sign Out", icon: Icon(Icons.qr_code)),
+                        label: "VIP", icon: Icon(Icons.qr_code)),
                     BottomNavigationBarItem(
                         label: "Post", icon: Icon(Icons.add)),
                     BottomNavigationBarItem(
@@ -960,6 +963,7 @@ class _TextTimerState extends State<TextTimer> {
   late int remainingTime;
   @override
   void initState() {
+   //await ApiService.instance!.checkLife();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       int remainingTimeInSeconds = 6000
           //  600 (10 mins)

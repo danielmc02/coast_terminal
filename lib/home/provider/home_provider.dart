@@ -129,6 +129,7 @@ class HomeProvider extends ChangeNotifier {
   bool canInteractWithMessage = true;
 
   Future<void> HomeBuild() async {
+   await ApiService.instance!.checkLife();
     await Future.delayed(const Duration(seconds: 5));
     print("in hoome");
     if (ApiService.instance!.auth!.currentUser == null) {

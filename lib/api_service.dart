@@ -475,6 +475,14 @@ return chats;
    await Boxes.getRootUser().put('CurrentRootUser', newRootUser);
   }
 
+  Future<void> checkLife() async {
+     if( Boxes.getuser().get('mainUser') == null)
+    {
+      print("NO USER");
+     await ApiService.instance!.signOut();
+    }
+  }
+
 
 
 

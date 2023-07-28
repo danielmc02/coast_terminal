@@ -6,6 +6,16 @@ import 'package:flutter/material.dart';
 import '../../constants/boxes.dart';
 
 class PostProvider extends ChangeNotifier {
+  PostProvider()
+  {
+    titleController = TextEditingController();
+    messageController = TextEditingController();
+  }
+    final fromKey = GlobalKey<FormState>();
+  double currentValue = 1;
+  late TextEditingController titleController;
+  late TextEditingController messageController;
+
   bool drawerIsOpen = false;
   Map<String, Map> badges = <String, Map>{
     'Anonymous': {
