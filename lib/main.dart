@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:coast_terminal/models/contract_consent_certificate.dart';
 import 'package:coast_terminal/models/root_user.dart';
 import 'package:coast_terminal/models/user_model.dart';
+import 'package:coast_terminal/models/vip_message.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,8 @@ void main() async {
   Hive.registerAdapter(UserInstanceAdapter());
   await Hive.openBox<UserInstance>('user');
 
-  Hive.registerAdapter(ContractConsentCertificateAdapter());
-  await Hive.openBox<ContractConsentCertificate>('cert');
+  Hive.registerAdapter(VipMessageAdapter());
+  await Hive.openBox<VipMessage>('vipMessages');
 
   Hive.registerAdapter(MessageInstanceAdapter());
   await Hive.openBox<MessageInstance>('messages');
@@ -49,10 +50,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
-  /*
- runApp(DevicePreview(
-      enabled: !kReleaseMode,
-builder: (context) => const MyApp(),));*/
+
 }
 
 class MyApp extends StatelessWidget {

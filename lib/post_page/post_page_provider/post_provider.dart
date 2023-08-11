@@ -10,8 +10,9 @@ class PostProvider extends ChangeNotifier {
   {
     titleController = TextEditingController();
     messageController = TextEditingController();
+    formKey = GlobalKey<FormState>();
   }
-    final fromKey = GlobalKey<FormState>();
+    late  GlobalKey<FormState> formKey;
   double currentValue = 1;
   late TextEditingController titleController;
   late TextEditingController messageController;

@@ -21,7 +21,8 @@ class ApiService {
   static DatabaseReference? _messagesDatabase;
   static DatabaseReference? _keyCount;
   static DatabaseReference? _keys;
-  static FirebaseStorage? _fileStorage;
+  static Reference? _fileStorage;
+  static DatabaseReference? _vipMessagesDatabase;
 
   ApiService._internal() {
     _auth = FirebaseAuth.instance;
@@ -30,10 +31,15 @@ class ApiService {
     _messagesDatabase = _database!.ref('messages');
     _keyCount = _database!.ref('keys');
     _keys = _database!.ref('keys');
-    _fileStorage = FirebaseStorage.instance;
+    _fileStorage = FirebaseStorage.instance.ref();
+    _vipMessagesDatabase = _database!.ref('vip');
   }
 
-  FirebaseStorage? get fileStorage
+DatabaseReference? get vipMessagesDatabase
+{
+  return _vipMessagesDatabase;
+}
+  Reference? get fileStorage
   {
     return _fileStorage;
   }

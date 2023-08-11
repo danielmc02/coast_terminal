@@ -137,7 +137,7 @@ class HomeProvider extends ChangeNotifier {
       ApiService.instance!.signOut();
       return;
     } else if (Boxes.getuser().get('mainUser') != null) {
-      int remainingTimeInSeconds = 6000
+      int remainingTimeInSeconds = 300
           //600 (10 mins)
           -
           (DateTime.now().millisecondsSinceEpoch -
