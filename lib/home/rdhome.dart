@@ -70,7 +70,7 @@ class _RDHOME2State extends State<RDHOME2> {
             print("page has been changed: $value");
             if (value == 0 &&
                 Boxes.getuser().get('mainUser')!.hasPostedMessage == true) {
-                            FocusManager.instance.primaryFocus?.unfocus();
+              FocusManager.instance.primaryFocus?.unfocus();
 
               _controller.play();
             }
@@ -80,7 +80,7 @@ class _RDHOME2State extends State<RDHOME2> {
           scrollDirection: Axis.vertical,
           children: [
             Scaffold(
-              backgroundColor: Colors.white,
+                backgroundColor: Colors.white,
                 /*   drawer: Drawer(
                   // Add a ListView to the drawer. This ensures the user can scroll
                   // through the options in the drawer if there isn't enough vertical
@@ -144,347 +144,243 @@ class _RDHOME2State extends State<RDHOME2> {
                             child: SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 // height: 40,
-                                 // color: Colors.green,
-                                child: Boxes.getMessage().get('currentMessage') !=
-                                        null
-                                    ? SizedBox(
-                                        width: MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            //   print("AAAAAA${snapshot.data}");
-                                            /*   algo.curMess*/ Flexible(
-                                                child: Container(
-                                              // ] color: Colors.red,
+                                // color: Colors.green,
+                                child:
+                                    Boxes.getMessage().get('currentMessage') !=
+                                            null
+                                        ? SingleChildScrollView(
+                                          child: Container(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
                                               child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    child: Material(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      elevation: 20,
-                                                      color: const Color.fromARGB(
-                                                          0, 199, 64, 64),
-                                                      child: Ink(
-                                                        height: 300,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                                color: const Color
-                                                                        .fromARGB(
-                                                                    105, 0, 0, 0),
-                                                                width: 1),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(20),
-                                                            color: Colors.black),
-                                                        child: InkWell(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          //splashColor: Colors.red,
-                                                          child: Padding(
+                                                  Flexible(
+                                                    child: Container(
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                    .all(16),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                CircleAvatar(
-                                                                    backgroundColor: Colors
-                                                                        .transparent,
-                                                                    radius: 30,
-                                                                    foregroundImage: ApiService
-                                                                        .instance!
-                                                                        .iconReferences[Boxes
-                                                                            .getMessage()
-                                                                        .get(
-                                                                            'currentMessage')!
-                                                                        .iconIndex]),
-                                                                Flexible(
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            8.0),
-                                                                    child:
-                                                                        FittedBox(
-                                                                      child: Text(
-                                                                        Boxes.getMessage()
-                                                                            .get(
-                                                                                'currentMessage')!
-                                                                            .title,
-                                                                        style: const TextStyle(
-                                                                            color: Colors
-                                                                                .white,
-                                                                            fontSize:
-                                                                                40),
-                                                                      ),
-                                                                    ),
+                                                                    .only(left:8,right: 8,bottom: 40),
+                                                            child: Material(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              elevation: 6,
+                                                              color: const Color
+                                                                      .fromARGB(
+                                                                  0, 199, 64, 64),
+                                                              child: Ink(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border:
+                                                                      Border.all(
+                                                                    color: const Color
+                                                                            .fromARGB(
+                                                                        105,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                    width: 1,
                                                                   ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  color: Colors
+                                                                      .black,
                                                                 ),
-                                                                Expanded(
+                                                                child: InkWell(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
                                                                   child: Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        top: 8.0),
-                                                                    child:
-                                                                        SizedBox(
-                                                                      //color:Colors.green,
-                                                                      width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width,
-                                                                      child:
-                                                                          Scrollbar(
-                                                                        thumbVisibility:
-                                                                            false,
-                                                                        child:
-                                                                            SingleChildScrollView(
-                                                                          child: AnimatedTextKit(totalRepeatCount: 1,animatedTexts: <TyperAnimatedText>[TyperAnimatedText( Boxes.getMessage().get('currentMessage')!.message,textStyle: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontFamily:
-                                                                        "OpenSans",
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize: 18),)])
-                                                                          
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(16),
+                                                                    child: Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        CircleAvatar(
+                                                                          backgroundColor:
+                                                                              Colors.transparent,
+                                                                          radius:
+                                                                              30,
+                                                                          foregroundImage: ApiService
+                                                                              .instance!
+                                                                              .iconReferences[Boxes
+                                                                                  .getMessage()
+                                                                              .get('currentMessage')!
+                                                                              .iconIndex],
                                                                         ),
-                                                                      ),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                8),
+                                                                        FittedBox(
+                                                                          child:
+                                                                              Text(
+                                                                            Boxes.getMessage()
+                                                                                .get('currentMessage')!
+                                                                                .title,
+                                                                            style: const TextStyle(
+                                                                                color: Colors.white,
+                                                                                fontSize: 40),
+                                                                          ),
+                                                                        ),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                8),
+                                                                        AnimatedTextKit(
+                                                                          totalRepeatCount:
+                                                                              1,
+                                                                          animatedTexts: <TyperAnimatedText>[
+                                                                            TyperAnimatedText(
+                                                                              Boxes.getMessage().get('currentMessage')!.message,
+                                                                              textStyle:
+                                                                                  TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontFamily: "OpenSans",
+                                                                                color: Colors.white,
+                                                                                fontSize: 18,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                8),
+                                                                        Row(
+                                                                          children: [
+                                                                            Icon(
+                                                                              color:
+                                                                                  Colors.white,
+                                                                              Icons.remove_red_eye_outlined,
+                                                                            ),
+                                                                            Text(
+                                                                                style: const TextStyle(color: Colors.white),
+                                                                                "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
+                                                                            Spacer(),
+                                                                            algo.canInteractWithMessage
+                                                                                ? Row(
+                                                                                    children: [
+                                                                                      ChoiceChip(
+                                                                                        // backgroundColor: Colors.black,
+                                                                                        //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
+                                                                                        elevation: algo.isLikeSelected ? 8 : 0,
+                                                                                        avatar: const Icon(color: Colors.green, Icons.thumb_up),
+                                                                                        label: Text(algo.copiedLikes.toString() /*Boxes
+                                                                                                 .getMessage()
+                                                                                             .get(
+                                                                                                 'currentMessage')!
+                                                                                             .likes
+                                                                                             .toString()*/
+                                                                                            ),
+                                                                                        selected: algo.isLikeSelected,
+                                                                                        onSelected: (value) async {
+                                                                                          await algo.likesOrDislikes("like", value);
+                                                                                        },
+                                                                                        selectedColor: algo.isLikeSelected ? Colors.white : Colors.transparent,
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        width: 8,
+                                                                                      ),
+                                                                                      ChoiceChip(
+                                                                                        //disabledColor: Colors.red,
+                                                                                        // backgroundColor: Colors.red,
+                                                                                        elevation: algo.isDislikeSelected ? 8 : 0,
+                                        
+                                                                                        selectedColor: Colors.white,
+                                                                                        onSelected: (value) async {
+                                                                                          await algo.likesOrDislikes("dislike", value);
+                                                                                        },
+                                                                                        avatar: const Icon(color: Colors.red, Icons.thumb_down),
+                                                                                        label: Text(algo.copiedDislikes.toString() /*Boxes
+                                                                                                 .getMessage()
+                                                                                             .get(
+                                                                                                 'currentMessage')!
+                                                                                             .dislikes
+                                                                                             .toString()*/
+                                                                                            ),
+                                                                                        selected: algo.isDislikeSelected,
+                                                                                      ),
+                                                                                    ],
+                                                                                  )
+                                                                                : Flexible(
+                                                                                    child: Container(
+                                                                                        color: Colors.transparent,
+                                                                                        //width: MediaQuery.of(context).size.width,
+                                                                                        child: Container(
+                                                                                          width: 200,
+                                                                                          height: 100,
+                                                                                          child: Padding(
+                                                                                            padding: const EdgeInsets.all(8.0),
+                                                                                            child: AnimatedTextKit(repeatForever: true, animatedTexts: <FadeAnimatedText>[
+                                                                                              FadeAnimatedText(
+                                                                                                duration: Duration(seconds: 6),
+                                                                                                "You have been given coins because you are the last view",
+                                                                                                textStyle: TextStyle(
+                                                                                                  color: const Color.fromARGB(101, 255, 255, 255),
+                                                                                                  //   fontSize: 32
+                                                                                                ),
+                                                                                              )
+                                                                                            ]),
+                                                                                          ),
+                                                                                        )))
+                                                                          ],
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                Flexible(
-                                                                    child: Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: [
-                                                                    const Icon(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        Icons
-                                                                            .remove_red_eye_outlined),
-                                                                    Text(
-                                                                        style: const TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                        "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
-                                                        const Spacer(flex: 1,),
-                                                                    algo.canInteractWithMessage
-                                                                        ? Row(
-                                                                            children: [
-                                                                              ChoiceChip(
-                                                                                // backgroundColor: Colors.black,
-                                                                                //    backgroundColor: algo.isLikeSelected ? Colors.black : Colors.white,
-                                                                                elevation: algo.isLikeSelected ? 8 : 0,
-                                                                                avatar: const Icon(color: Colors.green, Icons.thumb_up),
-                                                                                label: Text(algo.copiedLikes.toString() /*Boxes
-                                                                                                  .getMessage()
-                                                                                              .get(
-                                                                                                  'currentMessage')!
-                                                                                              .likes
-                                                                                              .toString()*/
-                                                                                    ),
-                                                                                selected: algo.isLikeSelected,
-                                                                                onSelected: (value) async {
-                                                                                  await algo.likesOrDislikes("like", value);
-                                                                                },
-                                                                                selectedColor: algo.isLikeSelected ? Colors.white : Colors.transparent,
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: 8,
-                                                                              ),
-                                                                              ChoiceChip(
-                                                                                //disabledColor: Colors.red,
-                                                                                // backgroundColor: Colors.red,
-                                                                                elevation: algo.isDislikeSelected ? 8 : 0,
-                  
-                                                                                selectedColor: Colors.white,
-                                                                                onSelected: (value) async {
-                                                                                  await algo.likesOrDislikes("dislike", value);
-                                                                                },
-                                                                                avatar: const Icon(color: Colors.red, Icons.thumb_down),
-                                                                                label: Text(algo.copiedDislikes.toString() /*Boxes
-                                                                                                  .getMessage()
-                                                                                              .get(
-                                                                                                  'currentMessage')!
-                                                                                              .dislikes
-                                                                                              .toString()*/
-                                                                                    ),
-                                                                                selected: algo.isDislikeSelected,
-                                                                              ),
-                                                                            ],
-                                                                          )
-                                                                        : Flexible(child: Container(color: Colors.transparent,
-                                                                        //width: MediaQuery.of(context).size.width,
-                                                                        child:Container(width: 200,height: 100,
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.all(8.0),
-                                                                            child: AnimatedTextKit(repeatForever: true, animatedTexts: <FadeAnimatedText>[
-                                                                                FadeAnimatedText(duration: Duration(seconds: 6),
-                                                                            "You have been given coins because you are the last view",
-                                                                            textStyle: TextStyle(color: const Color.fromARGB(101, 255, 255, 255),
-                                                                          //   fontSize: 32
-                                                                             ) ,)]),
-                                                                          ),
-                                                                        )))
-                                                                  ],
-                                                                ))
-                                                              ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
-                                                  /*    algo.retrievedChats != null
-                                                                        ? Expanded(
-                                                                            child: Container(
-                                                                              //color: Colors.yellow,
-                                                                              child:
-                                                                                  SingleChildScrollView(
-                                                                                child: Padding(
-                                                                                  padding:
-                                                                                      const EdgeInsets
-                                                                                          .all(8.0),
-                                                                                  child: SizedBox(
-                                                                                    width: MediaQuery.of(
-                                                                                            context)
-                                                                                        .size
-                                                                                        .width,
-                                                                                    child: Column(
-                                                                                      mainAxisSize:
-                                                                                          MainAxisSize
-                                                                                              .max,
-                                                                                      crossAxisAlignment:
-                                                                                          CrossAxisAlignment
-                                                                                              .start,
-                                                                                      children: [
-                                                                                        for (var e
-                                                                                            in algo
-                                                                                                .retrievedChats!)
-                                                                                          Card(
-                                                                                            elevation:
-                                                                                                5,
-                                                                                            shape: const RoundedRectangleBorder(
-                                                                                                borderRadius: BorderRadius.only(
-                                                                                                    topLeft: Radius.circular(20),
-                                                                                                    topRight: Radius.circular(20),
-                                                                                                    bottomRight: Radius.circular(20))),
-                                                                                            child:
-                                                                                                Container(
-                                                                                              decoration:
-                                                                                                  const BoxDecoration(
-                                                                                                borderRadius: BorderRadius.only(
-                                                                                                    topLeft: Radius.circular(20),
-                                                                                                    topRight: Radius.circular(20),
-                                                                                                    bottomRight: Radius.circular(20)),
-                                                                                                color:
-                                                                                                    Colors.white,
-                                                                                              ),
-                  
-                                                                                              width:
-                                                                                                  MediaQuery.of(context).size.width / 2,
-                                                                                              //height: 800,
-                                                                                              child:
-                                                                                                  Padding(
-                                                                                                padding:
-                                                                                                    const EdgeInsets.all(8.0),
-                                                                                                child:
-                                                                                                    Column(
-                                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                  children: [
-                                                                                                    Text(
-                                                                                                      e.chat!,
-                                                                                                      maxLines: 5,
-                                                                                                      overflow: TextOverflow.ellipsis,
-                                                                                                      style: TextStyle(fontFamily: "OpenSans",fontSize: 15, fontWeight: FontWeight.bold),
-                                                                                                    ),
-                                                                                                    Text(
-                                                                                                      e.time!,
-                                                                                                      style: const TextStyle(color: Colors.grey),
-                                                                                                    )
-                                                                                                  ],
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          )
-                                                                        : Text(
-                                                                            "Whole lotta empty, send a chat",
-                                                                            textAlign:
-                                                                                TextAlign.center,
-                                                                            style: TextStyle(fontFamily: "OpenSans",
-                                                                                    fontSize: 50,
-                                                                                    fontWeight:
-                                                                                        FontWeight
-                                                                                            .bold,
-                                                                                    color: const Color
-                                                                                        .fromARGB(
-                                                                                            71,
-                                                                                            0,
-                                                                                            0,
-                                                                                            0)),
-                                                                          ),
-                  */
                                                 ],
                                               ),
-                                            ))
-                                          ],
-                                        ),
-                                      )
-                                    : Column(
-                  
-                                        children: [
-                                          Container(
-                                        //    color: Colors.white,
-                                            child: const AlertDialog(
-                                              title: Center(
-                                                  child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text("Empty"),
-                                                  Icon(
-                                                    Icons.warning_amber_outlined,
-                                                    color: Colors.redAccent,
-                                                  )
-                                                ],
-                                              )),
-                                              content: Text(
-                                                  "This is awkward. There are currently no messages to show at this time. You can change that by posting a message"),
                                             ),
-                                          ),
-                                          //   RiveAnimation.asset('assets/rive_assets/plane.riv'),
-                                                                           Image.asset("assets/lol.png"),
-                       ],
-                                      ))),
+                                        )
+                                        : Column(
+                                            children: [
+                                              Container(
+                                                //    color: Colors.white,
+                                                child: const AlertDialog(
+                                                  title: Center(
+                                                      child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text("Empty"),
+                                                      Icon(
+                                                        Icons
+                                                            .warning_amber_outlined,
+                                                        color: Colors.redAccent,
+                                                      )
+                                                    ],
+                                                  )),
+                                                  content: Text(
+                                                      "This is awkward. There are currently no messages to show at this time. You can change that by posting a message"),
+                                                ),
+                                              ),
+                                              //   RiveAnimation.asset('assets/rive_assets/plane.riv'),
+                                              Image.asset("assets/lol.png"),
+                                            ],
+                                          ))),
                         /*         Container(
                             color: Colors.transparent,
                             child: Boxes.getMessage().get('currentMessage') !=
@@ -564,84 +460,102 @@ class _RDHOME2State extends State<RDHOME2> {
                     ),
                   ),
                 ),
-                bottomNavigationBar: 
-                Padding(
+                bottomNavigationBar: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisSize: MainAxisSize.max,mainAxisAlignment: MainAxisAlignment.center,children: [
-                SizedBox(
-                      width: 150,
-                      height: 50,
-                      child: TextButton(onPressed: (){
-                          if (Boxes.getuser().get('mainUser')!.hasPostedMessage ==
-                            true) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              actions: [
-                                SizedBox(
-                                    //   color: Colors.red,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: TextButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                const MaterialStatePropertyAll(
-                                                    Colors.black),
-                                            foregroundColor:
-                                                const MaterialStatePropertyAll(
-                                                    Colors.white),
-                                            shape: MaterialStatePropertyAll(
-                                                RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)))),
-                                        onPressed: () async {
-                                          Navigator.pop(context);
-                
-                                          await ApiService.instance!.signOut();
-                                        },
-                                        child: const Text("Okay")))
-                              ],
-                              content: const Text(
-                                "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages.",
-                                textAlign: TextAlign.center,
-                              ),
-                              title: const Text(
-                                "Slow down",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: "OpenSans",
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                            ),
-                          );
-                        } else {
-                          ApiService.instance!.pageController
-                              .nextPage(
-                                  duration: const Duration(milliseconds: 500),
-                                  curve: Curves.linear)
-                              .then((value) {
-                            setState(() {
-                              ApiService.instance!.ref = false;
-                              Timer(const Duration(seconds: 1), () {
-                                ApiService.instance!.ref = true;
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        height: 50,
+                        child: TextButton(
+                          onPressed: () {
+                            if (Boxes.getuser()
+                                    .get('mainUser')!
+                                    .hasPostedMessage ==
+                                true) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  actions: [
+                                    SizedBox(
+                                        //   color: Colors.red,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: TextButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    const MaterialStatePropertyAll(
+                                                        Colors.black),
+                                                foregroundColor:
+                                                    const MaterialStatePropertyAll(
+                                                        Colors.white),
+                                                shape: MaterialStatePropertyAll(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    20)))),
+                                            onPressed: () async {
+                                              Navigator.pop(context);
+
+                                              await ApiService.instance!
+                                                  .signOut();
+                                            },
+                                            child: const Text("Okay")))
+                                  ],
+                                  content: const Text(
+                                    "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages.",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  title: const Text(
+                                    "Slow down",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                              );
+                            } else {
+                              ApiService.instance!.pageController
+                                  .nextPage(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.linear)
+                                  .then((value) {
+                                setState(() {
+                                  ApiService.instance!.ref = false;
+                                  Timer(const Duration(seconds: 1), () {
+                                    ApiService.instance!.ref = true;
+                                  });
+                                });
                               });
-                            });
-                          });
-                        }
-                      }, child: Text("Post", style: Theme.of(context).textTheme.labelLarge,),style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            }
+                          },
+                          child: Text(
+                            "Post",
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
                                       side: const BorderSide(
-                        color: Color.fromARGB(255, 255, 255, 255)),
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
                                       borderRadius: BorderRadius.circular(10))),
-                                  backgroundColor:
-                                      MaterialStateProperty.all(const Color.fromARGB(255, 0, 0, 0)),
-                                  overlayColor:
-                                      MaterialStateProperty.all(const Color.fromARGB(255, 255, 34, 111))),),
-                    )
-               
-                  ],),
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color.fromARGB(255, 0, 0, 0)),
+                              overlayColor: MaterialStateProperty.all(
+                                  const Color.fromARGB(255, 255, 34, 111))),
+                        ),
+                      )
+                    ],
+                  ),
                 )
                 /*
                 BottomNavigationBar(
@@ -951,7 +865,7 @@ class _TextTimerState extends State<TextTimer> {
   late int remainingTime;
   @override
   void initState() {
-   //await ApiService.instance!.checkLife();
+    //await ApiService.instance!.checkLife();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       int remainingTimeInSeconds = 300
           //  600 (10 mins)
