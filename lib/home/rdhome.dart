@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:coast_terminal/home/const_widgets/post_button.dart';
-import 'package:coast_terminal/home/private_page/private_post_page.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/gestures.dart';
@@ -150,7 +148,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                     Boxes.getMessage().get('currentMessage') !=
                                             null
                                         ? SingleChildScrollView(
-                                          child: Container(
+                                          child: SizedBox(
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
@@ -225,7 +223,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                               .get('currentMessage')!
                                                                               .iconIndex],
                                                                         ),
-                                                                        SizedBox(
+                                                                        const SizedBox(
                                                                             height:
                                                                                 8),
                                                                         FittedBox(
@@ -239,7 +237,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                                 fontSize: 40),
                                                                           ),
                                                                         ),
-                                                                        SizedBox(
+                                                                        const SizedBox(
                                                                             height:
                                                                                 8),
                                                                         AnimatedTextKit(
@@ -249,7 +247,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                             TyperAnimatedText(
                                                                               Boxes.getMessage().get('currentMessage')!.message,
                                                                               textStyle:
-                                                                                  TextStyle(
+                                                                                  const TextStyle(
                                                                                 fontWeight: FontWeight.bold,
                                                                                 fontFamily: "OpenSans",
                                                                                 color: Colors.white,
@@ -258,12 +256,12 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                             ),
                                                                           ],
                                                                         ),
-                                                                        SizedBox(
+                                                                        const SizedBox(
                                                                             height:
                                                                                 8),
                                                                         Row(
                                                                           children: [
-                                                                            Icon(
+                                                                            const Icon(
                                                                               color:
                                                                                   Colors.white,
                                                                               Icons.remove_red_eye_outlined,
@@ -271,7 +269,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                             Text(
                                                                                 style: const TextStyle(color: Colors.white),
                                                                                 "${Boxes.getMessage().get('currentMessage')!.currentViews}/${Boxes.getMessage().get('currentMessage')!.views}"),
-                                                                            Spacer(),
+                                                                            const Spacer(),
                                                                             algo.canInteractWithMessage
                                                                                 ? Row(
                                                                                     children: [
@@ -293,7 +291,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                                         },
                                                                                         selectedColor: algo.isLikeSelected ? Colors.white : Colors.transparent,
                                                                                       ),
-                                                                                      SizedBox(
+                                                                                      const SizedBox(
                                                                                         width: 8,
                                                                                       ),
                                                                                       ChoiceChip(
@@ -321,17 +319,17 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                                     child: Container(
                                                                                         color: Colors.transparent,
                                                                                         //width: MediaQuery.of(context).size.width,
-                                                                                        child: Container(
+                                                                                        child: SizedBox(
                                                                                           width: 200,
                                                                                           height: 100,
                                                                                           child: Padding(
                                                                                             padding: const EdgeInsets.all(8.0),
                                                                                             child: AnimatedTextKit(repeatForever: true, animatedTexts: <FadeAnimatedText>[
                                                                                               FadeAnimatedText(
-                                                                                                duration: Duration(seconds: 6),
+                                                                                                duration: const Duration(seconds: 6),
                                                                                                 "You have been given coins because you are the last view",
-                                                                                                textStyle: TextStyle(
-                                                                                                  color: const Color.fromARGB(101, 255, 255, 255),
+                                                                                                textStyle: const TextStyle(
+                                                                                                  color: Color.fromARGB(101, 255, 255, 255),
                                                                                                   //   fontSize: 32
                                                                                                 ),
                                                                                               )
@@ -360,7 +358,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                               Container(
                                                 //    color: Colors.white,
                                                 child:  AlertDialog(
-                                                  title: Center(
+                                                  title: const Center(
                                                       child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -385,7 +383,7 @@ class _RDHOME2State extends State<RDHOME2> {
                   }
                   ,
                   text: 'sign out',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     decoration: TextDecoration.underline,
                     color: Colors.red,
@@ -556,10 +554,6 @@ class _RDHOME2State extends State<RDHOME2> {
                               });
                             }
                           },
-                          child: Text(
-                            "Post",
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
@@ -571,6 +565,10 @@ class _RDHOME2State extends State<RDHOME2> {
                                   const Color.fromARGB(255, 0, 0, 0)),
                               overlayColor: MaterialStateProperty.all(
                                   const Color.fromARGB(255, 255, 34, 111))),
+                          child: Text(
+                            "Post",
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
                         ),
                       )
                     ],

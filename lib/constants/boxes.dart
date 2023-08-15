@@ -1,4 +1,3 @@
-import 'package:coast_terminal/models/contract_consent_certificate.dart';
 import 'package:coast_terminal/models/message.dart';
 import 'package:coast_terminal/models/root_user.dart';
 import 'package:coast_terminal/models/user_model.dart';

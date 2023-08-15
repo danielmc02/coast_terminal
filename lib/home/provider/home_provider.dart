@@ -237,7 +237,7 @@ class HomeProvider extends ChangeNotifier {
           final es = await childNode.get();
           print("es is: ${es.key}");
           Map spec = es.value as Map;
-          print("Spec is: ${spec}");
+          print("Spec is: $spec");
           int curView = 0;
           int? likes;
           int? dislikes;

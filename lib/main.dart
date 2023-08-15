@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:coast_terminal/models/contract_consent_certificate.dart';
 import 'package:coast_terminal/models/root_user.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:coast_terminal/models/vip_message.dart';

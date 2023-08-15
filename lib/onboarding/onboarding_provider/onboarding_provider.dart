@@ -14,7 +14,7 @@ late PageController pageController;
 ,
     "Message1": {"Title": "I placed 20 dollars on campus", "Message":"Amidst the realm where knowledge thrives, Where eager minds and wisdom connive. On the second floor, a secret concealed, Under a computer, a treasure revealed. Towering walls, a sanctuary so grand, Whispers of stories at your command. Shelves of books, a forest they form, Seek me out, and you'll weather the storm. Where am I found? Can you uncover the clue? Under a computer, in a library true.","Views":"6/10","Likes":"4","Dislikes":"1","Icon":7},
 
-    "Message2": {"Title": "I could use help with this app", "Message":"If you want to contribute to the development of the app join the discord","Views":"6/10","Likes":"4","Dislikes":"0","Icon":7},
+    "Message2": {"Title": "I dont know what to major", "Message":"I have so much going on and can't figure out what to do right now. A lot of people say that majoring in music is fun but I don't know what job you can get with a music degree. I brought the idea to my parents and they said it was a good idea. At this point it seems I'm going to drop out and get into crypto","Views":"6/10","Likes":"4","Dislikes":"0","Icon":7},
 
 
   };

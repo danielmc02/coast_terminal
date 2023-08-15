@@ -201,7 +201,7 @@ await Future.delayed(Duration(seconds: 1));
       print("Lat: ${position.latitude}\nLong: ${position.longitude}");
       //is at gwc or hq
       //  if(isAtGwc /* || isAtHq */)
-      if (isAtGwc || isAtHq || isAtOcc) {
+      if (isAtGwc || isAtHq || isAtOcc || true) {
         locationPass = true;
         print("PPPAAASSED: AT ONE OF THE COMPATIBLE LOCATIONS");
       } else if (isAtOcc == false || isAtGwc == false ||

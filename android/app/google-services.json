@@ -8,6 +8,50 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:265150846702:android:07c3614d08b57ac55f45ff",
+        "android_client_info": {
+          "package_name": "com.eduboard.coast_terminal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265150846702-s9gk83q9rljk9knb4kcp3cn46bdeditt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eduboard.coast_terminal",
+            "certificate_hash": "4d0ac0c26ce5db9b750ee81dfab723ade6bfac9d"
+          }
+        },
+        {
+          "client_id": "265150846702-kdvsckjdedla3u7praor7911d53cmfsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMhE8EdWgDOyz0syGxar2uLGsEMEavp84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265150846702-kdvsckjdedla3u7praor7911d53cmfsq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "265150846702-5o37i5dshnciis8aft5sjodijurvss3t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coastTerminal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:265150846702:android:6a17eb55833441cb5f45ff",
         "android_client_info": {
           "package_name": "com.example.coast_terminal"

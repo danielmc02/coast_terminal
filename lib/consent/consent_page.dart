@@ -1,10 +1,8 @@
+
 import 'dart:io';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:coast_terminal/main.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:coast_terminal/onboarding/onboarding_provider/onboarding_provider.dart';
-import 'package:coast_terminal/onboarding/onboarding_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -56,22 +54,29 @@ class _ConsentPageState extends State<ConsentPage> {
                               onPressed: () async {
                                 if (algo.pageController.page == 0) {
                                   if (algo.hasConsented) {
+                                    if(Platform.isIOS)
+                                    {
+final status = await AppTrackingTransparency.requestTrackingAuthorization();
+print(status);
+print('sexxxyxyxyxyx');
+                                    }
+
                                     algo.createRootUser();
                                   } else {}
                                 } else if (algo.pageController.page == 1) {
                                   print("AT TOS");
                                   await algo.pageController.previousPage(
-                                      duration: Duration(seconds: 1),
+                                      duration: const Duration(seconds: 1),
                                       curve: Curves.easeOutSine);
                                   algo.changeTitle(0);
                                 }
                               },
                               style: ButtonStyle(
                                   backgroundColor: algo.hasConsented == true
-                                      ? MaterialStatePropertyAll(Colors.black)
-                                      : MaterialStatePropertyAll(Colors.grey),
+                                      ? const MaterialStatePropertyAll(Colors.black)
+                                      : const MaterialStatePropertyAll(Colors.grey),
                                   foregroundColor:
-                                      MaterialStatePropertyAll(Colors.white)),
+                                      const MaterialStatePropertyAll(Colors.white)),
                               child: Text(
                                 algo.buttonTitle,
                                 style: const TextStyle(
@@ -101,7 +106,7 @@ class _ConsentPageState extends State<ConsentPage> {
                       fontWeight: FontWeight.bold),
                 )),
               ),*/
-           ,   body: PageView(controller: algo.pageController,children: [FirstPage(),ThirdPage()]),
+           ,   body: PageView(controller: algo.pageController,children: const [FirstPage(),ThirdPage()]),
             ),
           )),
     );
@@ -119,20 +124,20 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<OnboardingProvider>(
-      builder: (context, algo, child) => Container(width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height,child: 
+      builder: (context, algo, child) => SizedBox(width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height,child: 
     Column(
       children: [
-        Expanded(flex: 25,child: Container(
+        Expanded(flex: 25,child: SizedBox(
           width: MediaQuery.of(context).size.width,
          
-        child: Column(
+        child: const Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Text(
                           "Welcome to\nEduboard",
                           style: TextStyle(
@@ -150,7 +155,7 @@ class _FirstPageState extends State<FirstPage> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Spacer(flex: 16,),
+                       const Spacer(flex: 16,),
                                     Container(
                                           decoration: BoxDecoration(
                                     border: Border.all(
@@ -159,9 +164,9 @@ class _FirstPageState extends State<FirstPage> {
                                             const Color.fromARGB(255, 44, 44, 44)),
                                     borderRadius: BorderRadius.circular(20)),
                               //   color: Colors.red,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: const Row(
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
@@ -202,7 +207,7 @@ class _FirstPageState extends State<FirstPage> {
                                 ),
                               ),
                             ),
-                         Spacer(flex: 16,),
+                         const Spacer(flex: 16,),
                             Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
@@ -211,9 +216,9 @@ class _FirstPageState extends State<FirstPage> {
                                             const Color.fromARGB(255, 44, 44, 44)),
                                     borderRadius: BorderRadius.circular(20)),
                               // color: Colors.red,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: const Row(
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
@@ -253,14 +258,14 @@ class _FirstPageState extends State<FirstPage> {
                                 ),
                               ),
                             ),
-                            Spacer(flex: 16,),
+                            const Spacer(flex: 16,),
                             GestureDetector(
                               onTap: () async {
                                 print("TAPED");
-                                final Uri _url =
+                                final Uri url =
                                     Uri.parse('https://discord.gg/4Khfd2rHUk');
-                                if (!await launchUrl(_url)) {
-                                  throw Exception('Could not launch $_url');
+                                if (!await launchUrl(url)) {
+                                  throw Exception('Could not launch $url');
                                 }
                               },
                               child: Container(
@@ -271,9 +276,9 @@ class _FirstPageState extends State<FirstPage> {
                                             const Color.fromARGB(255, 44, 44, 44)),
                                     borderRadius: BorderRadius.circular(20)),
                                 // color: Colors.red,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: const Row(
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
@@ -317,18 +322,18 @@ class _FirstPageState extends State<FirstPage> {
                                 ),
                               ),
                             ),
-                            Spacer(flex: 16,),
+                            const Spacer(flex: 16,),
                                
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Card(
                                 elevation: 2,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                   Radius.circular(20),
                                 )),
                                 child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(20),
                                       ),
@@ -339,7 +344,7 @@ class _FirstPageState extends State<FirstPage> {
                                     child: Row(
                                       children: [
                                         Checkbox(
-                                          side: BorderSide(
+                                          side: const BorderSide(
                                               color: Colors.white, width: 2),
                                           value: algo.hasConsented,
                                           onChanged: (value) {
@@ -350,17 +355,17 @@ class _FirstPageState extends State<FirstPage> {
                                         Flexible(
                                           child: RichText(
                                             text: TextSpan(
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.white,
                                               ),
                                               children: [
-                                                TextSpan(
+                                                const TextSpan(
                                                   text:
                                                       "I have read and agree to the ",
                                                 ),
                                                 TextSpan(
                                                     text: "Terms & Service",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: Colors.blue,
                                                       decoration:
                                                           TextDecoration.underline,
@@ -368,7 +373,7 @@ class _FirstPageState extends State<FirstPage> {
                                                     recognizer: TapGestureRecognizer()
                                                       ..onTap = () async {
                                                         print("TAPPED");
-                            await algo.pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeOutSine)    ;                                          
+                            await algo.pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.easeOutSine)    ;                                          
                                                       }),
                                               ],
                                             ),
@@ -486,9 +491,9 @@ class _ThirdPageState extends State<ThirdPage> {
       builder: (context, algo, child) => Scrollbar(
         
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0,right:16.0,top: 40),
+          padding: const EdgeInsets.only(left: 16.0,right:16.0,top: 40),
           child: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -507,7 +512,7 @@ class _ThirdPageState extends State<ThirdPage> {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: Column(
+                    child: const Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -537,7 +542,7 @@ class _ThirdPageState extends State<ThirdPage> {
                     ),
                   ),*/
                   ,
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   const Text(
                     'Introduction',
                     style: TextStyle(
@@ -575,10 +580,10 @@ class _ThirdPageState extends State<ThirdPage> {
                           recognizer: TapGestureRecognizer()
                                                     ..onTap = ()async{
                                                                      
-                                final Uri _url =
+                                final Uri url =
                                     Uri.parse('https://discord.gg/4Khfd2rHUk');
-                                if (!await launchUrl(_url)) {
-                                  throw Exception('Could not launch $_url');
+                                if (!await launchUrl(url)) {
+                                  throw Exception('Could not launch $url');
                                 }
                                                     },
                           style: const TextStyle(

@@ -182,14 +182,14 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                               child: algo.image == null
                                   ? Column(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.photo,
                                           size: 50,
                                         ),
                                         Text(
                                           "Post a picture from your ${Platform.isAndroid ? "gallery" : "photos"}",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontFamily: "OpenSans",
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),
@@ -200,7 +200,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 24,
                         ),
                         GestureDetector(
@@ -273,14 +273,14 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                               },
                             );
                           },
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             backgroundColor: Colors.black,
           
                             minRadius: 65,
                             //radius: 70,
                             maxRadius: 70,
                             child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -300,7 +300,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                                 )),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         )
                       ],
@@ -342,7 +342,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "Title: ",
                                 style: TextStyle(
                                     fontFamily: "OpenSans",
@@ -356,7 +356,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                                       animatedTexts: <FadeAnimatedText>[
                                           FadeAnimatedText("Needs a title")
                                         ])
-                                  : Icon(
+                                  : const Icon(
                                       Icons.check,
                                       color: Colors.green,
                                     )
@@ -364,7 +364,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                           ),
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "Message: ",
                                 style: TextStyle(
                                     fontFamily: "OpenSans",
@@ -376,7 +376,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                                   isRepeatingAnimation: true,
                                   animatedTexts: <FadeAnimatedText>[
                                     FadeAnimatedText("Needs a message")
-                                  ]) : Icon(
+                                  ]) : const Icon(
                                       Icons.check,
                                       color: Colors.green,
                                     )
@@ -386,7 +386,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                             children: [
                               Text(
                               algo.hasPicture ?   "Picture: +10" : "Picture: ",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16),
@@ -398,7 +398,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                             children: [
                               Text(
                                 algo.urlValue != null ?   "Link: +10" : "Link: ",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16),
@@ -409,14 +409,14 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                             children: [
                               Text(
                                 "Cost: ${algo.costValue} ",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontFamily: "OpenSans",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24),
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.generating_tokens,
-                                color: const Color.fromARGB(255, 177, 159, 0),
+                                color: Color.fromARGB(255, 177, 159, 0),
                               ),
                             ],
                           )

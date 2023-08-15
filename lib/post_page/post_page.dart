@@ -141,7 +141,7 @@ class _PostPageState extends State<PostPage> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            body: PostBody()),
+            body: const PostBody()),
       ),
     );
   }

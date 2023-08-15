@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:coast_terminal/consent/consent_page.dart';
 import 'package:coast_terminal/constants/boxes.dart';
 import 'package:coast_terminal/onboarding/check_provider/check_provider.dart';
@@ -66,7 +67,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void initState() {
     //  loadAd();
     _pageController = PageController();
-
     super.initState();
   }
 
@@ -108,8 +108,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                   Row(
                     children: [
-                      Icon(Icons.generating_tokens,color: const Color.fromARGB(255, 177, 159, 0),),
-                      Text("Coins: ${Boxes.getRootUser().get('CurrentRootUser')!.coins}",style: TextStyle(fontFamily: "OpenSans",color: Colors.black,fontWeight: FontWeight.bold),),
+                      const Icon(Icons.generating_tokens,color: Color.fromARGB(255, 177, 159, 0),),
+                      Text("Coins: ${Boxes.getRootUser().get('CurrentRootUser')!.coins}",style: const TextStyle(fontFamily: "OpenSans",color: Colors.black,fontWeight: FontWeight.bold),),
                     ],
                   )
                 /*  GestureDetector(
@@ -757,7 +757,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ],
               ),
             ),
-          ): ConsentPage()
+          ): const ConsentPage()
         
         ),
       ),
@@ -786,7 +786,7 @@ class TOS extends StatelessWidget {
       body: Scrollbar(
         
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0,right:16.0),
+          padding: const EdgeInsets.only(left: 16.0,right:16.0),
           child: SingleChildScrollView(
             child: Container(
               color: Colors.white,
@@ -799,7 +799,7 @@ class TOS extends StatelessWidget {
               
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: Column(
+                    child: const Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -829,7 +829,7 @@ class TOS extends StatelessWidget {
                     ),
                   ),*/
                   ,
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   const Text(
                     'Introduction',
                     style: TextStyle(
@@ -867,10 +867,10 @@ class TOS extends StatelessWidget {
                           recognizer: TapGestureRecognizer()
                                                     ..onTap = ()async{
                                                                      
-                                final Uri _url =
+                                final Uri url =
                                     Uri.parse('https://discord.gg/4Khfd2rHUk');
-                                if (!await launchUrl(_url)) {
-                                  throw Exception('Could not launch $_url');
+                                if (!await launchUrl(url)) {
+                                  throw Exception('Could not launch $url');
                                 }
                                                     },
                           style: const TextStyle(

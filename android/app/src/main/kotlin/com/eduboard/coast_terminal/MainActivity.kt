@@ -1,4 +1,4 @@
-package com.example.coast_terminal
+package com.eduboard.coast_terminal
 
 import io.flutter.embedding.android.FlutterActivity
 

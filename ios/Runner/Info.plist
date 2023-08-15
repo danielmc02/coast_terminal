@@ -45,7 +45,7 @@
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-3530957535788194~2010813954</string>
     <key>NSUserTrackingUsageDescription</key>
-    <string>This app usessss tracking data to show you personalized ads</string>
+    <string>This is used in order to deliver personalized ads</string>
     <key>CFBundleIconName</key>
     <string>AppIcon</string>
     <key>NSPhotoLibraryUsageDescription</key>

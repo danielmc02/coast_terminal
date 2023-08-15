@@ -2,10 +2,7 @@ import 'dart:io';
 
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/vip_message.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../constants/boxes.dart';
@@ -43,7 +40,7 @@ class PrivPostProvider extends ChangeNotifier {
 
   bool hasPicture = false;
 
-  RegExp _urlRegex = RegExp(
+  final RegExp _urlRegex = RegExp(
     r'^(https?://)?([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+.*)$',
     caseSensitive: false,
     multiLine: false,
@@ -97,7 +94,7 @@ class PrivPostProvider extends ChangeNotifier {
       "Message": messageController.text,
       "Title": titleController.text,
       "PhotoUrl": image != null ? URL : null,
-      "Link": urlValue != null ? urlValue : null
+      "Link": urlValue
     });
     //create local user's vip message
     VipMessage ussersVipMessage = VipMessage(
