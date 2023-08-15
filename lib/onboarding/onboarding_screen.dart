@@ -170,8 +170,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SingleChildScrollView(
-                                                  scrollDirection: Axis.horizontal,
+                                                FittedBox(
                                                   child: Row(
                                                     children: [
                                                       CircleAvatar(
@@ -818,7 +817,7 @@ class TOS extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 16),
-                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering Edubored you are required to let us verify you are on a supported campus as well as finish watching an ad.")
+                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering Eduboard you are required to let us verify you are on a supported campus as well as finish watching an ad.")
                       ],
                     ),
                   )

@@ -115,51 +115,54 @@ await Future.delayed(Duration(seconds: 1));
   String campusStatus = "On a verified campus?";
 */
 
-Future<Position> _determinePosition() async {
-  bool serviceEnabled;
-  LocationPermission permission;
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-  // Test if location services are enabled.
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    // Location services are not enabled don't continue
-    // accessing the position and request users of the 
-    // App to enable the location services.
-    return Future.error('Location services are disabled.');
-  }
-
-  permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      // Permissions are denied, next time you could try
-      // requesting permissions again (this is also where
-      // Android's shouldShowRequestPermissionRationale 
-      // returned true. According to Android guidelines
-      // your App should show an explanatory UI now.
-      return Future.error('Location permissions are denied');
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
     }
-  }
-  
-  if (permission == LocationPermission.deniedForever) {
-    // Permissions are denied forever, handle appropriately. 
-    return Future.error(
-      'Location permissions are permanently denied, we cannot request permissions.');
-  } 
 
-  // When we reach here, permissions are granted and we can
-  // continue accessing the position of the device.
-  Position? p;
-   await Geolocator.getCurrentPosition(timeLimit: const Duration(seconds: 15),desiredAccuracy: LocationAccuracy.best).then((value) => p = value);
-   return p!;
-}
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    Position? p;
+    await Geolocator.getCurrentPosition(
+            timeLimit: const Duration(seconds: 15),
+            desiredAccuracy: LocationAccuracy.best)
+        .then((value) => p = value);
+    return p!;
+  }
 
   bool? locationPass;
   bool? progLoad;
   bool? adPass;
-  
+
   Future<void> check2(BuildContext context) async {
-        progLoad = true;
+    progLoad = true;
 
     popScope = false;
     notifyListeners();
@@ -169,22 +172,23 @@ Future<Position> _determinePosition() async {
     //
 
     LatLngBounds goldenWestCollegeArea = LatLngBounds(
-        const LatLng(33.737299, -118.006907), const LatLng(33.73008, -117.997999));
+        const LatLng(33.737299, -118.006907),
+        const LatLng(33.73008, -117.997999));
 
     LatLngBounds orangeCoastCollegeArea = LatLngBounds(
-        const LatLng(33.675449, -117.918283), const LatLng(33.667382, -117.907604));
+        const LatLng(33.675449, -117.918283),
+        const LatLng(33.667382, -117.907604));
 
-    LatLngBounds homeDad = LatLngBounds(
-        const LatLng(33.67774, -117.951247), const LatLng(33.677386, -117.951004));
+    LatLngBounds homeDad = LatLngBounds(const LatLng(33.67774, -117.951247),
+        const LatLng(33.677386, -117.951004));
 
     ///
     try {
-      
       final Position position = await _determinePosition();
-print("Got loc");
+      print("Got loc");
 
-      bool isAtHq = homeDad
-          .contains(LatLng(position.latitude, position.longitude));
+      bool isAtHq =
+          homeDad.contains(LatLng(position.latitude, position.longitude));
 
       bool isAtOcc = orangeCoastCollegeArea
           .contains(LatLng(position.latitude, position.longitude));
@@ -196,31 +200,27 @@ print("Got loc");
       print("GWC: $isAtGwc");
       print("Lat: ${position.latitude}\nLong: ${position.longitude}");
       //is at gwc or hq
-    //  if(isAtGwc /* || isAtHq */)
-      if(isAtGwc  || isAtHq )
-      {
-      locationPass = true;
-
-      }
-      else if(isAtOcc /* || isAtHq */|| isAtHq == false) //remove isathq = false because this is only to access when not on valid location
-      {
-      locationPass = true;
-
-      }
-      else
+      //  if(isAtGwc /* || isAtHq */)
+      if (isAtGwc || isAtHq || isAtOcc) {
+        locationPass = true;
+        print("PPPAAASSED: AT ONE OF THE COMPATIBLE LOCATIONS");
+      } else if (isAtOcc == false || isAtGwc == false ||
+          isAtHq ==
+              false) //remove isathq = false because this is only to access when not on valid location
       {
         throw "No location found";
+      } else {
+        throw "No location found";
       }
-          notifyListeners();
-
+      notifyListeners();
     } catch (e) {
       print("There was an error in location rendering: $e");
       locationPass = false;
       progLoad = false;
       preButton = "Try Again";
       popScope = true;
-          notifyListeners();
-  return;
+      notifyListeners();
+      return;
     }
 
 //ad time
@@ -228,7 +228,20 @@ print("Got loc");
       print("Running ad setup");
       RewardedAd? rewardedAd;
 
+/*
+Prod
       final adUnitId = Platform.isAndroid
+          ? 'ca-app-pub-3530957535788194/2672039372'
+          : 'ca-app-pub-3530957535788194/4368264427';
+*/
+/*
+Test
+    final adUnitId = Platform.isAndroid
+          ? 'ca-app-pub-3940256099942544/5224354917'
+          : 'ca-app-pub-3940256099942544/1712485313';
+*/
+      
+    final adUnitId = Platform.isAndroid
           ? 'ca-app-pub-3940256099942544/5224354917'
           : 'ca-app-pub-3940256099942544/1712485313';
       await RewardedAd.load(
@@ -247,10 +260,10 @@ print("Got loc");
                             */
 
                 ad.dispose();
-                                                await ApiService.instance!.signInAnon();
+                await ApiService.instance!.signInAnon();
 
                 Navigator.pop(context);
-               // await ApiService.instance!.signInAnon();
+                // await ApiService.instance!.signInAnon();
               },
             );
             print('$ad loaded');
@@ -261,15 +274,17 @@ print("Got loc");
             await Future.delayed(const Duration(seconds: 1));
 //popScope = true;
             await rewardedAd!.show(
-              onUserEarnedReward: (ad, reward) async{
-
+              onUserEarnedReward: (ad, reward) async {
                 print("Award");
               },
             );
           }, onAdFailedToLoad: (LoadAdError error) {
             print(error);
-                  adPass = false;
-      notifyListeners();
+            adPass = false;
+                progLoad = false;
+      preButton = "Try Again";
+      popScope = true;
+            notifyListeners();
 
             throw error;
           }));
@@ -278,9 +293,11 @@ print("Got loc");
     } catch (e) {
       print("Ad Error: $e");
       adPass = false;
+      progLoad = false;
+      preButton = "Try Again";
+      popScope = true;
       notifyListeners();
       return;
     }
-  } 
-  
+  }
 }

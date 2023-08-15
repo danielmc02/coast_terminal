@@ -23,8 +23,6 @@ class ConsentProvider extends ChangeNotifier {
   bool extrovertedCat = false;
   bool introvertedCat = false;
 
-
-
   Future<void> pickedCategory(int i) async {
     switch (i) {
       case 1:
@@ -66,9 +64,6 @@ class ConsentProvider extends ChangeNotifier {
     }
   }
 
- 
-
-
   Future<void> getLocation(BuildContext context) async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -100,82 +95,73 @@ class ConsentProvider extends ChangeNotifier {
         double latitude = position.latitude;
         double longitude = position.longitude;
         print("current location is:\nLat:$latitude\nLong:$longitude");
-      LatLngBounds goldenWestCollegeArea = LatLngBounds(
-            const LatLng(33.737299, -118.006907), const LatLng(33.73008, -117.997999));
-        bool isAtGwc = goldenWestCollegeArea.contains(LatLng(latitude, longitude));
+        LatLngBounds goldenWestCollegeArea = LatLngBounds(
+            const LatLng(33.737299, -118.006907),
+            const LatLng(33.73008, -117.997999));
+        bool isAtGwc =
+            goldenWestCollegeArea.contains(LatLng(latitude, longitude));
 
         LatLngBounds orangeCoastCollegeArea = LatLngBounds(
-            const LatLng(33.675449, -117.918283), const LatLng(33.667382, -117.907604));
+            const LatLng(33.675449, -117.918283),
+            const LatLng(33.667382, -117.907604));
 
-        LatLngBounds homeDad = LatLngBounds(
-            const LatLng(33.67774, -117.951247), const LatLng(33.677386, -117.951004));
+        LatLngBounds homeDad = LatLngBounds(const LatLng(33.67774, -117.951247),
+            const LatLng(33.677386, -117.951004));
         bool isAtHome = homeDad.contains(LatLng(latitude, longitude));
         bool isAtOcc =
             orangeCoastCollegeArea.contains(LatLng(latitude, longitude));
-            if((isAtOcc || isAtHome) && choseOcc)
-            {
-              await pageController.nextPage( duration:
-                                          const Duration(milliseconds: 900),
-                                      curve: Curves.linear);
-                                      print("Valid");
-            }
-            else if(/*( */isAtGwc /*|| isAtHome)*/ && choseGwc)
-            {
-              await pageController.nextPage( duration:
-                                          const Duration(milliseconds: 900),
-                                      curve: Curves.linear);
-                                      print("Valid");
-            }
-            else
-            {
-              print("error in location");
-                                   showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  actionsAlignment: MainAxisAlignment.center,
-                                  actions: [
-                                    SizedBox(
-                                        //   color: Colors.red,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: TextButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    const MaterialStatePropertyAll(
-                                                        Color.fromARGB(255, 224, 202, 0)),
-                                                foregroundColor:
-                                                    const MaterialStatePropertyAll(
-                                                        Colors.white),
-                                                shape: MaterialStatePropertyAll(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    20)))),
-                                            onPressed: () async {
-                                              Navigator.pop(context);
+        if ((isAtOcc || isAtHome) && choseOcc) {
+          await pageController.nextPage(
+              duration: const Duration(milliseconds: 900),
+              curve: Curves.linear);
+          print("Valid");
+        } else if (/*( */ isAtGwc /*|| isAtHome)*/ && choseGwc) {
+          await pageController.nextPage(
+              duration: const Duration(milliseconds: 900),
+              curve: Curves.linear);
+          print("Valid");
+        } else {
+          print("error in location");
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    actionsAlignment: MainAxisAlignment.center,
+                    actions: [
+                      SizedBox(
+                          //   color: Colors.red,
+                          width: MediaQuery.of(context).size.width,
+                          child: TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      const MaterialStatePropertyAll(
+                                          Color.fromARGB(255, 224, 202, 0)),
+                                  foregroundColor:
+                                      const MaterialStatePropertyAll(
+                                          Colors.white),
+                                  shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)))),
+                              onPressed: () async {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Okay")))
+                    ],
+                    //alignment: Alignment.center,
 
-                                        
-                                            },
-                                            child: const Text("Okay")))
-                                  ],
-                                  //alignment: Alignment.center,
-
-                                  content: const Text(
-"It seems that we can't verify that you are within your campus perimeter. Please make sure that you are on campus when you press \"confirm\" "
-,                                    textAlign: TextAlign.center,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  title: const Text(
-                                    "Uh oh",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ));
-            
-            }
+                    content: const Text(
+                      "It seems that we can't verify that you are within your campus perimeter. Please make sure that you are on campus when you press \"confirm\" ",
+                      textAlign: TextAlign.center,
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    title: const Text(
+                      "Uh oh",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ));
+        }
       }
     } else if (permission == LocationPermission.deniedForever) {
       print("Denied forever");
@@ -184,91 +170,75 @@ class ConsentProvider extends ChangeNotifier {
       print("unable to determine");
     } else if (permission == LocationPermission.whileInUse) {
       print("Only while in use");
-         Position position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
-        double latitude = position.latitude;
-        double longitude = position.longitude;
-        print("current location is:\nLat:$latitude\nLong:$longitude");
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      double latitude = position.latitude;
+      double longitude = position.longitude;
+      print("current location is:\nLat:$latitude\nLong:$longitude");
 
+      LatLngBounds goldenWestCollegeArea = LatLngBounds(
+          const LatLng(33.737299, -118.006907),
+          const LatLng(33.73008, -117.997999));
+      bool isAtGwc =
+          goldenWestCollegeArea.contains(LatLng(latitude, longitude));
 
-        LatLngBounds goldenWestCollegeArea = LatLngBounds(
-            const LatLng(33.737299, -118.006907), const LatLng(33.73008, -117.997999));
-        bool isAtGwc = goldenWestCollegeArea.contains(LatLng(latitude, longitude));
+      LatLngBounds orangeCoastCollegeArea = LatLngBounds(
+          const LatLng(33.675449, -117.918283),
+          const LatLng(33.667382, -117.907604));
 
-        LatLngBounds orangeCoastCollegeArea = LatLngBounds(
-            const LatLng(33.675449, -117.918283), const LatLng(33.667382, -117.907604));
+      LatLngBounds homeDad = LatLngBounds(const LatLng(33.67774, -117.951247),
+          const LatLng(33.677386, -117.951004));
+      bool isAtHome = homeDad.contains(LatLng(latitude, longitude));
+      bool isAtOcc =
+          orangeCoastCollegeArea.contains(LatLng(latitude, longitude));
+      if ((isAtOcc || isAtHome) && choseOcc) {
+        await pageController.nextPage(
+            duration: const Duration(milliseconds: 900), curve: Curves.linear);
+        print("Valid");
+      } else if (/*( */ isAtGwc /*|| isAtHome)*/ && choseGwc) {
+        await pageController.nextPage(
+            duration: const Duration(milliseconds: 900), curve: Curves.linear);
+        print("Valid");
+      } else {
+        print("error in location");
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  actionsAlignment: MainAxisAlignment.center,
+                  actions: [
+                    SizedBox(
+                        //   color: Colors.red,
+                        width: MediaQuery.of(context).size.width,
+                        child: TextButton(
+                            style: ButtonStyle(
+                                backgroundColor: const MaterialStatePropertyAll(
+                                    Color.fromARGB(255, 224, 202, 0)),
+                                foregroundColor: const MaterialStatePropertyAll(
+                                    Colors.white),
+                                shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)))),
+                            onPressed: () async {
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Okay")))
+                  ],
+                  //alignment: Alignment.center,
 
-        LatLngBounds homeDad = LatLngBounds(
-            const LatLng(33.67774, -117.951247), const LatLng(33.677386, -117.951004));
-        bool isAtHome = homeDad.contains(LatLng(latitude, longitude));
-        bool isAtOcc =
-            orangeCoastCollegeArea.contains(LatLng(latitude, longitude));
-            if(( isAtOcc || isAtHome) && choseOcc)
-            {
-              await pageController.nextPage( duration:
-                                          const Duration(milliseconds: 900),
-                                      curve: Curves.linear);
-                                      print("Valid");
-            }
-            else if(/*( */isAtGwc /*|| isAtHome)*/ && choseGwc)
-            {
-              await pageController.nextPage( duration:
-                                          const Duration(milliseconds: 900),
-                                      curve: Curves.linear);
-                                      print("Valid");
-            }
-            else
-            {
-              print("error in location");
-                                  showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  actionsAlignment: MainAxisAlignment.center,
-                                  actions: [
-                                    SizedBox(
-                                        //   color: Colors.red,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: TextButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    const MaterialStatePropertyAll(
-                                                      Color.fromARGB(255, 224, 202, 0)),
-                                                foregroundColor:
-                                                    const MaterialStatePropertyAll(
-                                                        Colors.white),
-                                                shape: MaterialStatePropertyAll(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    20)))),
-                                            onPressed: () async {
-                                              Navigator.pop(context);
-
-                                        
-                                            },
-                                            child: const Text("Okay")))
-                                  ],
-                                  //alignment: Alignment.center,
-
-                                  content: const Text(
-"It seems that we can't verify that you are within your campus perimeter. Please make sure that you are on campus when you press \"confirm\" "
-,                                    textAlign: TextAlign.center,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  title: const Text(
-                                    "Uh oh",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ));
-              
-            }
-     
+                  content: const Text(
+                    "It seems that we can't verify that you are within your campus perimeter. Please make sure that you are on campus when you press \"confirm\" ",
+                    textAlign: TextAlign.center,
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  title: const Text(
+                    "Uh oh",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ));
+      }
     }
   }
-
 }

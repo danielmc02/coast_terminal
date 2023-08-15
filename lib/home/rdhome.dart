@@ -5,6 +5,7 @@ import 'package:coast_terminal/home/const_widgets/post_button.dart';
 import 'package:coast_terminal/home/private_page/private_post_page.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
@@ -358,7 +359,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                             children: [
                                               Container(
                                                 //    color: Colors.white,
-                                                child: const AlertDialog(
+                                                child:  AlertDialog(
                                                   title: Center(
                                                       child: Row(
                                                     mainAxisAlignment:
@@ -373,8 +374,26 @@ class _RDHOME2State extends State<RDHOME2> {
                                                       )
                                                     ],
                                                   )),
-                                                  content: Text(
-                                                      "This is awkward. There are currently no messages to show at this time. You can change that by posting a message"),
+                                                  content: RichText(
+            text: TextSpan(
+              text: 'This is awkward. There are currently no messages to show at this time. You can change that by posting a message. Or you can ',
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                  recognizer: TapGestureRecognizer()..onTap = ()async{
+                   await ApiService.instance!.signOut();
+                  }
+                  ,
+                  text: 'sign out',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    decoration: TextDecoration.underline,
+                    color: Colors.red,
+                  ),
+                ),
+              ],
+            ),
+          ),
                                                 ),
                                               ),
                                               //   RiveAnimation.asset('assets/rive_assets/plane.riv'),

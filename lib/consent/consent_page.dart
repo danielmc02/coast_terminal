@@ -41,45 +41,48 @@ class _ConsentPageState extends State<ConsentPage> {
                 
               },child: Icon(Icons.arrow_back),foregroundColor: Colors.white,backgroundColor: Colors.black,) : null, 
           */
-              bottomNavigationBar: algo.hasConsented ? Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: 250,
-                        height: 50,
-                        child: TextButton(
-                            onPressed: () async {
-                              if (algo.pageController.page == 0) {
-                                if (algo.hasConsented) {
-                                  algo.createRootUser();
-                                } else {}
-                              } else if (algo.pageController.page == 1) {
-                                print("AT TOS");
-                                await algo.pageController.previousPage(
-                                    duration: Duration(seconds: 1),
-                                    curve: Curves.easeOutSine);
-                                algo.changeTitle(0);
-                              }
-                            },
-                            style: ButtonStyle(
-                                backgroundColor: algo.hasConsented == true
-                                    ? MaterialStatePropertyAll(Colors.black)
-                                    : MaterialStatePropertyAll(Colors.grey),
-                                foregroundColor:
-                                    MaterialStatePropertyAll(Colors.white)),
-                            child: Text(
-                              algo.buttonTitle,
-                              style: const TextStyle(
-                                  fontFamily: "OpenSans",
-                                  fontWeight: FontWeight.bold),
-                            )),
+              bottomNavigationBar: algo.hasConsented ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 250,
+                          height: 50,
+                          child: TextButton(
+                              onPressed: () async {
+                                if (algo.pageController.page == 0) {
+                                  if (algo.hasConsented) {
+                                    algo.createRootUser();
+                                  } else {}
+                                } else if (algo.pageController.page == 1) {
+                                  print("AT TOS");
+                                  await algo.pageController.previousPage(
+                                      duration: Duration(seconds: 1),
+                                      curve: Curves.easeOutSine);
+                                  algo.changeTitle(0);
+                                }
+                              },
+                              style: ButtonStyle(
+                                  backgroundColor: algo.hasConsented == true
+                                      ? MaterialStatePropertyAll(Colors.black)
+                                      : MaterialStatePropertyAll(Colors.grey),
+                                  foregroundColor:
+                                      MaterialStatePropertyAll(Colors.white)),
+                              child: Text(
+                                algo.buttonTitle,
+                                style: const TextStyle(
+                                    fontFamily: "OpenSans",
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        ),
                       ),
-                    ),
-                  ],
-                
+                    ],
+                  
+                ),
               )
 : null
               /*       appBar: AppBar(
@@ -131,7 +134,7 @@ class _FirstPageState extends State<FirstPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                          "Welcome to\nEdubored",
+                          "Welcome to\nEduboard",
                           style: TextStyle(
                               fontFamily: "OpenSans",
                               fontSize: 42,
@@ -522,7 +525,7 @@ class _ThirdPageState extends State<ThirdPage> {
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 16),
-                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering Edubored you are required to let us verify you are on a supported campus as well as finish watching an ad.")
+                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering Eduboard you are required to let us verify you are on a supported campus as well as finish watching an ad. Our app does check your location but we do not collect or share any personal information or posts.")
                       ],
                     ),
                   )

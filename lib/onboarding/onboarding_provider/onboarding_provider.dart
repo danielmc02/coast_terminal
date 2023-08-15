@@ -10,7 +10,7 @@ late PageController pageController;
  int? index;
  Map? currentMes;
    Map messages = {
-    "Message0": {"Title": "How do you feel about marijuana?", "Message":"I feel some of you guys should really try marijuanna. I sometimes will see a student look like they're ready to die.","Views":"8/10","Likes":"6","Dislikes":"1","Icon":3}
+    "Message0": {"Title": "Being a broke student", "Message":" Navigating college on a shoestring budget, I innovate frugal adventures while savoring every laughter-filled moments.","Views":"8/10","Likes":"6","Dislikes":"1","Icon":3}
 ,
     "Message1": {"Title": "I placed 20 dollars on campus", "Message":"Amidst the realm where knowledge thrives, Where eager minds and wisdom connive. On the second floor, a secret concealed, Under a computer, a treasure revealed. Towering walls, a sanctuary so grand, Whispers of stories at your command. Shelves of books, a forest they form, Seek me out, and you'll weather the storm. Where am I found? Can you uncover the clue? Under a computer, in a library true.","Views":"6/10","Likes":"4","Dislikes":"1","Icon":7},
 
@@ -65,7 +65,7 @@ OnboardingProvider()
         notifyListeners();
         break;
       case 0:
-        subHeading = "Incognito sign ups that expire in 12 hour";
+        subHeading = "Incognito sign ups that expire in 5 minutes";
         firstCircle = Colors.grey;
         secondCircle = Colors.black;
         thirdCircle = Colors.grey;
