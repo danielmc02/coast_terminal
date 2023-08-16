@@ -1,5 +1,6 @@
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/message.dart';
+import 'package:coast_terminal/models/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../../constants/boxes.dart';
@@ -11,7 +12,7 @@ class HomeProvider extends ChangeNotifier {
   late BuildContext context;
   late MessageInstance? curMess;
   late int choiceLikes;
-   late bool hasBeenTainted;
+ bool hasBeenTainted = false;
 
   HomeProvider(BuildContext contextz) {
     context = contextz;
@@ -20,7 +21,9 @@ class HomeProvider extends ChangeNotifier {
   _init() async {
     print("start of home");
   
+ bool hasBeenTainted = false;
     HomeBuild();
+
   }
 
   List<ChatInstance>? retrievedChats;
@@ -131,6 +134,15 @@ class HomeProvider extends ChangeNotifier {
   bool canInteractWithMessage = true;
 
   Future<void> HomeBuild() async {
+    if(Boxes.getuser().get('mainUser')!.currentMessageTainted ==false )
+    {
+      hasBeenTainted = false;
+    }
+    else
+    {
+            hasBeenTainted = true;
+
+    }
     await ApiService.instance!.checkLife();
     await Future.delayed(const Duration(seconds: 1));
     print("in hoome");
@@ -250,7 +262,7 @@ class HomeProvider extends ChangeNotifier {
               disliked: Boxes.getMessage().get('currentMessage')!.disliked,
               likes: likes,
               dislikes: dislikes,
-              blocks: spec['Blocks'],tainted: false);
+              blocks: spec['Blocks']   );
           await Boxes.getMessage().get('currentMessage')!.delete();
           await Boxes.getMessage().put('currentMessage', temp);
           //firstTime ? await ApiService.instance!.incrementRespectedMessage(specz) : null;
@@ -281,7 +293,6 @@ class HomeProvider extends ChangeNotifier {
     if(Boxes.getMessage().get('currentMessage') != null)
     {
       print("GOT IN HERENIGGER");
-      hasBeenTainted = Boxes.getMessage().get('currentMessage')!.tainted;
       print(hasBeenTainted);
     }
   
@@ -386,7 +397,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<void> blockPost() async {
-    print("INITIAL TAINT IS ${Boxes.getMessage().get('currentMessage')!.tainted}");
+    print("INITIAL TAINT IS ${Boxes.getMessage().get('currentMessage')}");
     //reference to message to be deleted
     final messageRef = ApiService.instance!.messagesDatabase!
         .child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
@@ -414,7 +425,7 @@ class HomeProvider extends ChangeNotifier {
       });
 
       hasBeenTainted = true;
-      notifyListeners();
+   
     } else {
       hasBeenTainted = true;
 
@@ -438,23 +449,18 @@ class HomeProvider extends ChangeNotifier {
           message: Boxes.getMessage().get('currentMessage')!.message,
           currentViews: Boxes.getMessage().get('currentMessage')!.currentViews,
           blocks: newBlockVal,
-          tainted: true
+       
           );
 
-          curMessage.tainted = true;
+         
 
 
       await Boxes.getMessage().put('currentMessage', curMessage);
 
-      print("BOX VAL: ${Boxes.getMessage().get('currentMessage')!.blocks}");
-      notifyListeners();
     }
-    MessageInstance ref = Boxes.getMessage().get('currentMessage')!;
-    print("REF TAINTED IS");
-    print(ref.tainted);
-    MessageInstance cur = MessageInstance(uidAdmin: ref.uidAdmin, iconIndex: ref.iconIndex, views: ref.views, title: ref.title, message: ref.message, currentViews: ref.currentViews, blocks: ref.blocks, tainted: true);
-     
-    await Boxes.getMessage().put('currentMessage', cur);
-    print("FINAL OP IS ${Boxes.getMessage().get('currentMessage')!.tainted}");
+   UserInstance temp = Boxes.getuser().get('mainUser')!;
+   temp.currentMessageTainted = true;
+ await  Boxes.getuser().put('mainUser', temp);
+   notifyListeners();
   }
 }

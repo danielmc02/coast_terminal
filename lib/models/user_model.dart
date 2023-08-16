@@ -3,7 +3,7 @@ part 'user_model.g.dart';
 @HiveType(typeId: 0)
 class UserInstance extends HiveObject
 {
-  UserInstance( { required this.uid,required this.hasPostedMessage,required this.createdAt,required this.lastPostedMessageTimestamp/*,this.messageInstances*/});
+  UserInstance( { required this.uid,required this.hasPostedMessage,required this.createdAt,required this.lastPostedMessageTimestamp,required this.currentMessageTainted/*,this.messageInstances*/});
 
     
   @HiveField(0)
@@ -21,6 +21,8 @@ class UserInstance extends HiveObject
   @HiveField(4)
    List<String> messageUids = [];
 
+  @HiveField(5)
+  late bool currentMessageTainted;
 /*
   @HiveField(4)
   late List<MessageInstance> messageInstances;

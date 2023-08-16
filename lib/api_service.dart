@@ -88,13 +88,13 @@ DatabaseReference? get vipMessagesDatabase
         print(
             " An existing UserModel instance exists. There are ${userModel.values.length}. Delete it and create new one.");
 
-        var currentUser = UserInstance(
+        var currentUser = UserInstance(currentMessageTainted: false,
          uid:   tempUse!.uid,hasPostedMessage: false,createdAt: tempUse.metadata.creationTime!,lastPostedMessageTimestamp: null);
         Boxes.getuser().put('mainUser', currentUser);
         return userModel;
       } else {
         print("No existing UserModel instance exists. Create a new one.");
-        var currentUser =  UserInstance(
+        var currentUser =  UserInstance(currentMessageTainted: false,
          uid:   tempUse!.uid,hasPostedMessage: false,createdAt: tempUse.metadata.creationTime!,lastPostedMessageTimestamp: null);
         Boxes.getuser().put('mainUser', currentUser);
       }
@@ -303,7 +303,7 @@ await childNode.child('Current Views').runTransaction((value) {
             print("CHCHCHCHCH");
             //Before assigning chats we need to filter it
          //var chatList = await filterChats(spec['Chats']);
-            final temp = MessageInstance(tainted: false,
+            final temp = MessageInstance(
              uidAdmin:    fetchedRandomKey,
               iconIndex:  spec['Badge Index'],
                views:  spec['Max Views'],

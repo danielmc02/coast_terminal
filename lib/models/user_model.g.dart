@@ -21,13 +21,14 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       hasPostedMessage: fields[1] as bool,
       createdAt: fields[2] as DateTime,
       lastPostedMessageTimestamp: fields[3] as DateTime?,
+      currentMessageTainted: fields[5] as bool,
     )..messageUids = (fields[4] as List).cast<String>();
   }
 
   @override
   void write(BinaryWriter writer, UserInstance obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.uid)
       ..writeByte(1)
@@ -37,7 +38,9 @@ class UserInstanceAdapter extends TypeAdapter<UserInstance> {
       ..writeByte(3)
       ..write(obj.lastPostedMessageTimestamp)
       ..writeByte(4)
-      ..write(obj.messageUids);
+      ..write(obj.messageUids)
+      ..writeByte(5)
+      ..write(obj.currentMessageTainted);
   }
 
   @override

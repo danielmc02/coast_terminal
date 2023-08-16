@@ -205,7 +205,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                                         "OpenSans",
                                                                     color: Colors
                                                                         .white,
-                                                                    fontSize: 32),
+                                                                    fontSize: 16),
                                                                 textAlign:
                                                                     TextAlign.left)
                                                           ]),
