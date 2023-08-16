@@ -444,12 +444,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                     const Padding(
                                                       padding: EdgeInsets.all(8.0),
                                                       child: Text(
-                                                        "But first, we need to check the following",
+                                                        "But first, we need to check the following...",
                                                         textAlign: TextAlign.left,
                                                       ),
                                                     ),
                                                     const SizedBox(height:8),
-                                                    Row(
+                                           /*         Row(
                                                       children: [
                                                         SizedBox(
                                                             width: 20,
@@ -463,11 +463,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                           child: algo2.locationPass == false ? const Text("1. Make sure location is on\n2. Is \"Precise\" enabled?"): const Text("Location") ,
                                                         ),
                                                       ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 8,
-                                                    ),
+                                                    ),*/
+                                                   
                                                     Row(
+                                                      mainAxisSize: MainAxisSize.max,mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         SizedBox(
                                                             width: 20,

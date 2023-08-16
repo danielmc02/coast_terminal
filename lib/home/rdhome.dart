@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coast_terminal/consent/consent_page.dart';
 import 'package:coast_terminal/home/provider/home_provider.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/gestures.dart';
@@ -58,7 +59,7 @@ class _RDHOME2State extends State<RDHOME2> {
     _controller.dispose();
     super.dispose();
   }
-
+double widgetOpacity = 0;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -402,7 +403,23 @@ textAlign: TextAlign.center,
                                               ),
                                             ),
                                         ) :
-                                   algo.hasBeenTainted == true ? Text("Tainted") :   Column(
+                                   algo.hasBeenTainted == true ? Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Container(width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height,//color: Colors.red,
+                                       child: Column(mainAxisSize: MainAxisSize.max,mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [AnimatedTextKit(   onFinished: () {
+                                          print("FINISHED ANIMATING");
+                                          setState(() {
+                                            widgetOpacity = 1;
+                                          });
+                                        },         totalRepeatCount:
+                                                                                1,animatedTexts: <TyperAnimatedText>[
+                                          TyperAnimatedText("Thanks for keeping this community safe by contributing towards keeping these posts relevant and appropritate. Make sure to join the ${ApiService.instance!.appName} Discord server.",textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 24))
+                                        ]),
+                                        Opacity(opacity:widgetOpacity ,child: DiscordButton())],
+                                       ),
+                                     ),
+                                   ) :   Column(
                                             children: [
                                               Container(
                                                 //    color: Colors.white,

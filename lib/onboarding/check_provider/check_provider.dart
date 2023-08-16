@@ -167,7 +167,7 @@ await Future.delayed(Duration(seconds: 1));
     popScope = false;
     notifyListeners();
     await Future.delayed(const Duration(seconds: 1));
-
+/*
     bool serviceEnabled;
     //
 
@@ -222,7 +222,7 @@ await Future.delayed(Duration(seconds: 1));
       notifyListeners();
       return;
     }
-
+*/
 //ad time
     try {
       print("Running ad setup");

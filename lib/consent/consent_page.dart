@@ -128,27 +128,29 @@ class _FirstPageState extends State<FirstPage> {
       builder: (context, algo, child) => SizedBox(width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height,child: 
     Column(
       children: [
-        Expanded(flex: 25,child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-         
-        child:  Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                          "Welcome to\n${ApiService.instance!.appName}",
-                          style: TextStyle(
-                              fontFamily: "OpenSans",
-                              fontSize: 42,
-                              fontWeight: FontWeight.bold),
-                        ),
-            ),
-          ],
-        ),)),
+        Expanded(flex: 25,child: SingleChildScrollView(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+           
+          child:  Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+        
+              Padding(
+                padding: EdgeInsets.only(left:8.0,right:8.0,top:40),
+                child: Text(
+                            "Welcome to\n${ApiService.instance!.appName}",
+                            style: TextStyle(
+                                fontFamily: "OpenSans",
+                                fontSize: 42,
+                                fontWeight: FontWeight.bold),
+                          ),
+              ),
+            ],
+          ),),
+        )),
                 Expanded(flex: 90,child: SizedBox(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

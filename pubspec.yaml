@@ -45,8 +45,8 @@ dependencies:
   confetti: ^0.7.0
   geolocator: ^9.0.1
   geocoding: ^2.1.0
-  flutter_map: ^5.0.0
-  latlong2: ^0.9.0
+#  flutter_map: ^5.0.0
+ # latlong2: ^0.9.0
  # google_fonts: ^4.0.4
   google_mobile_ads: ^3.0.0
   firebase_analytics: ^10.4.2
