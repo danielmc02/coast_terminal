@@ -303,7 +303,7 @@ await childNode.child('Current Views').runTransaction((value) {
             print("CHCHCHCHCH");
             //Before assigning chats we need to filter it
          //var chatList = await filterChats(spec['Chats']);
-            final temp = MessageInstance(
+            final temp = MessageInstance(tainted: false,
              uidAdmin:    fetchedRandomKey,
               iconIndex:  spec['Badge Index'],
                views:  spec['Max Views'],

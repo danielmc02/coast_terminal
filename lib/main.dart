@@ -99,13 +99,16 @@ class _OnboardScreenState extends State<OnboardScreen> {
         stream: ApiService.instance!.getuser(),
         builder: (context, snapshot) {
           print('${snapshot.data} : Beggining');
-          if (snapshot.hasData) {
+          if (snapshot.hasData l) {
             if (snapshot.data!.uid != null) {
+              print("Three");
               return const HomeWrapper();
             } else if (snapshot.data!.uid == null) {
+              print("two");
               return const OnboardingPage();
             }
           } else if (snapshot.hasData == false) {
+            print("one");
             return const OnboardingPage();
           }
 

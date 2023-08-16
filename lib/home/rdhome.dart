@@ -145,8 +145,8 @@ class _RDHOME2State extends State<RDHOME2> {
                                 // height: 40,
                                 // color: Colors.green,
                                 child:
-                                    Boxes.getMessage().get('currentMessage') !=
-                                            null
+                           Boxes.getMessage().get('currentMessage') !=
+                                            null && algo.hasBeenTainted != true
                                         ? SingleChildScrollView(
                                           child: SizedBox(
                                               width: MediaQuery.of(context)
@@ -259,7 +259,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                         const SizedBox(
                                                                             height:
                                                                                 8),
-                                                                     algo.hasBeenDeleted == false && algo.hasBeenReported == false ?   Row(
+                                                                      Row(
                                                                           children: [
                                                                             const Icon(
                                                                               color:
@@ -387,7 +387,7 @@ textAlign: TextAlign.center,
                                                                                         )))
                                                                           ],
                                                                         )
-                                                               : Text("The Message has been ${algo.hasBeenReported ? "reported" : "deleted"}")  ],
+                                                                ],
                                                                     ),
                                                                   ),
                                                                 ),
@@ -401,8 +401,8 @@ textAlign: TextAlign.center,
                                                 ],
                                               ),
                                             ),
-                                        )
-                                        : Column(
+                                        ) :
+                                   algo.hasBeenTainted == true ? Text("Tainted") :   Column(
                                             children: [
                                               Container(
                                                 //    color: Colors.white,

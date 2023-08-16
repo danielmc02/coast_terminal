@@ -28,13 +28,14 @@ class MessageInstanceAdapter extends TypeAdapter<MessageInstance> {
       likes: fields[8] as int?,
       dislikes: fields[9] as int?,
       blocks: fields[10] as int,
+      tainted: fields[11] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, MessageInstance obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.uidAdmin)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class MessageInstanceAdapter extends TypeAdapter<MessageInstance> {
       ..writeByte(9)
       ..write(obj.dislikes)
       ..writeByte(10)
-      ..write(obj.blocks);
+      ..write(obj.blocks)
+      ..writeByte(11)
+      ..write(obj.tainted);
   }
 
   @override
