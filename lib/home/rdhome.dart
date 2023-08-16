@@ -259,7 +259,7 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                         const SizedBox(
                                                                             height:
                                                                                 8),
-                                                                        Row(
+                                                                     algo.hasBeenDeleted == false && algo.hasBeenReported == false ?   Row(
                                                                           children: [
                                                                             const Icon(
                                                                               color:
@@ -313,6 +313,55 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                                             ),
                                                                                         selected: algo.isDislikeSelected,
                                                                                       ),
+                                                                                    const SizedBox(
+                                                                                        width: 8,
+                                                                                      ), GestureDetector(onTap: () {
+                                                                                             showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  actions: [
+                                    SizedBox(
+                                        //   color: Colors.red,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: TextButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    const MaterialStatePropertyAll(
+                                                        Colors.red),
+                                                foregroundColor:
+                                                    const MaterialStatePropertyAll(
+                                                        Colors.white),
+                                                shape: MaterialStatePropertyAll(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    20)))),
+                                            onPressed: () async {
+                                             await algo.blockPost();
+                                             Navigator.pop(context);
+                                            },
+                                            child:  Text( Boxes.getMessage().get('currentMessage')!.blocks >= Boxes.getMessage().get('currentMessage')!.views*0.20 ? "Delete Post" : "Report")))
+                                  ],
+                                  content:  Text(
+Boxes.getMessage().get('currentMessage')!.blocks >= Boxes.getMessage().get('currentMessage')!.views*0.20  == false ? "By choosing to report this message, you will no longer receive posts from this user upon your next sign-in. Your decision to report this message provides other users with the opportunity to potentially have this post removed from the server, given sufficient community support." : "It appears that this message has been deemed inconsistent with our community guidelines by other users. You have the option to remove this message if you wish.",
+textAlign: TextAlign.center,
+                                  ),
+                                  title: const Text(
+                                    "Sorry about that",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                              );
+                         
+
+                                                                                      },child: Icon(Icons.report,color: Colors.red,))
                                                                                     ],
                                                                                   )
                                                                                 : Flexible(
@@ -337,8 +386,8 @@ class _RDHOME2State extends State<RDHOME2> {
                                                                                           ),
                                                                                         )))
                                                                           ],
-                                                                        ),
-                                                                      ],
+                                                                        )
+                                                               : Text("The Message has been ${algo.hasBeenReported ? "reported" : "deleted"}")  ],
                                                                     ),
                                                                   ),
                                                                 ),

@@ -7,9 +7,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Eduboard</string>
+	<string>LinkEdu</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -24,8 +26,18 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3530957535788194~2010813954</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location at this time only to make sure you are at a qualified campus. Please make sure "Precise" is on or it wont work.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Required in order for you to pick an image from your photos</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This is used in order to deliver personalized ads</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -35,20 +47,11 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location at this time only to make sure you are at a qualified campus. Please make sure "Precise" is on or it wont work.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>This app needs access to location when in the background.</string>
-    <key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-3530957535788194~2010813954</string>
-    <key>NSUserTrackingUsageDescription</key>
-    <string>This is used in order to deliver personalized ads</string>
-    <key>CFBundleIconName</key>
-    <string>AppIcon</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Required in order for you to pick an image from your photos</string>
 </dict>
 </plist>

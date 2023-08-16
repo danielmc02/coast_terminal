@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/onboarding/onboarding_provider/onboarding_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +131,7 @@ class _FirstPageState extends State<FirstPage> {
         Expanded(flex: 25,child: SizedBox(
           width: MediaQuery.of(context).size.width,
          
-        child: const Column(
+        child:  Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +140,7 @@ class _FirstPageState extends State<FirstPage> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                          "Welcome to\nEduboard",
+                          "Welcome to\n${ApiService.instance!.appName}",
                           style: TextStyle(
                               fontFamily: "OpenSans",
                               fontSize: 42,
@@ -364,7 +365,7 @@ class _FirstPageState extends State<FirstPage> {
                                                       "I have read and agree to the ",
                                                 ),
                                                 TextSpan(
-                                                    text: "Terms & Service",
+                                                    text: "EULA",
                                                     style: const TextStyle(
                                                       color: Colors.blue,
                                                       decoration:
@@ -373,6 +374,24 @@ class _FirstPageState extends State<FirstPage> {
                                                     recognizer: TapGestureRecognizer()
                                                       ..onTap = () async {
                                                         print("TAPPED");
+                                                                                                                await algo.changeUserSight(0);
+
+                            await algo.pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.easeOutSine)    ;                                          
+                                                      }),  const TextSpan(
+                                                  text:
+                                                      " and ",
+                                                ),
+                                                        TextSpan(
+                                                    text: "Terms",
+                                                    style: const TextStyle(
+                                                      color: Colors.blue,
+                                                      decoration:
+                                                          TextDecoration.underline,
+                                                    ),
+                                                    recognizer: TapGestureRecognizer()
+                                                      ..onTap = () async {
+                                                        print("TAPPED");
+                                                        await algo.changeUserSight(1);
                             await algo.pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.easeOutSine)    ;                                          
                                                       }),
                                               ],
@@ -487,62 +506,77 @@ class _ThirdPageState extends State<ThirdPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OnboardingProvider>(
-      builder: (context, algo, child) => Scrollbar(
-        
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0,right:16.0,top: 40),
-          child: SingleChildScrollView(
-            child: SizedBox(
+    
+    
+   return  Consumer<OnboardingProvider>(
+      builder: (context, algo, child) => 
+      algo.incent == "TOS" ? 
+   Scrollbar(
+  child: Padding(
+    padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 40),
+    child: SingleChildScrollView(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const SizedBox(
+              height: 24,
+            ),
+            FittedBox(
+              child: const Text(
+                "Terms of Service",
+                style: TextStyle(
+                  fontFamily: "OpenSans",
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    "Terms of service",
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Terms of Service",
                     style: TextStyle(
-                        fontFamily: "OpenSans",
-                        fontSize: 42,
-                        fontWeight: FontWeight.bold),textAlign: TextAlign.center,
+                      fontFamily: "OpenSans",
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 32,
+                    ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: 16,
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: const Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                            style: TextStyle(
-                                fontFamily: "OpenSans",
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 32),
-                            "Summary:"),
-                        Text(
-                            style: TextStyle(
-                                fontFamily: "OpenSans",
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16),
-                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering Eduboard you are required to let us verify you are on a supported campus as well as finish watching an ad. Our app does check your location but we do not collect or share any personal information or posts.")
-                      ],
-                    ),
-                  )
-                  /* const Text(
-                    'Terms of Service',
+                  Text(
+                    "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\n"
+                    "• Orange Coast College\n"
+                    "• Golden West College\n\n"
+                    "Although some safety measures have been taken when posting messages, you (as the user) are responsible and are "
+                    "expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students "
+                    "and foster a safe environment.\n\n"
+                    "Before entering ${ApiService.instance!.appName}, you are required to let us verify you are on a supported campus as well "
+                    "as finish watching an ad. Our app does check your location but we do not collect or share your location or posts. It's important to state that the way ads are implemented is through Google's third party \"Google Ad Mob\". When allowed, they will deliver tailored ads.",
                     style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: "OpenSans",
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16,
                     ),
-                  ),*/
-                  ,
-                  const SizedBox(height: 16.0),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
                   const Text(
                     'Introduction',
                     style: TextStyle(
@@ -551,10 +585,16 @@ class _ThirdPageState extends State<ThirdPage> {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  const Text(
-                    "Welcome to Eduboard! We're delighted to have you as a user of our mobile application. These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us via Discord. Thank you for choosing Edulink!",
+                  Text(
+                    "Welcome to ${ApiService.instance!.appName}! We're delighted to have you as a user of our mobile application. "
+                    "These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using "
+                    "our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us via Discord. "
+                    "Thank you for choosing Edulink!",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 24.0),
                   const Text(
                     'Community',
                     style: TextStyle(
@@ -571,33 +611,15 @@ class _ThirdPageState extends State<ThirdPage> {
                         color: Colors.black,
                         fontWeight: FontWeight.normal,
                       ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          onEnter: (event) {
-                            print(event);
-                          },
-                          text: ' Discord link here',
-                          recognizer: TapGestureRecognizer()
-                                                    ..onTap = ()async{
-                                                                     
-                                final Uri url =
-                                    Uri.parse('https://discord.gg/4Khfd2rHUk');
-                                if (!await launchUrl(url)) {
-                                  throw Exception('Could not launch $url');
-                                }
-                                                    },
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                        const TextSpan(
-                          text: ' consectetur adipiscing elit.',
-                        ),
-                      ],
+                      
                     ),
+                
                   ),
-                  const SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DiscordButton(),
+                      ),
+                  const SizedBox(height: 24.0),
                   const Text(
                     'Diligence and Appropriate Behavior',
                     style: TextStyle(
@@ -607,7 +629,7 @@ class _ThirdPageState extends State<ThirdPage> {
                   ),
                   const SizedBox(height: 8.0),
                   const Text(
-                    "We strive to maintain a respectful and inclusive community within our app. We encourage all users to exercise diligence and ensure that their interactions and messages adhere to appropriate standards of conduct. It is important to remember that any message or content shared within the app should always be respectful, considerate, and free from any form of harassment, discrimination, or explicit material.\n\nIf you see something you don't like, screenshot it and report it! This is the responsiblity of the user.\n\nWe kindly request all users to act responsibly, treat others with respect, and engage in constructive conversations. By fostering an environment of mutual respect and appropriate behavior, we can collectively create a positive and valuable experience for every member of our community.",
+                    "We strive to maintain a respectful and inclusive community within our app. We encourage all users to exercise diligence and ensure that their interactions and messages adhere to appropriate standards of conduct. It is important to remember that any message or content shared within the app should always be respectful, considerate, and free from any form of harassment, discrimination, or explicit material.\n\nWe kindly request all users to act responsibly, treat others with respect, and engage in constructive conversations. By fostering an environment of mutual respect and appropriate behavior, we can collectively create a positive and valuable experience for every member of our community.",
                   ),
                   const SizedBox(height: 8.0),
                   const Text(
@@ -619,7 +641,7 @@ class _ThirdPageState extends State<ThirdPage> {
                   ),
                   const SizedBox(height: 8.0),
                   const Text(
-                    "In order for us to do what we do we have implemented ads.\nBecause of this, users (by defualt) opt in for CPRA (California Privacy Rights Act). Basicaly this allows us to make the maximum return off the ads displayed when using this app. As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
+                    "In order for us to do what we do we have implemented ads.\nBecause of this, users (by default) opt in for CPRA (California Privacy Rights Act). Basically, this allows us to make the maximum return off the ads displayed when using this app. As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
                   ),
                   const SizedBox(height: 8.0),
                   Row(
@@ -637,15 +659,273 @@ class _ThirdPageState extends State<ThirdPage> {
                         },
                       ),
                       Text(
-                          "I (as the user) opt ${algo.optInCCPA == true ? "in" : "out"} for CCPA"),
+                        "I (as the user) opt ${algo.optInCCPA == true ? "in" : "out"} for CCPA",
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
-          ),
+          ],
         ),
       ),
-    );
+    ),
+  ),
+)
+ :   Scrollbar(
+  child: Padding(
+    padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 40),
+    child: SingleChildScrollView(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const SizedBox(
+              height: 24,
+            ),
+            FittedBox(
+              child: const Text(
+                "End-User License Agreement (EULA)",
+                style: TextStyle(
+                  fontFamily: "OpenSans",
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "End-User License Agreement (EULA)",
+                    style: TextStyle(
+                      fontFamily: "OpenSans",
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 32,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    "Last Updated: [08/16/23]\n"
+                    "IMPORTANT: PLEASE READ THIS END-USER LICENSE AGREEMENT (\"EULA\") CAREFULLY BEFORE USING THIS APP. "
+                    "BY DOWNLOADING, INSTALLING, OR USING THIS APP, YOU AGREE TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS EULA. "
+                    "IF YOU DO NOT AGREE TO THE TERMS AND CONDITIONS OF THIS EULA, DO NOT DOWNLOAD, INSTALL, OR USE THE APP.\n\n"
+                    "This End-User License Agreement (\”EULA\”) is a legal agreement between you (referred to herein as \”User,\” \”you,\” "
+                    "or \”your\”) and [${ApiService.instance!.appName}] (\”Developer,\” \”we,\” \”us,\” or \”our\”), collectively referred to "
+                    "as the \”Parties.\”",
+                    style: TextStyle(
+                      fontFamily: "OpenSans",
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  const Text(
+                    'AGE RESTRICTION:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "This app is intended for users aged 17 and older. By downloading, installing, or using this app, "
+                    "you affirm that you are at least 17 years of age.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'ACCEPTANCE OF TERMS:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "By using this app, you agree to abide by the terms and conditions set forth in this EULA. It is "
+                    "your responsibility to review and understand these terms before using the app.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'OBJECTIONABLE CONTENT AND ABUSIVE USERS:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "This app does not tolerate objectionable content or abusive users. By using this app, you agree:\n\n"
+                    "• To refrain from posting, sharing, or engaging in any objectionable or offensive content.\n"
+                    "• To respect other users and treat them with civility and respect.\n"
+                    "• That we have the right to take appropriate action, including but not limited to, suspension "
+                    "of your account, if you violate these terms.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'CONTENT FILTERING:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "This app employs a word filtering mechanism to prevent objectionable content from being displayed to users. However, no "
+                    "filtering system is foolproof, and users should exercise caution while using the app.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'REPORTING OBJECTIONABLE CONTENT:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "Users are encouraged to report objectionable content encountered while using this app. A reporting mechanism is provided "
+                    "within the app to allow users to flag objectionable content.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'BLOCKING ABUSIVE USERS:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "Users have the ability to block other users who engage in abusive or objectionable behavior. This feature is designed "
+                    "to enhance user experience and promote a safe environment.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'IMMEDIATE POST REMOVAL:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "Users have the ability to remove their currently viewed posts from the feed immediately after fetching it.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'RESPONSE TO OBJECTIONABLE CONTENT REPORTS:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "Developer is committed to addressing reports of objectionable content within 24 hours of receipt. Such actions may be reflected in the community Discord server. We reserve the right "
+                    "to remove offending content and eject users responsible for such content.",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const Text(
+                    'CONTACT INFORMATION:',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8.0),
+                  DiscordButton(),
+                   const SizedBox(height: 24.0),
+                  // Add the rest of the EULA content here
+                ],
+              ),
+            ),
+            // Add the remaining text components from your EULA content here
+          ],
+        ),
+      ),
+    ),
+  ),
+),
+ );
   }
+}
+
+
+Widget DiscordButton()
+{
+  return         TextButton(
+                    
+                    style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 84, 99, 235))
+                    ),
+                    onPressed: ()async {
+                             final Uri url =
+                                  Uri.parse('https://discord.gg/4Khfd2rHUk');
+                              if (!await launchUrl(url)) {
+                                throw Exception('Could not launch $url');
+                              }
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.discord,color: Colors.white,),
+                        ),
+                        Text(
+                          "The Community Discord",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            //backgroundColor: Colors.black,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+         
 }

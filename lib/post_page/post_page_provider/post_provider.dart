@@ -141,6 +141,8 @@ class PostProvider extends ChangeNotifier {
         "Max Views": sliderValue,
         "Title": title.toString(),
         "Message": message.toString(),
+        "Blocks": 0
+        
       //  "Likes" : 0.1,
       //  "Dislikes" : 0.1
       }).then((value) async {

@@ -34,6 +34,11 @@ class ApiService {
     _fileStorage = FirebaseStorage.instance.ref();
     _vipMessagesDatabase = _database!.ref('vip');
   }
+FirebaseDatabase? get databaseGlobal
+{
+  return _database;
+}
+
 
 DatabaseReference? get vipMessagesDatabase
 {
@@ -71,6 +76,7 @@ DatabaseReference? get vipMessagesDatabase
 
   bool currentMessageSucessresult = false;
 
+ final String appName = "LinkEdu";
   //Sign in anoynomously (guest)
   Future signInAnon() async {
     try {
@@ -255,11 +261,15 @@ await childNode.child('Current Views').runTransaction((value) {
               .child(fetchedRandomKey)
               .once() .then((value) async {
             spec = value.snapshot.value as Map;
+                        print("THE BLOCKS ARE ${spec["Blocks"]}");
+
             print(spec);
             print(spec['Badge Index']);
             print(spec['Max Views']);
             print(spec['Title']);
             print(spec['Message']);
+            print(spec["Blocks"]);
+                print(spec['Blocks']);
             int curView = 0;
             int? likes;
             int? dislikes;
@@ -300,7 +310,7 @@ await childNode.child('Current Views').runTransaction((value) {
             title:     spec['Title'],
                 message:    spec['Message'],
               currentViews:  curView,
-                
+                blocks: spec['Blocks']  ,
                 likes:  likes,
                       dislikes:  dislikes);
             currentFetchedMessage = temp;

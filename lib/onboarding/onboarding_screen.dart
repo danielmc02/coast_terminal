@@ -98,8 +98,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Eduboard",
+                   Text(
+                    "${ApiService.instance!.appName}",
                     style: TextStyle(
                       fontFamily: "OpenSans",
                       color: Colors.black,
@@ -514,8 +514,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(20)),
-                                                title: const Text(
-                                                  "You are about to enter Eduboard",
+                                                title:  Text(
+                                                  "You are about to enter ${ApiService.instance!.appName}",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontWeight: FontWeight.bold,
@@ -799,7 +799,7 @@ class TOS extends StatelessWidget {
               
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: const Column(
+                    child:  Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -817,7 +817,7 @@ class TOS extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 16),
-                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering Eduboard you are required to let us verify you are on a supported campus as well as finish watching an ad.")
+                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering ${ApiService.instance!.appName} you are required to let us verify you are on a supported campus as well as finish watching an ad.")
                       ],
                     ),
                   )
@@ -838,8 +838,8 @@ class TOS extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  const Text(
-                    "Welcome to Eduboard! We're delighted to have you as a user of our mobile application. These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us via Discord. Thank you for choosing Edulink!",
+                   Text(
+                    "Welcome to ${ApiService.instance!.appName}! We're delighted to have you as a user of our mobile application. These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us via Discord. Thank you for choosing Edulink!",
                   ),
                   const SizedBox(height: 16.0),
                   const Text(

@@ -276,6 +276,7 @@ class HomeProvider extends ChangeNotifier {
           isDislikeSelected =
               Boxes.getMessage().get('currentMessage')!.disliked;
           isLikeSelected = Boxes.getMessage().get('currentMessage')!.liked;
+          print("GOT HERERRR");
 //Before assigning chats we need to filter it
 //spec['Chats'] == null ? print("CHAT IS NULLLL") : print("CHAT IS NOT NULL");
           if (spec['Chats'] != null) {
@@ -286,6 +287,9 @@ class HomeProvider extends ChangeNotifier {
             retrievedChats = chatList;
             print("Length of chats is ${retrievedChats!.length}");
           }
+          print("DOUBLE BLOCK IS ${spec['Blocks']}");
+    
+
           final temp = MessageInstance(
               uidAdmin: specz,
               iconIndex: spec['Badge Index'],
@@ -296,7 +300,8 @@ class HomeProvider extends ChangeNotifier {
               liked: Boxes.getMessage().get('currentMessage')!.liked,
               disliked: Boxes.getMessage().get('currentMessage')!.disliked,
               likes: likes,
-              dislikes: dislikes);
+              dislikes: dislikes,
+              blocks: spec['Blocks']);
           await Boxes.getMessage().get('currentMessage')!.delete();
           await Boxes.getMessage().put('currentMessage', temp);
           //firstTime ? await ApiService.instance!.incrementRespectedMessage(specz) : null;
@@ -423,4 +428,57 @@ class HomeProvider extends ChangeNotifier {
         return '';
     }
   }
+bool hasBeenDeleted = false;
+bool hasBeenReported = false;
+  Future<void> blockPost() async {
+
+final messageRef =       ApiService.instance!.messagesDatabase!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin);
+
+    if(Boxes.getMessage().get('currentMessage')!.blocks >= Boxes.getMessage().get('currentMessage')!.views*0.20 )
+    {
+      print("Getting deleted");
+      await           ApiService.instance!.keys!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin).remove();
+
+      await messageRef.remove().then((value) async{
+  await    ApiService.instance!.databaseGlobal!.ref('RemovedMessages').push().set({
+        "Title" : Boxes.getMessage().get('currentMessage')!.title.toString(),
+        "Message" : Boxes.getMessage().get('currentMessage')!.message.toString(),
+       "Likes" : Boxes.getMessage().get('currentMessage')!.likes,
+       "Dislikes": Boxes.getMessage().get('currentMessage')!.dislikes,
+       "ViewsGained" : Boxes.getMessage().get('currentMessage')!.currentViews,
+       "ViewsCapacity" : Boxes.getMessage().get('currentMessage')!.views});
+      });
+
+      hasBeenDeleted = true;
+
+      notifyListeners();
+    }
+    else
+    {
+      print("Getting Reported");
+      final curBlock = await ApiService.instance!.messagesDatabase!.child(Boxes.getMessage().get('currentMessage')!.uidAdmin).child('Blocks').get();
+      print("curBlock ${curBlock.value}");
+      int temp = curBlock.value as int;
+      int newBlockVal = temp+1;
+      print(newBlockVal);
+      await messageRef.update({'Blocks' : newBlockVal });
+    final curMes = Boxes.getMessage().get('currentMessage');
+    hasBeenReported = true;
+
+
+
+  MessageInstance curMessage = MessageInstance(uidAdmin: Boxes.getMessage().get('currentMessage')!.uidAdmin, iconIndex: Boxes.getMessage().get('currentMessage')!.iconIndex, views: Boxes.getMessage().get('currentMessage')!.views, title: Boxes.getMessage().get('currentMessage')!.title, message: Boxes.getMessage().get('currentMessage')!.message, currentViews: Boxes.getMessage().get('currentMessage')!.currentViews, blocks:newBlockVal);
+
+
+   
+    await Boxes.getMessage().put('currentMessage', curMessage);
+
+
+
+
+    print("BOX VAL: ${ Boxes.getMessage().get('currentMessage')!.blocks}");
+    }
+
+    
+ }
 }

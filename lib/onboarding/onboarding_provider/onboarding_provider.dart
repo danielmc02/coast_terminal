@@ -135,4 +135,22 @@ OnboardingProvider()
     hasConsented = value;
     notifyListeners();
   }
+
+  String incent = "EULA";
+ Future<void> changeUserSight(int i) async {
+    switch(i)
+    {
+      case 0:
+      incent = "EULA";
+      notifyListeners();
+      break;
+      case 1:
+      incent = "TOS";
+      notifyListeners();
+      break;
+   
+      
+
+    }
+  }
 }
