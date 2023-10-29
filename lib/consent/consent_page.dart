@@ -561,7 +561,7 @@ class _ThirdPageState extends State<ThirdPage> {
                     height: 16,
                   ),
                   Text(
-                    "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\n"
+                    "At this time (${ApiService.instance!.appVersion}), the app has been marketed exclusively at the following campus's:\n\n"
                     "• Orange Coast College\n"
                     "• Golden West College\n\n"
                     "Although some safety measures have been taken when posting messages, you (as the user) are responsible and are "

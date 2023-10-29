@@ -430,6 +430,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                             if(algo2.progLoad != true)
                                                             {
                                                          await        algo2.check2(context);
+                                                         
 
                                                             }
                                             
@@ -441,14 +442,34 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                 content: Column(
                                                   mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    const Padding(
-                                                      padding: EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        "But first, we need to check the following...",
-                                                        textAlign: TextAlign.left,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height:8),
+                                                                              RichText(textAlign: TextAlign.center,
+            text: TextSpan(
+              text: 'At this time, users are kindly requested to watch an ad before proceeding. By pressing "Continue", you agree to ',
+              style: const TextStyle(
+                
+                color: Colors.black,
+                fontSize: 16.0,
+              ),
+              children: [
+                TextSpan(
+                  text: 'our terms',
+                  style: const TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                  recognizer:TapGestureRecognizer()
+                    ..onTap = () {
+                      // Handle the terms link tap here
+                       Platform.isAndroid ? Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return const TOS();
+                      },)) : Navigator.push(context, CupertinoPageRoute(builder: (context) {
+                        return const TOS();
+                      },));
+                    },
+                ),
+              ],
+            ),)
+                                                    ,
+                                                    const SizedBox(height: 8),
                                            /*         Row(
                                                       children: [
                                                         SizedBox(
@@ -482,32 +503,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                                     const SizedBox(
                                                       height: 8,
                                                     ),
-                                                 RichText(textAlign: TextAlign.center,
-            text: TextSpan(
-              text: 'By pressing "Continue", you agree to ',
-              style: const TextStyle(
-                
-                color: Colors.black,
-                fontSize: 16.0,
-              ),
-              children: [
-                TextSpan(
-                  text: 'our terms',
-                  style: const TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
-                  recognizer:TapGestureRecognizer()
-                    ..onTap = () {
-                      // Handle the terms link tap here
-                       Platform.isAndroid ? Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return const TOS();
-                      },)) : Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                        return const TOS();
-                      },));
-                    },
-                ),
-              ],
-            ),)
+                       
                                                   ],
                                                 ),
                                                 shape: RoundedRectangleBorder(
@@ -540,7 +536,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           const SizedBox(
                             height: 40,
                           ),
-                          const Text("Beta: 0.0.1"),
+                          Text(ApiService.instance!.appVersion),
                           const SizedBox(
                             height: 40,
                           ),
@@ -782,53 +778,64 @@ class TOS extends StatelessWidget {
               ),
               title:  const Text("Terms of Service",style: TextStyle(fontFamily: "OpenSans",color:Colors.black,fontWeight:FontWeight.bold)),
             ),
-      body: Scrollbar(
-        
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0,right:16.0),
-          child: SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
+      body:  Scrollbar(
+  child: Padding(
+    padding: const EdgeInsets.only(left: 16.0, right: 16.0,bottom: 24),
+    child: SingleChildScrollView(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+         /*   const SizedBox(
+              height: 24,
+            ),
+            FittedBox(
+              child: const Text(
+                "Terms of Service",
+                style: TextStyle(
+                  fontFamily: "OpenSans",
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),*/
+            const SizedBox(
+              height: 24,
+            ),
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child:  Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                            style: TextStyle(
-                                fontFamily: "OpenSans",
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 32),
-                            "Summary:"),
-                        Text(
-                            style: TextStyle(
-                                fontFamily: "OpenSans",
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16),
-                            "At this time (Beta: 0.0.1), the app is only functional at the following campus's:\n\nOrange Coast College\nGolden West College\n\nAlthough some safety measures have been taken when posting messages, you (as the user) are responsible and are expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students who can find this app'sfeatures fun to use.\n\nBefore entering ${ApiService.instance!.appName} you are required to let us verify you are on a supported campus as well as finish watching an ad.")
-                      ],
-                    ),
-                  )
-                  /* const Text(
-                    'Terms of Service',
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+         
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    "At this time (${ApiService.instance!.appVersion}), the app has been marketed exclusively at the following campus's:\n\n"
+                    "• Orange Coast College\n"
+                    "• Golden West College\n\n"
+                    "Although some safety measures have been taken when posting messages, you (as the user) are responsible and are "
+                    "expected to be held accountable for your posts. The goal of this app is to eventually become inclusive to all students "
+                    "and foster a safe environment.\n\n"
+                    "Before entering ${ApiService.instance!.appName}, you are required to let us verify you are on a supported campus as well "
+                    "as finish watching an ad. Our app does check your location but we do not collect or share your location or posts. It's important to state that the way ads are implemented is through Google's third party \"Google Ad Mob\". When allowed, they will deliver tailored ads.",
                     style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: "OpenSans",
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16,
                     ),
-                  ),*/
-                  ,
-                  const SizedBox(height: 16.0),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
                   const Text(
                     'Introduction',
                     style: TextStyle(
@@ -837,10 +844,16 @@ class TOS extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                   Text(
-                    "Welcome to ${ApiService.instance!.appName}! We're delighted to have you as a user of our mobile application. These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us via Discord. Thank you for choosing Edulink!",
+                  Text(
+                    "Welcome to ${ApiService.instance!.appName}! We're delighted to have you as a user of our mobile application. "
+                    "These Terms of Service govern your use of our app, so please take a moment to read them carefully. By accessing or using "
+                    "our app, you agree to be bound by these Terms. If you have any questions or concerns, please don't hesitate to contact us via Discord. "
+                    "Thank you for choosing Edulink!",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 24.0),
                   const Text(
                     'Community',
                     style: TextStyle(
@@ -857,33 +870,15 @@ class TOS extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.normal,
                       ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          onEnter: (event) {
-                            print(event);
-                          },
-                          text: ' Discord link here',
-                          recognizer: TapGestureRecognizer()
-                                                    ..onTap = ()async{
-                                                                     
-                                final Uri url =
-                                    Uri.parse('https://discord.gg/4Khfd2rHUk');
-                                if (!await launchUrl(url)) {
-                                  throw Exception('Could not launch $url');
-                                }
-                                                    },
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                        const TextSpan(
-                          text: ' consectetur adipiscing elit.',
-                        ),
-                      ],
+                      
                     ),
+                
                   ),
-                  const SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DiscordButton(),
+                      ),
+                  const SizedBox(height: 24.0),
                   const Text(
                     'Diligence and Appropriate Behavior',
                     style: TextStyle(
@@ -893,7 +888,7 @@ class TOS extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   const Text(
-                    "We strive to maintain a respectful and inclusive community within our app. We encourage all users to exercise diligence and ensure that their interactions and messages adhere to appropriate standards of conduct. It is important to remember that any message or content shared within the app should always be respectful, considerate, and free from any form of harassment, discrimination, or explicit material.\n\nIf you see something you don't like,screenshot it and report it! This is the responsiblity of the user.\n\nWe kindly request all users to act responsibly, treat others with respect, and engage in constructive conversations. By fostering an environment of mutual respect and appropriate behavior, we can collectively create a positive and valuable experience for every member of our community.",
+                    "We strive to maintain a respectful and inclusive community within our app. We encourage all users to exercise diligence and ensure that their interactions and messages adhere to appropriate standards of conduct. It is important to remember that any message or content shared within the app should always be respectful, considerate, and free from any form of harassment, discrimination, or explicit material.\n\nWe kindly request all users to act responsibly, treat others with respect, and engage in constructive conversations. By fostering an environment of mutual respect and appropriate behavior, we can collectively create a positive and valuable experience for every member of our community.",
                   ),
                   const SizedBox(height: 8.0),
                   const Text(
@@ -905,17 +900,20 @@ class TOS extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   const Text(
-                    "In order for us to do what we do we have implemented ads.\nBecause of this, users (by defualt) opt in for CPRA (California Privacy Rights Act). Basicaly this allows us to make the maximum return off the ads displayed when using this app. As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
+                    "In order for us to do what we do we have implemented ads.\nBecause of this, users (by default) opt in for CPRA (California Privacy Rights Act). Basically, this allows us to make the maximum return off the ads displayed when using this app. As part of our commitment to providing you with the best possible experience, our app may display advertisements tailored to your interests. These personalized ads are designed to deliver content that is relevant and engaging to you. By analyzing your app usage patterns and preferences, we can show you ads that align with your potential interests and needs.\n\nIf you are a resident of California, you have the option to opt out of personalized ads as per the California Consumer Privacy Act (CCPA). By exercising this choice, you can limit the collection and use of your personal information for targeted advertising purposes. Please note that opting out of personalized ads does not mean you will stop seeing ads altogether; it means the ads you see may be less relevant to your specific interests. It's important to note that by default, our app serves personalized ads to all users. This enables us to generate revenue necessary for sustaining and improving our services.\n\nAdditionally, personalized ads help us offer you a more customized and engaging experience. We respect your privacy and understand the significance of providing transparency and control over your personal data. You can review our Privacy Policy for detailed information on data collection, usage, and your rights. We appreciate your understanding and support as we continue to enhance our app and deliver valuable services to you.",
                   ),
                   const SizedBox(height: 8.0),
                  
                 ],
               ),
             ),
-          ),
+          ],
         ),
-      )
- ,
+      ),
+    ),
+  ),
+)
+ 
     );
 }
 }

@@ -414,7 +414,7 @@ textAlign: TextAlign.center,
                                           });
                                         },         totalRepeatCount:
                                                                                 1,animatedTexts: <TyperAnimatedText>[
-                                          TyperAnimatedText("Thanks for keeping this community safe by contributing towards keeping these posts relevant and appropritate. Make sure to join the ${ApiService.instance!.appName} Discord server.",textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 24))
+                                          TyperAnimatedText("Thanks for keeping this community safe by contributing towards keeping these posts relevant and appropritate. In the mean time make sure to post and join the ${ApiService.instance!.appName} Discord server.",textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),textAlign: TextAlign.start)
                                         ]),
                                         Opacity(opacity:widgetOpacity ,child: DiscordButton())],
                                        ),
@@ -590,7 +590,7 @@ textAlign: TextAlign.center,
                                             child: const Text("Okay")))
                                   ],
                                   content: const Text(
-                                    "You can only post one message. If you would like to post a new message, please sign out and sign in again. Please note that signing out will delete all your progress, including your current message and all previously viewed messages.",
+                                    "You can only post one message. If you would like to post a new message, please wait to sign out and sign in again.",
                                     textAlign: TextAlign.center,
                                   ),
                                   title: const Text(

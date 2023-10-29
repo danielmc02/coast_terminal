@@ -19,12 +19,12 @@ class PostProvider extends ChangeNotifier {
 
   bool drawerIsOpen = false;
   Map<String, Map> badges = <String, Map>{
-    'Anonymous': {
-      'icon': Image.asset('assets/face_icons/anonymous.png'),
+    'Clown': {
+      'icon': Image.asset('assets/face_icons/clown.png'),
       'selected': true
     },
-    'Occ': {
-      'icon': Image.asset('assets/face_icons/occ.jpeg'),
+    'Drooling': {
+      'icon': Image.asset('assets/face_icons/drooling.png'),
       'selected': false
     },
     'Angel': {
@@ -95,6 +95,10 @@ class PostProvider extends ChangeNotifier {
       'icon': Image.asset('assets/face_icons/sus.png'),
       'selected': false
     },
+       'Vomit': {
+      'icon': Image.asset('assets/face_icons/vomit.png'),
+      'selected': false
+    },
     //'Unmasked': {'icon': Image.asset('assets/face_icons/unmasked.png')},
   };
   Image chosen = Image.asset('assets/face_icons/anonymous.png');
@@ -130,8 +134,6 @@ class PostProvider extends ChangeNotifier {
       int sliderValue, String title, String message)
       
        async {
-         print("POSTING MES");
-    bool result = false;
     try {
       await ApiService.instance!.messagesDatabase!
           .child(ApiService.instance!.auth!.currentUser!.uid)
@@ -143,36 +145,21 @@ class PostProvider extends ChangeNotifier {
         "Message": message.toString(),
         "Blocks": 0
         
-      //  "Likes" : 0.1,
-      //  "Dislikes" : 0.1
+
       }).then((value) async {
-        //Message has been posted under message tree, now add it to the keys tree
         await ApiService.instance!.keys!
             .child(ApiService.instance!.auth!.currentUser!.uid)
             .set("");
-  print("CHEESE 2");
-       /*
-        MessageInstance usersOwnMessage = MessageInstance(
-            ApiService.instance!.auth!.currentUser!.uid,
-            chosenBadgeIndex,
-            0,
-            title.toString(),
-            message.toString(),);*/
+
         UserInstance? newest = Boxes.getuser().get('mainUser');
-  print("CHEESE 3");
 
         newest!.hasPostedMessage = true;
-          print("CHEESE 4");
 
         await Boxes.getuser().put('mainUser', newest);
-  print("CHEESE 5");
 
-       // result = await incrementCounter();
-      }).then((value) => null);
-        print("CHEESE 6");
+;      }).then((value) => null);
       return true;
     } catch (e) {
-      print("there was an error in step 1 of publishing message : $e");
       return false;
     }
   }

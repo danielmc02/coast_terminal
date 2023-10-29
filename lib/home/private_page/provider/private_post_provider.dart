@@ -3,25 +3,25 @@ import 'dart:io';
 import 'package:coast_terminal/api_service.dart';
 import 'package:coast_terminal/models/vip_message.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
+
 
 import '../../../constants/boxes.dart';
 
 class PrivPostProvider extends ChangeNotifier {
   double sliderValue = 5.0;
-  late ImagePicker picker;
+ // late ImagePicker picker;
   File? image;
   PrivPostProvider() {
     titleController = TextEditingController();
     messageController = TextEditingController();
     print("INIT FOR PRIV");
-    picker = ImagePicker();
+  //  picker = ImagePicker();
   }
   late TextEditingController titleController;
   late TextEditingController messageController;
-  Future<void> processPictureUpload() async {
-    final XFile? pickedFile = await picker.pickImage(
-        source: ImageSource.gallery, maxWidth: 1080, maxHeight: 1800);
+ /* Future<void> processPictureUpload() async {
+   // final XFile? pickedFile = await picker.pickImage(
+   //     source: ImageSource.gallery, maxWidth: 1080, maxHeight: 1800);
 
     print("GOT");
 
@@ -37,7 +37,7 @@ class PrivPostProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+*/
   bool hasPicture = false;
 
   final RegExp _urlRegex = RegExp(

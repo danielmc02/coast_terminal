@@ -75,11 +75,13 @@ DatabaseReference? get vipMessagesDatabase
   }
 
   bool currentMessageSucessresult = false;
-
+ final String appVersion = "0.0.2";
  final String appName = "LinkEdu";
   //Sign in anoynomously (guest)
   Future signInAnon() async {
     try {
+      var tempDud = UserInstance(uid: "", hasPostedMessage: false, createdAt: DateTime.now(), lastPostedMessageTimestamp: DateTime.now(), currentMessageTainted: false);
+              Boxes.getuser().put('mainUser', tempDud);
       final userCredential = await FirebaseAuth.instance.signInAnonymously();
       
       var tempUse = userCredential.user;
@@ -148,8 +150,8 @@ DatabaseReference? get vipMessagesDatabase
   PageController pageController = PageController();
 
   List iconReferences = const [
-    AssetImage('assets/face_icons/anonymous.png'),
-    AssetImage('assets/face_icons/occ.jpeg'),
+    AssetImage('assets/face_icons/clown.png'),
+    AssetImage('assets/face_icons/drooling.png'),
     AssetImage('assets/face_icons/angel.png'),
     AssetImage('assets/face_icons/angry.png'),
     AssetImage('assets/face_icons/cool.png'),
@@ -166,7 +168,10 @@ DatabaseReference? get vipMessagesDatabase
     AssetImage('assets/face_icons/neutral.png'),
     AssetImage('assets/face_icons/scared.png'),
     AssetImage('assets/face_icons/shock.png'),
-    AssetImage('assets/face_icons/sus.png')
+    AssetImage('assets/face_icons/sus.png'),
+        AssetImage('assets/face_icons/vomit.png'),
+
+
   ];
   /////////////////////
 

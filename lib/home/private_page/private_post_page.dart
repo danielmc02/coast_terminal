@@ -167,7 +167,7 @@ class _PrivatePostPageState extends State<PrivatePostPage> {
                         GestureDetector(
                           onTap: () async {
                             print("TAPPED");
-                            await algo.processPictureUpload();
+                       //     await algo.processPictureUpload();
                           },
                           child: CircleAvatar(
                             backgroundColor: Colors.black,

@@ -134,7 +134,10 @@ class HomeProvider extends ChangeNotifier {
   bool canInteractWithMessage = true;
 
   Future<void> HomeBuild() async {
-    if(Boxes.getuser().get('mainUser')!.currentMessageTainted ==false )
+  
+    await ApiService.instance!.checkLife();
+    await Future.delayed(const Duration(seconds: 5));
+      if(Boxes.getuser().get('mainUser')!.currentMessageTainted ==false )
     {
       hasBeenTainted = false;
     }
@@ -143,8 +146,6 @@ class HomeProvider extends ChangeNotifier {
             hasBeenTainted = true;
 
     }
-    await ApiService.instance!.checkLife();
-    await Future.delayed(const Duration(seconds: 1));
     print("in hoome");
 
     // if no user exists sign out

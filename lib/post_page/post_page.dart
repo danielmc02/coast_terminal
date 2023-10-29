@@ -200,7 +200,7 @@ class _PostBodyState extends State<PostBody> {
                             return "Title is to short";
                           } else if (value.contains("fuck") ||
                               value.contains("shit") ||
-                              value.contains("ass") ||
+                              value.contains("ass ") ||
                               value.contains("bitch") ||
                               value.contains("cunt") ||
                               value.contains("dick") ||
@@ -280,7 +280,7 @@ class _PostBodyState extends State<PostBody> {
                           } else if (value.contains("fuck") ||
                               value.contains("shoot up") ||
                               value.contains("shit") ||
-                              value.contains("ass") ||
+                              value.contains("ass ") ||
                               value.contains("bitch") ||
                               value.contains("cunt") ||
                               value.contains("dick") ||

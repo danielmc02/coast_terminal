@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
+
 
 
 class ConsentProvider extends ChangeNotifier {
@@ -59,7 +57,7 @@ class ConsentProvider extends ChangeNotifier {
       default:
     }
   }
-
+/*
   Future<void> getLocation(BuildContext context) async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -237,4 +235,6 @@ class ConsentProvider extends ChangeNotifier {
       }
     }
   }
+*/
+
 }

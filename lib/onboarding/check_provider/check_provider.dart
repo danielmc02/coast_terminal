@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:coast_terminal/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:latlong2/latlong.dart';
 
 class CheckProvider extends ChangeNotifier {
   String preButton = "Continue";
@@ -114,7 +112,7 @@ await Future.delayed(Duration(seconds: 1));
   }
   String campusStatus = "On a verified campus?";
 */
-
+/*
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -156,7 +154,7 @@ await Future.delayed(Duration(seconds: 1));
         .then((value) => p = value);
     return p!;
   }
-
+*/
   bool? locationPass;
   bool? progLoad;
   bool? adPass;
@@ -167,6 +165,11 @@ await Future.delayed(Duration(seconds: 1));
     popScope = false;
     notifyListeners();
     await Future.delayed(const Duration(seconds: 1));
+        //  await ApiService.instance!.signInAnon();
+
+            //    Navigator.pop(context);
+            
+
 /*
     bool serviceEnabled;
     //
@@ -224,6 +227,7 @@ await Future.delayed(Duration(seconds: 1));
     }
 */
 //ad time
+
     try {
       print("Running ad setup");
       RewardedAd? rewardedAd;
@@ -240,50 +244,43 @@ Test
           ? 'ca-app-pub-3940256099942544/5224354917'
           : 'ca-app-pub-3940256099942544/1712485313';
 */
-      
-    final adUnitId = Platform.isAndroid
-          ? 'ca-app-pub-3940256099942544/5224354917'
-          : 'ca-app-pub-3940256099942544/1712485313';
+final adUnitId = Platform.isAndroid
+          ? 'ca-app-pub-3530957535788194/2672039372'
+          : 'ca-app-pub-3530957535788194/4368264427';
       await RewardedAd.load(
           adUnitId: adUnitId,
           request: const AdRequest(),
           rewardedAdLoadCallback:
               RewardedAdLoadCallback(onAdLoaded: (ad) async {
             rewardedAd = ad;
-            print("AD: $ad");
-            print("Rewarded ad is $rewardedAd");
+     
 
             ad.fullScreenContentCallback = FullScreenContentCallback(
               onAdDismissedFullScreenContent: (ad) async {
-                /*
-              print('ad dismissed full screen content.');
-                            */
+                
+                            
 
                 ad.dispose();
                 await ApiService.instance!.signInAnon();
 
                 Navigator.pop(context);
-                // await ApiService.instance!.signInAnon();
+                 await ApiService.instance!.signInAnon();
               },
             );
-            print('$ad loaded');
-            print("DONE");
+  
             adPass = true;
             notifyListeners();
-            print("If ad is null : $rewardedAd");
             await Future.delayed(const Duration(seconds: 1));
-//popScope = true;
+popScope = true;
             await rewardedAd!.show(
               onUserEarnedReward: (ad, reward) async {
-                print("Award");
               },
             );
           }, onAdFailedToLoad: (LoadAdError error) {
-            print(error);
             adPass = false;
-                progLoad = false;
-      preButton = "Try Again";
-      popScope = true;
+            progLoad = false;
+            preButton = "Try Again";
+            popScope = true;
             notifyListeners();
 
             throw error;
@@ -299,5 +296,6 @@ Test
       notifyListeners();
       return;
     }
+    
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:coast_terminal/constants/boxes.dart';
 import 'package:coast_terminal/models/root_user.dart';
 import 'package:coast_terminal/models/user_model.dart';
 import 'package:coast_terminal/models/vip_message.dart';
@@ -49,7 +50,6 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -91,6 +91,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
     ApiService.instance!.createRootUserIfNeeded();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     //return const ConsentPage();
@@ -99,20 +100,45 @@ class _OnboardScreenState extends State<OnboardScreen> {
         stream: ApiService.instance!.getuser(),
         builder: (context, snapshot) {
           print('${snapshot.data} : Beggining');
-          if (snapshot.hasData ) {
-            if (snapshot.data!.uid != null) {
-              print("Three");
-              return const HomeWrapper();
-            } else if (snapshot.data!.uid == null) {
-              print("two");
-              return const OnboardingPage();
+          if (snapshot.hasData /*&& Boxes.getuser().get('mainUser') != null*/) {
+            //  return const HomeWrapper();
+            print("\n\nSnapshot Data: ${snapshot.data}\n\n");
+            final creationTime = snapshot.data!.metadata.creationTime;
+            final currentTime = DateTime.now();
+            final timeDifference = currentTime.difference(creationTime!);
+          //  print(Boxes.getuser().get('currentUser')!.uid.toString());
+            if (timeDifference.inMinutes > 5) {
+              print("GOING TO SIGN OUT");
+              try
+              {
+                 snapshot.data!.delete();
+              ApiService.instance!.auth!.signOut;
+
+              }
+              catch(e)
+              {
+                print(e);
+                }
+              return OnboardingPage();
+            } else {
+              return HomeWrapper();
             }
           } else if (snapshot.hasData == false) {
+
             print("one");
             return const OnboardingPage();
           }
 
-          return const Text("errooooooooooor");
+          return Scaffold(
+            body: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(style:TextStyle(),
+                    "Congratulations, if you are seeing this page it means you have discovered an error. We have been alerted and will fix this immediately and will role out an update with a fix. If you want to get this app functional again you will have to uninstall for about an hour to let your system clear the cache and download from the app store again. Sorry for the inconvienence!")
+              ],
+            ),
+          );
         });
   }
 }
